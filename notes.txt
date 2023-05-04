@@ -1,0 +1,42 @@
+Table Planning
+
+User
+-id (assigned automatically)
+-firstName
+-lastName
+-email
+-username
+-password
+
+Group
+-id (assigned automatically)
+-organizerId (Foreign Key --> Organizer ID)
+-name
+-about
+-type
+-private (boolean)
+-city
+-state
+-createdAt(auto generated)
+-updatedAt(auto generated)
+-numMembers(count of all members in group)
+-previewImage (pulled from GroupImages??) -- Single group can have many images
+
+Event
+-id
+
+Polymorphic table can hold all images and connect to groups or events
+
+Organizer
+-id
+-firstName
+-lastName
+
+Venues
+-id (assigned automatically)
+-groupId (Foreign Key --> Group ID)
+-address
+-city
+-state
+-lat
+-lng
