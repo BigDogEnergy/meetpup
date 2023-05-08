@@ -68,10 +68,6 @@ app.use((err, _req, _res, next) => {
   next(err);
 });
 
-//If the error that caused this error-handler to be called is an instance of ValidationError from the sequelize package, 
-//then the error was created from a Sequelize database validation error and the additional keys of title string
-// and an object representation of its errors array and passed into the next error handling middleware.
-
 
 
 
