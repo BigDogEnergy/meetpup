@@ -58,7 +58,7 @@ if (!isProduction) {
 app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
-    console.log(err)
+    //console.log(err)
     let errors = {};
     for (let error of err.errors) {
       errors[error.path] = error.message;
@@ -71,7 +71,7 @@ app.use((err, _req, _res, next) => {
 
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
-  console.error(err);
+ // console.error(err);
   res.json({
     title: err.title || 'Server Error',
     message: err.message,
