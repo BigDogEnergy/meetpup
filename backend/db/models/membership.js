@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       
       Membership.belongsTo(models.User, {
         foreignKey: "userId",
-        as: "Membership"
+        as: "User Membership"
       });
 
       Membership.belongsTo(models.Group, {
