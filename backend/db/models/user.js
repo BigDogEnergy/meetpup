@@ -10,7 +10,33 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      
+      User.belongsToMany(models.Group, {
+        through: models.Membership,
+        foreignKey: 'userId'
+      });
+
+      User.hasMany(models.Group, {
+        foreignKey: 'organizerId',
+      });
+
+      User.hasMany(models.Membership, {
+      foreignKey: 'userId',
+      });
+
+      User.belongsToMany(models.Event, {
+        through: models.Attendance,
+        foreignKey: 'userId',
+      });
+
+      User.hasMany(models.Image, {
+        foreignKey: 'imageableId',
+        constraints: false,
+        scope: {
+          imageableType: 'User'
+        }
+      });
+
     }
   }
   User.init(
@@ -26,6 +52,12 @@ module.exports = (sequelize, DataTypes) => {
             }
           }
         }
+      },
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
       },
       firstName: {
         type: DataTypes.STRING,
@@ -50,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }, {
       sequelize,
-      
+      timestamps: true,   
       modelName: 'User',
       defaultScope: {
         attributes: {
