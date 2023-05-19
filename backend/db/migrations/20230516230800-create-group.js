@@ -16,11 +16,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      organizerId: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'User',
+          model: 'Users',
+          key: 'id'
         },
         onDelete: 'CASCADE',
       },

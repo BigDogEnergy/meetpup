@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
     },
-    organizerId: {
+    userId: {
       type: DataTypes.INTEGER,
     },
     name: {
