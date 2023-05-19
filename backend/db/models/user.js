@@ -11,33 +11,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       
-      // User.belongsToMany(models.Group, {
-      //   through: models.Membership,
-      //   foreignKey: 'userId',
-      //   as: 'groupMemberships'
+      User.belongsToMany(models.Group, {
+        through: models.Membership,
+        foreignKey: 'userId',
+      });
+
+      User.hasMany(models.Group, {
+        foreignKey: 'organizerId',
+      });
+
+      // User.hasMany(models.Membership, {
+      // foreignKey: 'userId',
       // });
 
-      // User.hasMany(models.Group, {
-      //   foreignKey: 'organizerId',
-      // });
+      User.belongsToMany(models.Event, {
+        through: models.Attendance,
+        foreignKey: 'userId',
+      });
 
-      // // User.hasMany(models.Membership, {
-      // // foreignKey: 'userId',
-      // // });
-
-      // User.belongsToMany(models.Event, {
-      //   through: models.Attendance,
-      //   foreignKey: 'userId',
-      //   as: 'eventAttendances'
-      // });
-
-      // User.hasMany(models.Image, {
-      //   foreignKey: 'imageableId',
-      //   constraints: false,
-      //   scope: {
-      //     imageableType: 'User'
-      //   }
-      // });
+      User.hasMany(models.Image, {
+        foreignKey: 'imageableId',
+        constraints: false,
+        scope: {
+          imageableType: 'User'
+        }
+      });
 
     }
   }
