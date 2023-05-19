@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     userId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
     },
     name: {

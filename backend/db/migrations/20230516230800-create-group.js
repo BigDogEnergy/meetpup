@@ -18,12 +18,13 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
-            model: 'Users',
-            key: 'id'
-        },
-        onDelete: 'cascade'
-    },
+          model: 'Users',
+          key: 'id'
+      },
+      onDelete: 'cascade'
+      },
       name: {
         allowNull: false,
         type: Sequelize.STRING
@@ -60,9 +61,9 @@ module.exports = {
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         type: Sequelize.DATE
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Groups');
+    await queryInterface.dropTable('Groups', options);
   }
 };
