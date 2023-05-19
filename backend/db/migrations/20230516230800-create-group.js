@@ -17,14 +17,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'User',
-          key: 'id'
+            model: 'Users',
+            key: 'id'
         },
-        onDelete: 'CASCADE',
-      },
+        onDelete: 'cascade'
+    },
       name: {
         allowNull: false,
         type: Sequelize.STRING
