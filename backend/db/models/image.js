@@ -31,8 +31,6 @@ module.exports = (sequelize, DataTypes) => {
         constraints: false,
       });
 
-
-
     }
   }
   Image.init({
