@@ -10,23 +10,23 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    // return queryInterface.bulkInsert(options, [
-    //   // {
-    //   //   groupId: 1,
-    //   //   userId: 2,
-    //   //   status: 'member'   
-    //   // },
-    //   // {
-    //   //   groupId: 2,
-    //   //   userId: 1,
-    //   //   status: 'member'   
-    //   // },
-    //   // {
-    //   //   groupId: 3,
-    //   //   userId: 1,
-    //   //   status: 'member'   
-    //   // },
-    // ], options);
+    return queryInterface.bulkInsert(options, [
+      {
+        groupId: 1,
+        userId: 2,
+        status: 'member'   
+      },
+      {
+        groupId: 2,
+        userId: 1,
+        status: 'member'   
+      },
+      {
+        groupId: 3,
+        userId: 1,
+        status: 'member'   
+      },
+    ], options);
   },
 
   async down (queryInterface, Sequelize) {
