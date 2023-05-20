@@ -40,7 +40,7 @@ module.exports = {
     state: "California",
   },
   {
-    userId: 4,
+    userId: 1,
     name: "Beau's Assisstants",
     about: "Dogtor Beau's personal group",
     type: "In person",
@@ -49,7 +49,7 @@ module.exports = {
     state: "California",
   },
   {
-    userId: 5,
+    userId: 1,
     name: "The Runners",
     about: "For people and dogs that are trained to run.",
     type: "In person",
