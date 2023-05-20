@@ -11,16 +11,16 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    return queryInterface.bulkInsert(options, [
-      {
-        groupId: 1,
-        venueId: 1,
-        name: "Test name for Event",
-        type: "Online",
-        startDate: "2023-06-01 07:00:00",
-        endDate: "2023-07-01 07:00:00",
-      },
-    ], options);
+    // return queryInterface.bulkInsert(options, [
+    //   {
+    //     groupId: 1,
+    //     venueId: 1,
+    //     name: "Test name for Event",
+    //     type: "Online",
+    //     startDate: "2023-06-01 07:00:00",
+    //     endDate: "2023-07-01 07:00:00",
+    //   },
+    // ], options);
 
   },
 

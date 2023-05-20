@@ -5,10 +5,14 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA; 
 }
+options.tableName = 'Users'
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {
+     
+    
+     
       id: {
         allowNull: false,
         autoIncrement: true,
