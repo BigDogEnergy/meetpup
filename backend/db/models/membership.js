@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       });
 
-      Membership.belongsTo(models.Group, {
-        foreignKey: "groupId",
-        key: 'id'
-      });
+      // Membership.belongsTo(models.Group, {
+      //   foreignKey: "groupId",
+      //   key: 'id'
+      // });
 
     }
   }
