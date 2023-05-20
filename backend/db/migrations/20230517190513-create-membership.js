@@ -10,7 +10,7 @@ options.tableName = 'Memberships'
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Memberships', {
-      Id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -20,6 +20,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Groups',
+          key: 'id'
         },
         onDelete: "CASCADE",
         type: Sequelize.INTEGER
