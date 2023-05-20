@@ -30,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
     groupId: {
       type: DataTypes.INTEGER,
     },
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING(100)
+    },
+
     address: {
       allowNull: false,
       type: DataTypes.STRING(256)

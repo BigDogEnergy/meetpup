@@ -14,9 +14,10 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         groupId: 1,
-        address: "test",
-        city: "test",
-        state: "test",
+        address: "test address",
+        city: "test city",
+        state: "test state",
+        name: "test name",
         lat: 33.3333333,
         lng: 22.2222222,
       },
