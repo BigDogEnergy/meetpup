@@ -15,16 +15,17 @@ module.exports = {
         groupId: 4,
         userId: 1,
         status: 'member'   
-      },{
-        groupId: 2,
-        userId: 1,
-        status: 'member'   
       },
-      {
-        groupId: 3,
-        userId: 1,
-        status: 'member'   
-      },
+      // {
+      //   groupId: 2,
+      //   userId: 1,
+      //   status: 'member'   
+      // },
+      // {
+      //   groupId: 3,
+      //   userId: 1,
+      //   status: 'member'   
+      // },
     ], options);
   },
 
