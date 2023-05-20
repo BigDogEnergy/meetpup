@@ -17,12 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       User.hasMany(models.Group, {
-        foreignKey: 'organizerId',
+        foreignKey: 'userId',
       });
 
-      // User.hasMany(models.Membership, {
-      // foreignKey: 'userId',
-      // });
+      User.hasMany(models.Membership, {
+      foreignKey: 'userId',
+      });
 
       User.belongsToMany(models.Event, {
         through: models.Attendance,
