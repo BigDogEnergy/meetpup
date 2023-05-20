@@ -11,18 +11,16 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    // return queryInterface.bulkInsert(options, [
-    //   {
-        // groupId: 1,
-        // address: "test",
-        // city: "test",
-        // state: "test",
-        // lat: 33.3333333,
-        // lng: 22.2222222,
-        // createdAt: new Date(),
-        // updatedAt: new Date(),
-    //   },
-    // ], options);
+    return queryInterface.bulkInsert(options, [
+      {
+        groupId: 1,
+        address: "test",
+        city: "test",
+        state: "test",
+        lat: 33.3333333,
+        lng: 22.2222222,
+      },
+    ], options);
 
   },
 
