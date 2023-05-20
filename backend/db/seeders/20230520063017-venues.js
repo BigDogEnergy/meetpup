@@ -19,6 +19,8 @@ module.exports = {
         state: "test",
         lat: 33.3333333,
         lng: 22.2222222,
+        createdAt: currentDate,
+        updatedAt: currentDate,
       },
     ], options);
 
