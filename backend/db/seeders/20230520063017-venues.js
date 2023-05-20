@@ -11,24 +11,29 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    return queryInterface.bulkInsert(options, [
-      {
+    // return queryInterface.bulkInsert(options, [
+    //   {
         // groupId: 1,
-        address: "test",
-        city: "test",
-        state: "test",
-        lat: 33.3333333,
-        lng: 22.2222222,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ], options);
+        // address: "test",
+        // city: "test",
+        // state: "test",
+        // lat: 33.3333333,
+        // lng: 22.2222222,
+        // createdAt: new Date(),
+        // updatedAt: new Date(),
+    //   },
+    // ], options);
 
   },
 
   async down (queryInterface, Sequelize) {
 
-    await queryInterface.dropTable('Venues');
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete('Venues', {
+      id: {
+        [Op.between]: [0, 100]
+      }
+    }, options)
 
   }
 };
