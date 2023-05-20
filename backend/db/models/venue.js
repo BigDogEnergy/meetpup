@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
      
       Venue.belongsTo(models.Group, {
+        allowNull: true,
         foreignKey: "groupId"
       });
 
@@ -28,26 +29,25 @@ module.exports = (sequelize, DataTypes) => {
   Venue.init({
     groupId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     address: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING(256)
     },
     city: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING(256)
     },
     state: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING(256)
     },
     lat: {
       type: DataTypes.DECIMAL(9, 7),
-      allowNull: false
     },
-    lng: DataTypes.DECIMAL(10, 7),
-    allowNull: false
+    lng: {
+      type: DataTypes.DECIMAL(10, 7)
+    },
   }, {
     sequelize,
     modelName: 'Venue',

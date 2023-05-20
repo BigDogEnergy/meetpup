@@ -7,7 +7,11 @@ module.exports = (sequelize, DataTypes) => {
 
       Group.belongsToMany(models.User, {
         through: models.Membership,
-        foreignKey: "groupId"
+        foreignKey: 'groupId'
+      });
+
+      Group.belongsTo(models.User, {
+        foreignKey: 'userId'
       });
 
       Group.hasMany(models.Image, {
@@ -16,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
           imageableType: 'Group'
         }
-      });
-
-      Group.belongsTo(models.User, {
-        foreignKey: 'userId'
       });
     
       Group.hasMany(models.Venue, {

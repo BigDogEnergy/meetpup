@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM({
         values: ["member", "pending", "co-host"]
       })
-    }
+    },
   }, {
     sequelize,
     modelName: 'Membership',
