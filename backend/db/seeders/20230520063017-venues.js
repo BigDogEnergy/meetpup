@@ -18,7 +18,7 @@ module.exports = {
         city: "test",
         state: "test",
         lat: 33.3333333,
-        lng: 22.2222222
+        lng: 22.2222222,
       },
     ], options);
 
