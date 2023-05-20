@@ -12,7 +12,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     return queryInterface.bulkInsert(options, [
       {
-        groupId: 1,
+        groupId: 4,
         userId: 1,
         status: 'member'   
       },{
