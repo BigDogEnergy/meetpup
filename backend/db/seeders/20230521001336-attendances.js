@@ -11,13 +11,13 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    // return queryInterface.bulkInsert(options, [
-    //   {
-    //     eventId: 1,
-    //     userId: 1,
-    //     status: "waitlist",
-    //   },
-    // ], options);
+    return queryInterface.bulkInsert(options, [
+      // {
+      //   eventId: 1,
+      //   userId: 1,
+      //   status: "waitlist",
+      // },
+    ], options);
 
 
   },
