@@ -28,13 +28,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Venue.init({
     groupId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
     },
     name: {
       allowNull: false,
       type: DataTypes.STRING(100)
     },
-
     address: {
       allowNull: false,
       type: DataTypes.STRING(256)
