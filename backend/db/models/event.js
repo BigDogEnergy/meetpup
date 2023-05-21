@@ -35,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
 
     }
   }
+
+  
   Event.init({
     groupId: {
       type: DataTypes.INTEGER,
