@@ -12,11 +12,11 @@ module.exports = {
   async up (queryInterface, Sequelize) {
 
     return queryInterface.bulkInsert(options, [
-      // {
-      //   eventId: 1,
-      //   userId: 1,
-      //   status: "waitlist",
-      // },
+      {
+        eventId: 1,
+        userId: 1,
+        status: "waitlist",
+      },
     ], options);
 
 
