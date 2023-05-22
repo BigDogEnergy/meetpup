@@ -26,6 +26,12 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
+  check('firstName')
+    .exists({ checkFalsy: true})
+    .withMessage('First Name must be included.'),
+  check('lastName')
+    .exists({ checkFalsy: true})
+    .withMessage('Last Name must be included.'),
   handleValidationErrors
 ];
 
@@ -34,18 +40,40 @@ router.post(
     '/',
     validateSignup,
     async (req, res) => {
-      const { email, password, username } = req.body;
+      const { firstName, lastName, email, password, username } = req.body;
       const hashedPassword = bcrypt.hashSync(password);
-      const user = await User.create({ email, username, hashedPassword });
+
+      const validateUniqueEmail = await User.findOne({
+        where: {
+          email: email
+        }
+      });
+
+      const validateUniqueUserName = await User.findOne({
+        where: {
+          username: username
+        }
+      });
+
+      if (validateUniqueEmail || validateUniqueUserName) {
+        res.status(500);
+        return res.json({
+          "message": "Username or Email already registered",
+          "statusCode": 500,
+        })
+      }
+
+
+      const user = await User.create({ firstName, lastName, email, username, hashedPassword });
   
       const safeUser = {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        username: user.username,
+        // username: user.username,
       };
-  
+
       await setTokenCookie(res, safeUser);
   
       return res.json({
