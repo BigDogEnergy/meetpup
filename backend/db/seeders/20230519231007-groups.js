@@ -65,7 +65,7 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete('Groups', {
       id: {
-        [Op.between]: [0, 100]
+        [Op.between]: [0, 1000]
       }
     }, options)
 
