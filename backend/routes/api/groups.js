@@ -25,13 +25,14 @@ router.get('/', async (req, res, next) => {
                 groupId: allGroups[i].dataValues.id
             }
         });
-    }
 
-    allGroups[i].dataValues.numMembers = numMembers
+        allGroups[i].dataValues.numMembers = numMembers;
+    }
 
     res.json({
         "Groups": allGroups
-    })
+    });
 });
+
 
 module.exports = router;
