@@ -10,8 +10,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'groupId'
       });
 
+      Group.hasMany(models.Membership, {
+        foreignKey: 'groupId',
+        as: 'groupMemberIds'
+      });
+
       Group.belongsTo(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        as: "Organizer",
+        allowNull: false
       });
 
       Group.hasMany(models.Image, {
@@ -26,9 +33,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'groupId'
       });
     
-      Group.hasMany(models.Membership, {
-        foreignKey: 'groupId',
-      });
+      Group.hasMany(models.Event, {
+        foreignKey: 'groupId'
+      })
 
     };
 
@@ -55,7 +62,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     type: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM({
+        values: ["In person", "Online"]
+      }),
       allowNull: false,
     },
     private: {
