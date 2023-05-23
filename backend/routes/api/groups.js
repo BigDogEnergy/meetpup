@@ -18,14 +18,14 @@ router.get('/', async (req, res, next) => {
             as: 'organizerId',
             attributes: ['id']
             },
-            // {
-            // model: Image,
-            // as: 'previewImage',
-            // where: {
-            //   imageableType: 'Group',
-            // },
-            // attributes: ['image']
-            // },
+            {
+            model: Image,
+            as: 'previewImage',
+            where: {
+              imageableType: 'Group',
+            },
+            attributes: ['image']
+            },
         ]
     });
 
