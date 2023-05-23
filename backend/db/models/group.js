@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         constraints: false,
         scope: {
           imageableType: 'Group'
-        }
+        },
+        as: 'previewImage'
       });
     
       Group.hasMany(models.Venue, {
@@ -78,9 +79,6 @@ module.exports = (sequelize, DataTypes) => {
     state: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    previewImage: {
-      type: DataTypes.STRING,
     },
   }, {
     sequelize,

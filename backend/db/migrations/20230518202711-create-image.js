@@ -17,12 +17,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       image: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       imageableId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       imageableType: {
+        allowNull: false,
         type: Sequelize.ENUM({
           values: ['User', 'Event', 'Group', 'Venue']
         })

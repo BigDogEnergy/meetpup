@@ -18,16 +18,14 @@ router.get('/', async (req, res, next) => {
             as: 'Organizer',
             attributes: ['id']
             },
-            // {
-            // model: Image,
-            // as: 'previewImage',
-            // where: {
-            //   imageableId: 1,
-            //   imageableType: 'Group',
-            // },
-            // attributes: ['image'],
-            // required: false,
-            // },
+            {
+            model: Image,
+            as: 'previewImage',
+            where: {
+              imageableType: 'Group',
+            },
+            attributes: ['image']
+            },
         ]
     });
 
@@ -38,19 +36,19 @@ router.get('/', async (req, res, next) => {
             }
         });
 
-        let previewImage = await Image.findOne({
-            where: {
-              imageableType: 'Group',
-              imageableId: allGroups[i].dataValues.id,
-            },
-    })
+    //     let previewImage = await Image.findOne({
+    //         where: {
+    //           imageableType: 'Group',
+    //           imageableId: 1,
+    //         },
+    // })
         allGroups[i].dataValues.numMembers = numMembers;
     
-        if (previewImage) {
-            allGroups[i].dataValues.previewImage = previewImage.dataValues.image
-        } else {
-            allGroups[i].dataValues.previewImage = null;
-        }
+        // if (previewImage) {
+        //     allGroups[i].dataValues.previewImage = previewImage.dataValues.image
+        // } else {
+        //     allGroups[i].dataValues.previewImage = null;
+        // }
     
     }
 
