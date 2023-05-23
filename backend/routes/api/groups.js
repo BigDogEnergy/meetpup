@@ -27,6 +27,8 @@ router.get('/', async (req, res, next) => {
         });
     }
 
+    allGroups[i].dataValues.numMembers = numMembers
+
     res.json({
         "Groups": allGroups
     })
