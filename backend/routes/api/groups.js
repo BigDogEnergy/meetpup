@@ -42,7 +42,6 @@ router.get('/', async (req, res, next) => {
             where: {
               imageableType: 'Group',
               imageableId: allGroups[i].dataValues.id,
-              preview: true
             },
     })
         allGroups[i].dataValues.numMembers = numMembers;
