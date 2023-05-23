@@ -33,7 +33,9 @@ module.exports = {
       },
       type: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.ENUM({
+          values: []
+        })
       },
       private: {
         allowNull: false,
