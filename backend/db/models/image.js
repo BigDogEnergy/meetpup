@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       
-      Image.belongsTo(models.User, {
-        foreignKey: 'imageableId',
-        constraints: false,
-      });
+      // Image.belongsTo(models.User, {
+      //   foreignKey: 'imageableId',
+      //   constraints: false,
+      // });
 
       Image.belongsTo(models.Group, {
         foreignKey: 'imageableId',
@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     imageableType: {
+      allowNull: false,
       type: DataTypes.ENUM({
         values: ['User', 'Event', 'Group', 'Venue']
       })}
