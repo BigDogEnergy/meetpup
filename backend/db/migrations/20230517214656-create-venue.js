@@ -43,11 +43,19 @@ module.exports = {
       },
       lat: {
         allowNull: false,
-        type: Sequelize.DECIMAL(9, 7)
+        type: Sequelize.DECIMAL(9, 7),
+        validate: {
+          min: -90,
+          max: 90
+        }
       },
       lng: {
         allowNull: false,
-        type: Sequelize.DECIMAL(10, 7)
+        type: Sequelize.DECIMAL(10, 7),
+        validate: {
+          min: -180,
+          max: 180
+        }
       },
       createdAt: {
         allowNull: false,
