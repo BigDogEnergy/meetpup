@@ -85,6 +85,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
+    defaultScope: {
+      attributes: {
+        exclude: ["userId"]
+      }
+    }
   });
 
   return Group;

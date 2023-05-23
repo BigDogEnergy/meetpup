@@ -14,7 +14,8 @@ router.get('/', async (req, res, next) => {
     let allGroups = await Group.findAll({
         include: {
             model: User,
-            as: 'Organizer'
+            as: 'Organizer',
+            attributes: ['id']
         }
     });
 
