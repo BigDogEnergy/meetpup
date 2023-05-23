@@ -19,6 +19,14 @@ router.get('/', async (req, res, next) => {
         }
     });
 
+    for (let i = 0; i < allGroups.length; i++) {
+        let numMembers = await Membership.count({
+            where: {
+                groupId: allGroups[i].dataValues.id
+            }
+        });
+    }
+
     res.json({
         "Groups": allGroups
     })
