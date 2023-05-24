@@ -13,7 +13,7 @@ module.exports = {
     
   return queryInterface.bulkInsert(options, [
   {
-    userId: 1,
+    organizerId: 1,
     name: "Demo Group",
     about: "This is the first test group",
     type: "In person",
@@ -22,7 +22,7 @@ module.exports = {
     state: "California",
   },
   {
-    userId: 2,
+    organizerId: 2,
     name: "Puppy Helper Patrol",
     about: "For people who want to get involved with helping raise another person's animal for a few hours occasionally",
     type: "In person",
@@ -31,7 +31,7 @@ module.exports = {
     state: "California",
   },
   {
-    userId: 3,
+    organizerId: 3,
     name: "Dog Park Pupper Posse",
     about: "The not-so-secret dog park happy-hour gang",
     type: "In person",
@@ -40,7 +40,7 @@ module.exports = {
     state: "California",
   },
   {
-    userId: 1,
+    organizerId: 1,
     name: "Beau's Assisstants",
     about: "Dogtor Beau's personal group",
     type: "In person",
@@ -49,7 +49,7 @@ module.exports = {
     state: "California",
   },
   {
-    userId: 1,
+    organizerId: 1,
     name: "The Runners",
     about: "For people and dogs that are trained to run.",
     type: "In person",

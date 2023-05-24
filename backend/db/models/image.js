@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       Image.belongsTo(models.Group, {
         foreignKey: 'imageableId',
         constraints: false,
+        as: 'previewImage'
       });
 
       Image.belongsTo(models.Venue, {
@@ -46,7 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.ENUM({
         values: ['User', 'Event', 'Group', 'Venue']
-      })}
+      })},
+      preview: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN
+      }
   }, {
     sequelize,
     modelName: 'Image',

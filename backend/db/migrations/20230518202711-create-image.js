@@ -30,6 +30,11 @@ module.exports = {
           values: ['User', 'Event', 'Group', 'Venue']
         })
       },
+      preview: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

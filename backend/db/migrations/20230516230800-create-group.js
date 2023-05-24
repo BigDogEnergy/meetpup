@@ -16,7 +16,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      organizerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

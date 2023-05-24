@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Group.belongsTo(models.User, {
-        foreignKey: 'userId',
-        as: "organizerId",
-        allowNull: false
+        foreignKey: 'organizerId',
+        allowNull: false,
+        as: "Organizer"
       });
 
       Group.hasMany(models.Image, {
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
           imageableType: 'Group'
         },
-        as: 'previewImage'
+        as: 'groupImages'
       });
     
       Group.hasMany(models.Venue, {
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    userId: {
+    organizerId: {
       allowNull: false,
       type: DataTypes.INTEGER,
     },
