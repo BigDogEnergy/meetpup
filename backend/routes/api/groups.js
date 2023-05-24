@@ -17,7 +17,7 @@ router.post('/', requireAuth, validateCreateGroup, async (req, res, next) => {
     const { name, about, type, private, city, state } = req.body;
 
     const newGroup = await Group.create({
-        // userId: req.user.id,
+        userId: req.user.id,
         name,
         about,
         type,
@@ -25,10 +25,17 @@ router.post('/', requireAuth, validateCreateGroup, async (req, res, next) => {
         city,
         state
     })
-    res.status(201);
-    res.json(newGroup)
 
-} )
+    const createdGroup = await Group.findByPk(newGroup.id, {
+        attributes: {
+            exclude: ['id', 'userId', 'updatedAt', 'createdAt']
+        }
+    });
+
+    res.status(201);
+    res.json(createdGroup)
+
+})
 
 
 //GET all groups
