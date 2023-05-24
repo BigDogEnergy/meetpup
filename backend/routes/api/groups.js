@@ -10,6 +10,140 @@ const { handleValidationErrors, validateCreateGroup } = require('../../utils/val
 const router = express.Router();
 
 
+//POST an image to a group based on the group's id
+
+router.post('/:groupId/images', requireAuth, async (req, res, next) => {
+    
+    const { groupId } = req.params;
+    const { url, preview } = req.body;
+    
+
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        }
+    })
+
+    if (group.organizerId != req.user.id) {
+        const err = new Error("Action could not be performed");
+        err.status = 401
+        err.message = "Action could not be performed"
+        return next(err);
+    }
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }   
+
+    const upload = await Image.create({
+        image: url,
+        imageableId: groupId,
+        imageableType: 'Group',
+        preview: preview
+    })
+
+
+    res.json({
+        id: upload.id,
+        url: upload.image,
+        preview: upload.preview
+    })
+
+})
+
+//DELETE groups by groupId
+
+router.delete('/:groupId', requireAuth, async (req, res, next) => {
+
+    const { groupId } = req.params;
+
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        }
+    })
+
+    if (group.organizerId != req.user.id) {
+        const err = new Error("Action could not be performed");
+        err.status = 401
+        err.message = "Action could not be performed"
+        return next(err);
+    }
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }   
+
+    await group.destroy();
+
+    res.json( {
+        "message": "Successfully deleted"
+    })
+
+}
+
+)
+
+
+
+//PUT updates and returns an existing group.
+router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next) => {
+
+    const { name, about, type, private, city, state } = req.body;
+
+    const { groupId } = req.params;
+
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        }
+    })
+
+    if (group.organizerId != req.user.id) {
+        const err = new Error("Action could not be performed");
+        err.status = 401
+        err.message = "Action could not be performed"
+        return next(err);
+    }
+
+    if (!group) {
+        const err = new Error("No group found");
+        err.status = 404;
+        err.message = "No group found";
+        return next(err);
+    }
+
+    const updates = await group.update({
+        name,
+        about,
+        type,
+        private,
+        city,
+        state
+    })
+
+    res.json({
+        id: group.id,
+        organizerId: group.organizerId,
+        name: updates.name,
+        about: updates.about,
+        type: updates.type,
+        private: updates.private,
+        city: updates.city,
+        state: updates.state,
+        createdAt: group.createdAt,
+        updatedAt: group.updatedAt
+
+    })
+
+})
+
 
 //GET all Groups joined or organized by the Current User
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -91,6 +225,23 @@ router.get('/:groupId', async (req, res, next) => {
                 ],
 
     })
+
+    if (!group) {
+        const err = new Error("No group found");
+        err.status = 404;
+        err.message = "No group found";
+        return next(err);
+    }
+
+    let numMembers = await Membership.count({
+        where: {
+            groupId: groupId
+        }
+    })
+
+    group.dataValues.numMembers = numMembers;
+
+
 
     res.json(group)
 
