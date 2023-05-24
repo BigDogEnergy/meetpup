@@ -40,14 +40,14 @@ router.get('/', async (req, res, next) => {
             as: 'organizerId',
             attributes: ['id']
             },
-            // {
-            // model: Image,
-            // as: 'previewImage',
-            // where: {
-            //   imageableType: 'Group',
-            // },
-            // attributes: ['image']
-            // },
+            {
+            model: Image,
+            as: 'previewImage',
+            where: {
+              imageableType: 'Group',
+            },
+            attributes: ['image']
+            },
         ]
     });
 
@@ -64,7 +64,7 @@ router.get('/', async (req, res, next) => {
     //           imageableId: allGroups[i].dataValues.id
     //         },
     // })
-    
+
         allGroups[i].dataValues.numMembers = numMembers;
     
         // if (previewImage) {
