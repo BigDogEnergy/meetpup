@@ -108,12 +108,12 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         return next(err);
     } 
     
-    if (group.organizerId != req.user.id) {
-        const err = new Error("Action could not be performed");
-        err.status = 401
-        err.message = "Action could not be performed"
-        return next(err);
-    }
+    // if (group.organizerId != req.user.id) {
+    //     const err = new Error("Action could not be performed");
+    //     err.status = 401
+    //     err.message = "Action could not be performed"
+    //     return next(err);
+    // }
 
     const upload = await Image.create({
         image: url,
@@ -121,7 +121,6 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         imageableType: 'Group',
         preview: preview
     })
-
 
     res.json({
         id: upload.id,
