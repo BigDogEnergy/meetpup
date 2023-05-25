@@ -101,19 +101,19 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         }
     })
 
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    } 
+    
     if (group.organizerId != req.user.id) {
         const err = new Error("Action could not be performed");
         err.status = 401
         err.message = "Action could not be performed"
         return next(err);
     }
-
-    if (!group) {
-        const err = new Error("Group couldn't be found");
-        err.status = 404;
-        err.message = "Group couldn't be found";
-        return next(err);
-    }   
 
     const upload = await Image.create({
         image: url,
