@@ -85,13 +85,15 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Group',
     scopes: {
-
       defaultScope: {
         attributes: {
           exclude: ["organizerId"]
         }
       },
       searchScope: {}, 
+      eventRoute: {
+        attributes: ['id', 'name', 'city', 'state']
+      }
     }
   });
 

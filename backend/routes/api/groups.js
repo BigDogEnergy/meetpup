@@ -69,18 +69,18 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
         address,
         city,
         state,
-        lat: parseFloat(lat),
-        lng: parseFloat(lng)
+        lat: lat,
+        lng: lng
     })
 
     const final = {};
-    final.id = venue.dataValues.id,
-    final.groupId = venue.dataValues.groupId,
-    final.address = venue.dataValues.address,
-    final.city = venue.dataValues.city,
-    final.state = venue.dataValues.state,
-    final.lat = venue.dataValues.lat,
-    final.lng = venue.dataValues.lng
+    final.id = venue.dataValues.id;
+    final.groupId = venue.dataValues.groupId;
+    final.address = venue.dataValues.address;
+    final.city = venue.dataValues.city;
+    final.state = venue.dataValues.state;
+    final.lat = venue.dataValues.lat;
+    final.lng = venue.dataValues.lng;
 
 
     res.json(final)

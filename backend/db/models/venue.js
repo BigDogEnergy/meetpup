@@ -31,10 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
     },
-    name: {
-      allowNull: false,
-      type: DataTypes.STRING(100)
-    },
     address: {
       allowNull: false,
       type: DataTypes.STRING(256)
@@ -59,6 +55,9 @@ module.exports = (sequelize, DataTypes) => {
     scopes: {
       allStandard: {
         attribtues: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
+      },
+      eventRoute: {
+        attributes: ['id', 'city', 'state']
       }
     }
   });
