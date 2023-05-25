@@ -95,7 +95,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     const { url, preview } = req.body;
     
 
-    const group = await Group.findOne({
+    const group = await Group.scope('searchScope').findOne({
         where: {
             id: groupId
         }
@@ -108,12 +108,15 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         return next(err);
     } 
     
-    // if (group.organizerId != req.user.id) {
-    //     const err = new Error("Action could not be performed");
-    //     err.status = 401
-    //     err.message = "Action could not be performed"
-    //     return next(err);
-    // }
+console.log(req.user.id)
+console.log(group.organizerId)
+
+    if (group.organizerId != req.user.id) {
+        const err = new Error("Action could not be performed");
+        err.status = 401
+        err.message = "Action could not be performed"
+        return next(err);
+    }
 
     const upload = await Image.create({
         image: url,
