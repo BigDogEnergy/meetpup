@@ -56,6 +56,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Venue',
+    scopes: {
+      allStandard: {
+        attribtues: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
+      }
+    }
   });
   return Venue;
 };

@@ -9,6 +9,83 @@ const { handleValidationErrors, validateCreateGroup } = require('../../utils/val
 
 const router = express.Router();
 
+//GET All Venues for a Group specified by its id
+
+router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
+
+    const { groupId } = req.params;
+    
+    const venues = await Venue.findAll({
+        where: {
+            groupId: groupId
+        },
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
+    })
+
+    if (!venues) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    res.json({
+        Venues: venues
+    })
+
+})
+
+//POST Create a new Venue for a Group specified by its id
+
+router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+
+    const { groupId } = req.params;
+    const { address, city, state, lat, lng } = req.body;
+
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        },
+    })
+
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    if (group.organizerId != req.user.id) {
+        const err = new Error("Action could not be performed");
+        err.status = 401
+        err.message = "Action could not be performed"
+        return next(err);
+    }
+
+    const venue = await Venue.create({
+        groupId,
+        name: 'Created by' + req.user.id,
+        address,
+        city,
+        state,
+        lat,
+        lng
+    })
+
+    const final = {};
+    final.id = venue.dataValues.id,
+    final.groupId = venue.dataValues.groupId,
+    final.address = venue.dataValues.address,
+    final.city = venue.dataValues.city,
+    final.state = venue.dataValues.state,
+    final.lat = venue.dataValues.lat,
+    final.lng = venue.dataValues.lng
+
+
+    res.json(final)
+
+})
 
 //POST an image to a group based on the group's id
 

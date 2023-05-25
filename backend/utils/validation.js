@@ -27,34 +27,34 @@ const validateCreateGroup = [
   check('name')
     .exists({checkFalsy: true})
     .notEmpty()
-    .isLength({ min: 1, max: 40})
-    .withMessage('Name must be more than 1 character and less than 40'),
+    .isLength({ min: 1, max: 60})
+    .withMessage("Name must be 60 characters or less"),
   
   check('about')
     .exists({checkFalsy: true})
     .notEmpty()
-    .isLength({ min: 10, max: 1000})
-    .withMessage('About must be between 10 and 1000 characters'),
+    .isLength({ min: 50, max: 1000})
+    .withMessage("About must be 50 characters or more"),
 
   check('type')
     .exists({checkFalsy: true})
     .isIn(['In person', 'Online'])
-    .withMessage('Type mut be "In person" or "Online"'),
+    .withMessage("Type must be 'Online' or 'In person'"),
 
   check('private')
     .exists()
     .isBoolean()
-    .withMessage('Private must be True or False'),
+    .withMessage("Private must be a boolean"),
 
   check('city')
     .exists({checkFalsy: true})
     .notEmpty()
-    .withMessage('Please enter a city'),
+    .withMessage("City is required"),
 
   check('state')
     .exists({checkFalsy: true})
     .notEmpty()
-    .withMessage('Please enter a state'),
+    .withMessage("State is required"),
   
   handleValidationErrors
   
