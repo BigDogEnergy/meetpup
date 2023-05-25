@@ -60,8 +60,41 @@ const validateCreateGroup = [
   
 ];
 
+const validateCreateVenue = [
+
+  check('address')
+    .exists({checkFalsy: true})
+    .notEmpty()
+    .withMessage("Street address is required"),
+  
+  check('city')
+    .exists({checkFalsy: true})
+    .notEmpty()
+    .withMessage("City is required"),
+
+  check('state')
+    .exists({checkFalsy: true})
+    .notEmpty()
+    .withMessage("State is required"),
+
+  check('lat')
+    .exists({checkFalsy: true})
+    .notEmpty()
+    .withMessage("Latitude is not valid"),
+
+  check('lng')
+    .exists({checkFalsy: true})
+    .notEmpty()
+    .withMessage("Longitude is not valid"),
+  
+  handleValidationErrors
+  
+];
+
+
 
 module.exports = {
   handleValidationErrors, 
-  validateCreateGroup
+  validateCreateGroup,
+  validateCreateVenue
 };

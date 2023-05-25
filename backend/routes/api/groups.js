@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Group, Event, Venue, Membership, Attendance, Image } = require('../../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors, validateCreateGroup } = require('../../utils/validation');
+const { handleValidationErrors, validateCreateGroup, validateCreateVenue } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -37,7 +37,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
 
 //POST Create a new Venue for a Group specified by its id
 
-router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, res, next) => {
 
     const { groupId } = req.params;
     const { address, city, state, lat, lng } = req.body;
@@ -69,8 +69,8 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
         address,
         city,
         state,
-        lat,
-        lng
+        lat: parseFloat(lat),
+        lng: parseFloat(lng)
     })
 
     const final = {};
