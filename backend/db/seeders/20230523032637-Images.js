@@ -37,6 +37,31 @@ module.exports = {
         imageableId: 5,
         imageableType: 'Group'
       },
+      {
+        image: 'https://cdn.pixabay.com/photo/2015/03/14/05/14/boerboel-672749_1280.jpg',
+        imageableId: 1,
+        imageableType: 'Event'
+      },
+      {
+        image: 'https://cdn.pixabay.com/photo/2020/10/03/11/08/girl-5623231_1280.jpg',
+        imageableId: 2,
+        imageableType: 'Event'
+      },
+      {
+        image: 'https://cdn.pixabay.com/photo/2019/07/23/13/51/shepherd-dog-4357790_1280.jpg',
+        imageableId: 3,
+        imageableType: 'Event'
+      },
+      {
+        image: 'https://cdn.pixabay.com/photo/2018/09/16/07/13/three-generations-of-service-dogs-3680824_1280.jpg',
+        imageableId: 4,
+        imageableType: 'Event'
+      },
+      {
+        image: 'https://cdn.pixabay.com/photo/2021/01/17/07/35/dog-5924174_1280.jpg',
+        imageableId: 5,
+        imageableType: 'Event'
+      },
     ], options);
 
 
