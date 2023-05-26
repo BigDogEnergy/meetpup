@@ -49,7 +49,6 @@ module.exports = (sequelize, DataTypes) => {
         values: ['User', 'Event', 'Group', 'Venue']
       })},
       preview: {
-        allowNull: false,
         type: DataTypes.BOOLEAN
       }
   }, {

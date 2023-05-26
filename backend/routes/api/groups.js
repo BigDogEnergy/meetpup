@@ -48,7 +48,9 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
         },
     })
 
-    if (!group.length) {
+    console.log(group)
+
+    if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
