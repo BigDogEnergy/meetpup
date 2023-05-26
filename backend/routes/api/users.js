@@ -55,13 +55,25 @@ router.post(
         }
       });
 
-      if (validateUniqueEmail || validateUniqueUserName) {
+      if (validateUniqueEmail) {
+        res.status(500);
+        return res.json({ 
+          "message": "User already exists",
+          "errors" : {
+            "email" : "User with that email already exists"
+          }
+        })
+      };
+
+      if (validateUniqueUserName) {
         res.status(500);
         return res.json({
-          "message": "Username or Email already registered",
-          "statusCode": 500,
+          "message": "User already exists",
+          "errors" : {
+            "username" : "User with that username already exists"
+          }
         })
-      }
+      };
 
 
       const user = await User.create({ firstName, lastName, email, username, hashedPassword });

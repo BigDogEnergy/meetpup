@@ -22,7 +22,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
     })
 
-    if (!venues) {
+    if (!venues.length) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
@@ -48,8 +48,7 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
         },
     })
 
-
-    if (!group) {
+    if (!group.length) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
@@ -65,12 +64,11 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
 
     const venue = await Venue.create({
         groupId,
-        name: 'Created by' + req.user.id,
         address,
         city,
         state,
-        lat: lat,
-        lng: lng
+        lat: parseFloat(lat),
+        lng: parseFloat(lng)
     })
 
     const final = {};
@@ -107,9 +105,6 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         err.message = "Group couldn't be found";
         return next(err);
     } 
-    
-console.log(req.user.id)
-console.log(group.organizerId)
 
     if (group.organizerId != req.user.id) {
         const err = new Error("Action could not be performed");
@@ -145,19 +140,19 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
         }
     })
 
-    if (group.organizerId != req.user.id) {
-        const err = new Error("Action could not be performed");
-        err.status = 401
-        err.message = "Action could not be performed"
-        return next(err);
-    }
-
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
         return next(err);
-    }   
+    }
+
+    if (group.organizerId != req.user.id) {
+        const err = new Error("Action could not be performed");
+        err.status = 401
+        err.message = "Action could not be performed"
+        return next(err);
+    }  
 
     await group.destroy();
 
@@ -184,17 +179,17 @@ router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next)
         }
     })
 
+    if (!group) {
+        const err = new Error("Group couldn't be ground");
+        err.status = 404;
+        err.message = "Group couldn't be ground";
+        return next(err);
+    }
+
     if (group.organizerId != req.user.id) {
         const err = new Error("Action could not be performed");
         err.status = 401
         err.message = "Action could not be performed"
-        return next(err);
-    }
-
-    if (!group) {
-        const err = new Error("No group found");
-        err.status = 404;
-        err.message = "No group found";
         return next(err);
     }
 
@@ -289,7 +284,7 @@ router.get('/:groupId', async (req, res, next) => {
         include: [
             { model: User.scope('organizer'), as: "Organizer" },
             { model: Image,
-               as: 'groupImages',
+               as: 'GroupImages',
                where: {
                   imageableId: groupId,
                   imageableType: 'Group',
@@ -341,11 +336,7 @@ router.post('/', requireAuth, validateCreateGroup, async (req, res, next) => {
         state
     })
 
-    const createdGroup = await Group.findByPk(newGroup.id, {
-        attributes: {
-            exclude: ['id', 'organizerId', 'updatedAt', 'createdAt']
-        }
-    });
+    const createdGroup = await Group.findByPk(newGroup.id);
 
     res.status(201);
     res.json(createdGroup)
