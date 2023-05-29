@@ -9,6 +9,23 @@ const { handleValidationErrors, validateCreateGroup, validateCreateVenue } = req
 
 const router = express.Router();
 
+
+//GET All Events of a Group specified by its id
+
+router.get('/:groupId/events', async (req, res, next) => {
+  
+    const { groupId } = req.params;
+
+    const group = await Group.findByPk(groupId)
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+})
+
 //GET All Venues for a Group specified by its id
 
 router.get('/:groupId/venues', requireAuth, async (req, res, next) => {

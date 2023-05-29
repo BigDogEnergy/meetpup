@@ -44,6 +44,14 @@ module.exports = {
           values: ['Online', 'In person']
         })
       },
+      capacity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
       startDate: {
         allowNull: false,
         type: Sequelize.DATE

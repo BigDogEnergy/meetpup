@@ -58,6 +58,14 @@ module.exports = (sequelize, DataTypes) => {
         values: ['Online', 'In person']
       }),
     },
+    capacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
     startDate: {
       type: DataTypes.DATE,
       allowNull: false,
