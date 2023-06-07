@@ -24,6 +24,53 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
+const validateCreateEvent = [
+
+check('venueId')
+  .exists({checkFalsy: true})
+  .notEmpty()
+  .withMessage("Venue does not exist"),
+
+check('name')
+  .exists({checkFalsy: true})
+  .notEmpty()
+  .isLength({ min: 5, max: 100 })
+  .withMessage("Name must be at least 5 characters"),
+
+check('type')
+  .exists({checkFalsy: true})
+  .notEmpty()
+  .withMessage("Type must be Online or In person"),
+
+check('capacity')
+  .exists({checkFalsy: true})
+  .notEmpty()
+  .isNumeric()
+  .withMessage("Capacity must be an integer"),
+
+check('price')
+  .exists({checkFalsy: true})
+  .notEmpty()
+  .isNumeric()
+  .withMessage("Price is invalid"),
+
+check('description')
+  .exists({checkFalsy: true})
+  .notEmpty()
+  .withMessage("Description is required"),
+
+check('startDate')
+  .notEmpty()
+  .withMessage("Start date must be in the future"),
+  
+check('endDate')
+  .notEmpty()
+  .withMessage("End date is less than start date"),
+
+  handleValidationErrors
+
+];
+
 const validateCreateGroup = [
 
   check('name')
@@ -98,5 +145,6 @@ const validateCreateVenue = [
 module.exports = {
   handleValidationErrors, 
   validateCreateGroup,
-  validateCreateVenue
+  validateCreateVenue,
+  validateCreateEvent
 };

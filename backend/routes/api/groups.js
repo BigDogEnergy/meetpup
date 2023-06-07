@@ -5,10 +5,52 @@ const bcrypt = require('bcryptjs');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Group, Event, Venue, Membership, Attendance, Image } = require('../../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors, validateCreateGroup, validateCreateVenue } = require('../../utils/validation');
+const { handleValidationErrors, validateCreateGroup, validateCreateVenue, validateCreateEvent } = require('../../utils/validation');
 
 const router = express.Router();
 
+router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, res, next) => {
+
+    const { groupId } = req.params;
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+
+    const group = await Group.findByPk(groupId)
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    };
+
+    const newEvent = await Event.create({
+        groupId: groupId,
+        venueId,
+        name,
+        type,
+        capacity,
+        price: (parseFloat(price)),
+        description,
+        startDate,
+        endDate
+    });
+
+    const final = {};
+
+    final.id = newEvent.dataValues.id
+    final.groupId = newEvent.dataValues.groupId
+    final.venueId = newEvent.dataValues.venueId
+    final.name = newEvent.dataValues.name
+    final.type = newEvent.dataValues.type
+    final.capacity = newEvent.dataValues.capacity
+    final.price = newEvent.dataValues.price
+    final.description = newEvent.dataValues.description
+    final.startDate = newEvent.dataValues.startDate
+    final.endDate = newEvent.dataValues.endDate
+
+    res.json(final);
+
+})
 
 //GET All Events of a Group specified by its id
 
@@ -24,6 +66,48 @@ router.get('/:groupId/events', async (req, res, next) => {
         err.message = "Group couldn't be found";
         return next(err);
     }
+
+    const events = await Event.findAll({
+        where: {
+            groupId: groupId
+        },
+        attributes: {
+            exclude: ['capacity', 'price']
+        },
+        include: [
+            { model: Group.scope('eventIdRoute') },
+            { model: Venue.scope('eventRoute') }
+        ] 
+    });
+
+    for (let i = 0; i < events.length; i++) {
+        const numAttending = await Attendance.count({
+            where: {
+                eventId: events[i].dataValues.id
+            }
+        });
+
+        events[i].dataValues.numAttending = numAttending;
+
+        let previewImage = await Image.findOne({
+            where: {
+              imageableType: 'Event',
+              imageableId: events[i].dataValues.id
+            },
+    })
+    
+        if (previewImage) {
+            events[i].dataValues.previewImage = previewImage.dataValues.image
+        } else {
+            events[i].dataValues.previewImage = null;
+        }
+
+    }
+
+    res.json( {  
+        Events: events
+    } )
+    
 })
 
 //GET All Venues for a Group specified by its id

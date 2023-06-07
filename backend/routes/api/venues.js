@@ -21,7 +21,8 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
         err.status = 404;
         err.message = "Venue couldn't be found";
         return next(err);
-}
+    }
+
 
     const update = await venue.update({
         groupId: venue.groupId,
@@ -31,6 +32,8 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
         lat,
         lng
     })
+
+
 
     const final = {};
     final.id = venueId

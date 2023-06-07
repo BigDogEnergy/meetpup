@@ -92,8 +92,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       searchScope: {}, 
       eventRoute: {
+        attributes: ['id', 'name', 'private', 'city', 'state']
+      },
+      eventIdRoute: {
         attributes: ['id', 'name', 'city', 'state']
-      }
+      },
     }
   });
 

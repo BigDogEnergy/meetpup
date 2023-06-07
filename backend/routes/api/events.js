@@ -8,6 +8,35 @@ const { handleValidationErrors, validateCreateVenue } = require('../../utils/val
 
 const router = express.Router();
 
+
+//GET Returns the details of an event specified by its id
+
+router.get('/:eventId', async (req, res, next) => {
+
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId, {
+        include: [
+            {   model: Group.scope('eventRoute')    },
+            {   model: Venue.scope('eventRoute')    }
+        ],
+    })
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    }
+
+
+
+    res.json(event)
+
+});
+
+//GET Returns all the events.
+
 router.get('/', async (req, res, next) => {
 
     const events = await Event.findAll({
@@ -15,6 +44,7 @@ router.get('/', async (req, res, next) => {
             {   model: Group.scope('eventRoute')    },
             {   model: Venue.scope('eventRoute')    }
         ],
+        attributes: { exclude: ['capacity', 'price'] }
     })
 
     for (let i=0; i < events.length; i++) {
@@ -44,7 +74,7 @@ router.get('/', async (req, res, next) => {
 
     res.json(   {  "Events": events  }   )
 
-})
+});
 
 module.exports = router
 
