@@ -9,6 +9,88 @@ const { handleValidationErrors, validateCreateVenue } = require('../../utils/val
 const router = express.Router();
 
 
+//POST Add an image to a event based on the event's id
+
+router.post('/:eventId/images', async (req, res, next) => {
+
+    const { eventId } = req.params;
+    const { url, preview } = req.body;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    const upload = await Image.create({
+        image: url,
+        imageableId: eventId,
+        imageableType: 'Event',
+        preview: preview
+    });
+    
+    res.json({
+    id: upload.id,
+    url: upload.image,
+    preview: upload.preview
+    });
+
+});
+
+router.put('/:eventId', async (req, res, next) => {
+
+    const { eventId } = req.params;
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+
+    const event = await Event.findByPk(eventId)
+    const venue = await Venue.findByPk(venueId)
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    if (!venue) {
+        const err = new Error("Venue couldn't be found")
+        err.status = 404;
+        err.message = "Venue couldn't be found";
+        return next(err);
+    };
+
+    const updatedEvent = await event.update({
+        venueId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate
+    });
+
+    const response = {};
+    response.id = updatedEvent.id
+    response.venueId = updatedEvent.venueId
+    response.name = updatedEvent.name
+    response.capacity = updatedEvent.capacity
+    response.price = updatedEvent.price
+    response.description = updatedEvent.description
+    response.startDate = updatedEvent.startDate
+    response.endDate = updatedEvent.endDate
+
+    res.json(response)
+
+});
+
+
+
+
+
 //GET Returns the details of an event specified by its id
 
 router.get('/:eventId', async (req, res, next) => {
@@ -20,14 +102,14 @@ router.get('/:eventId', async (req, res, next) => {
             {   model: Group.scope('eventRoute')    },
             {   model: Venue.scope('eventRoute')    }
         ],
-    })
+    });
 
     if (!event) {
         const err = new Error("Event couldn't be found");
         err.status = 404;
         err.message = "Event couldn't be found";
         return next(err)
-    }
+    };
 
 
 
