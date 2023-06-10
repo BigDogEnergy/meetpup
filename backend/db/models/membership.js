@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       
       Membership.belongsTo(models.User, {
         foreignKey: "userId",
-        key: 'id'
+        key: 'id',
+        as: "Membership"
       });
 
       // Membership.belongsTo(models.Group, {
@@ -46,6 +47,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Membership',
+    scopes: {
+      userMembership: {
+        attributes: ['status']
+      }
+    }
   });
   return Membership;
 };

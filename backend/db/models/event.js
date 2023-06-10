@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Event.belongsTo(models.Group, {
-        foreignKey: "groupId"
+        foreignKey: "groupId",
+        as: 'Group'
       });
 
     }

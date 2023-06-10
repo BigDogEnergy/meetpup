@@ -8,6 +8,45 @@ const { handleValidationErrors, validateCreateVenue } = require('../../utils/val
 
 const router = express.Router();
 
+//DELETE event by eventId
+
+router.delete('/:eventId', requireAuth, async (req, res, next) => {
+    
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId, {
+        include: [{
+            model: Group,
+            as: 'Group',
+        include: [{
+            model: User,
+            as: 'Organizer',
+            attributes: ['id']
+            }]
+        }]
+    });
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    if (event.Group.Organizer.id !== req.user.id) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    event.destroy();
+
+    res.json({
+        "message": "Succesfully deleted"
+    });
+
+});
 
 //POST Add an image to a event based on the event's id
 
@@ -75,6 +114,7 @@ router.put('/:eventId', async (req, res, next) => {
 
     const response = {};
     response.id = updatedEvent.id
+    response.groupId = event.groupId
     response.venueId = updatedEvent.venueId
     response.name = updatedEvent.name
     response.capacity = updatedEvent.capacity
@@ -86,9 +126,6 @@ router.put('/:eventId', async (req, res, next) => {
     res.json(response)
 
 });
-
-
-
 
 
 //GET Returns the details of an event specified by its id

@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       User.hasMany(models.Membership, {
-      foreignKey: 'userId',
+        foreignKey: 'userId',
+        as: 'Membership'
       });
 
       User.belongsToMany(models.Event, {
@@ -93,6 +94,9 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
         organizer: {
+          attributes: ['id', 'firstName', 'lastName']
+        },
+        userMembership: {
           attributes: ['id', 'firstName', 'lastName']
         },
         newUser: {
