@@ -50,7 +50,10 @@ module.exports = (sequelize, DataTypes) => {
     scopes: {
       userMembership: {
         attributes: ['status']
-      }
+      },
+      joinRequest: {
+        attributes: [['userId', 'memberId'], 'groupId', 'status']
+      },
     }
   });
   return Membership;

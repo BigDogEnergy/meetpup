@@ -9,6 +9,62 @@ const { handleValidationErrors, validateCreateGroup, validateCreateVenue, valida
 
 const router = express.Router();
 
+//POST add a member to a group based on groupID
+
+router.post('/:groupId/membership', async (req, res, next) => {
+
+    const { groupId } = req.params;
+    const userId = req.user.id;
+    const group = await Group.findByPk(groupId);
+    
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    };
+
+    const statusCheck = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId
+        }
+    });
+
+    if (statusCheck) {
+        const currentStatus = statusCheck.dataValues.status;
+
+        if (currentStatus === 'pending') {
+            const err = new Error("Membership has already been requested");
+            err.status = 400;
+            err.message = "Membership has already been requested";
+            return next(err);
+        } else if (currentStatus === 'member') {
+            const err = new Error("User is already a member of the group");
+            err.status = 400;
+            err.message = "User is already a member of the group";
+            return next(err);
+        }
+    };
+
+    const joinRequest = await Membership.scope('joinRequest').create({
+        userId,
+        groupId: groupId,
+        status: 'pending'
+    });
+
+    const response = {};
+
+    response.groupId = joinRequest.groupId;
+    response.memberId = joinRequest.userId;
+    response.status = joinRequest.status;
+
+    res.json(response)
+
+});
+
+//GET all members of a group based on the groupID
+
 router.get('/:groupId/members', async (req, res, next) => {
 
     const { groupId } = req.params;
@@ -64,6 +120,8 @@ router.get('/:groupId/members', async (req, res, next) => {
 
 });
 
+
+//POST a new event to a group based on ID
 
 router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, res, next) => {
 
