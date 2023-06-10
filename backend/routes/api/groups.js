@@ -9,8 +9,138 @@ const { handleValidationErrors, validateCreateGroup, validateCreateVenue, valida
 
 const router = express.Router();
 
-//POST add a member to a group based on groupID
+//DELETE a membership based on groupId
+router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
 
+    const { groupId } = req.params;
+    const { memberId } = req.body;
+
+    const group = await Group.findByPk(groupId, {
+        include: [{
+            model: User,
+            as: 'Organizer',
+            attributes: ['id']
+        }]
+    });
+
+    console.log(memberId)
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    };
+
+    const userId = await User.findByPk(memberId);
+
+    if (!userId) {
+        const err = new Error("User couldn't be found");
+        err.status = 400;
+        err.message = "User couldn't be found";
+        return next(err);
+    };
+
+    const membership = await Membership.findOne({
+        where: {
+            groupId: groupId,
+            userId: memberId
+        }
+    });
+
+    if (!membership) {
+        const err = new Error("Membership does not exist for this User");
+        err.status = 400;
+        err.message = "Membership does not exist for this User";
+        return next(err);
+    };
+
+    if (membership.userId !== req.user.id || group.Organizer.id !== req.user.id) {
+        const err = new Error("Unable to complete action");
+        err.status = 400;
+        err.message = "Unable to complete action";
+        return next(err);
+    }
+
+    membership.destroy();
+
+    res.json({
+        "message": "Successfully deleted membership from group"
+      })
+
+
+});
+
+
+//PUT edit a membership for a user based on groupId
+router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
+
+    const { groupId } = req.params;
+    const { memberId, status } = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    };
+
+    const userId = await User.findByPk(memberId);
+
+    if (!userId) {
+        const err = new Error("User couldn't be found");
+        err.status = 400;
+        err.message = "User couldn't be found";
+        return next(err);
+    };
+
+    const membership = await Membership.findOne({
+        where: {
+            groupId: groupId,
+            userId: memberId
+        }
+    });
+
+    if (!membership) {
+        const err = new Error("Membership between the user and the group does not exist");
+        err.status = 400;
+        err.message = "Membership between the user and the group does not exist";
+        return next(err);
+    };
+
+    if (status === 'pending') {
+        const err = new Error("Validations Error");
+        err.status = 400;
+        err.message = "Cannot change a membership status to pending";
+        return next(err);
+    }
+
+    await Membership.update(
+        {
+            status: status
+        },
+        {
+            where: {
+                groupId: groupId,
+                userId: memberId
+            }
+        }
+    );
+
+    const updated = await Membership.findByPk(memberId)
+
+    const response = {
+        groupId: updated.groupId,
+        memberId: updated.userId,
+        status: updated.status
+    };
+
+    res.json(response)
+});
+
+//POST add a member to a group based on groupID
 router.post('/:groupId/membership', async (req, res, next) => {
 
     const { groupId } = req.params;
