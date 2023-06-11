@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     status: DataTypes.ENUM({
-      values: ['pending', 'member', 'waitlist', 'attending']
+      values: ['pending', 'waitlist', 'attending']
     })
   }, {
     sequelize,

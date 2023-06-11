@@ -8,11 +8,87 @@ const { handleValidationErrors, validateCreateVenue } = require('../../utils/val
 
 const router = express.Router();
 
+router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
+
+
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId, {
+        include: [{
+            model: Group,
+            as: 'Group',
+            
+            include: [{
+                model: User,
+                as: 'Organizer',
+                attributes: ['id']
+            }]
+        }]
+    });
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    const attendance = await Attendance.findOne({
+        where: {
+            userId: req.user.id,
+            eventId
+        }
+    });
+
+    if (attendance) {
+        const statusCheck = attendance.dataValues.status;
+
+        if (statusCheck === 'pending') {
+            const err = new Error("Attendance has already been requested");
+            err.status = 400;
+            err.message = "Attendance has already been requested";
+            return next(err)
+        };
+
+        if (statusCheck === 'member') {
+            const err = new Error("User is already an attendee of the event");
+            err.status = 400;
+            err.message = "User is already an attendee of the event";
+            return next(err)
+        };
+    };
+
+    const request = await Attendance.create({
+        eventId,
+        userId: req.user.id,
+        status: "pending"
+    });
+
+    res.json({
+        userId: request.userId,
+        status: request.status
+    });
+
+});
+
+//GET all attendees for an Event based on eventId
+
 router.get('/:eventId/attendees', async (req, res, next) => {
 
     const { eventId } = req.params;
 
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findByPk(eventId, {
+        include: [{
+            model: Group,
+            as: 'Group',
+            
+            include: [{
+                model: User,
+                as: 'Organizer',
+                attributes: ['id']
+            }]
+        }]
+    });
 
     if (!event) {
         const err = new Error("Event couldn't be found");
@@ -30,13 +106,12 @@ router.get('/:eventId/attendees', async (req, res, next) => {
             },
             attributes: []
         }, { model: Attendance.scope("eventAttendees"), as: "Attendance"
-    }]
+        }]
     })
 
     const response = []
 
     for (let i=0; i < attendees.length; i++) {
-
         const attendee = {
             id: attendees[i].id,
             firstName: attendees[i].firstName,
@@ -45,9 +120,7 @@ router.get('/:eventId/attendees', async (req, res, next) => {
                 "status": attendees[i].Attendance[0].dataValues.status
             }
         };
-
         response.push(attendee)
-
     };
 
     res.json({
@@ -84,9 +157,9 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
     };
 
     if (event.Group.Organizer.id !== req.user.id) {
-        const err = new Error("Event couldn't be found");
-        err.status = 404;
-        err.message = "Event couldn't be found";
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
         return next(err)
     };
 

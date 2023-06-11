@@ -15,6 +15,26 @@ module.exports = {
       {
         eventId: 1,
         userId: 1,
+        status: "attending",
+      },
+      {
+        eventId: 1,
+        userId: 2,
+        status: "pending",
+      },
+      {
+        eventId: 1,
+        userId: 3,
+        status: "pending",
+      },
+      {
+        eventId: 1,
+        userId: 4,
+        status: "waitlist",
+      },
+      {
+        eventId: 1,
+        userId: 5,
         status: "waitlist",
       },
       {
@@ -52,6 +72,7 @@ module.exports = {
         userId: 4,
         status: "attending",
       },
+
     ], options);
 
 
