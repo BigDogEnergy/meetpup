@@ -56,9 +56,9 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
     };
 
     if (membership.userId !== req.user.id || group.Organizer.id !== req.user.id) {
-        const err = new Error("Unable to complete action");
-        err.status = 400;
-        err.message = "Unable to complete action";
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
         return next(err);
     }
 

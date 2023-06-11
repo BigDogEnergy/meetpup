@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.Event, {
         through: models.Attendance,
         foreignKey: 'userId',
+        as: 'Attendances'
       });
 
       User.hasMany(models.Image, {
@@ -37,6 +38,12 @@ module.exports = (sequelize, DataTypes) => {
           imageableType: 'User'
         }
       });
+
+      User.hasMany(models.Attendance, {
+        foreignKey: "userId",
+        as: "Attendance"
+      })
+
 
     }
   }
@@ -101,9 +108,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         newUser: {
           attributes: ['id', 'firstName', 'lastName', 'username']          
+        },
+        attendance: {
+          attributes: ['id', 'firstName', 'lastName']
         }
       }
-    }
-  );
+    });
   return User;
 };

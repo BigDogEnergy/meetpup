@@ -8,6 +8,55 @@ const { handleValidationErrors, validateCreateVenue } = require('../../utils/val
 
 const router = express.Router();
 
+router.get('/:eventId/attendees', async (req, res, next) => {
+
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    const attendees = await User.scope("attendance").findAll({
+        include: [{
+            model: Event,
+            as: "Attendances",
+            where: {
+                id: eventId,
+            },
+            attributes: []
+        }, { model: Attendance.scope("eventAttendees"), as: "Attendance"
+    }]
+    })
+
+    const response = []
+
+    for (let i=0; i < attendees.length; i++) {
+
+        const attendee = {
+            id: attendees[i].id,
+            firstName: attendees[i].firstName,
+            lastName: attendees[i].lastName,
+            Attendance: {
+                "status": attendees[i].Attendance[0].dataValues.status
+            }
+        };
+
+        response.push(attendee)
+
+    };
+
+    res.json({
+        "Attendees": response
+    })
+
+});
+
+
 //DELETE event by eventId
 
 router.delete('/:eventId', requireAuth, async (req, res, next) => {
@@ -18,10 +67,11 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
         include: [{
             model: Group,
             as: 'Group',
-        include: [{
-            model: User,
-            as: 'Organizer',
-            attributes: ['id']
+            
+            include: [{
+                model: User,
+                as: 'Organizer',
+                attributes: ['id']
             }]
         }]
     });
