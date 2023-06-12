@@ -8,6 +8,142 @@ const { handleValidationErrors, validateCreateVenue } = require('../../utils/val
 
 const router = express.Router();
 
+//DELETE an attendance to an event specified by id.
+
+router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
+
+    const { eventId } = req.params;
+    const { userId } = req.body;
+
+    const event = await Event.findByPk(eventId, {
+        include: [{
+            model: Group,
+            as: 'Group',
+            
+            include: [{
+                model: User,
+                as: 'Organizer',
+                attributes: ['id']
+            }]
+        }]
+    });
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    const attendance = await Attendance.findOne({
+        where: {
+            userId: req.user.id,
+            eventId
+        },
+        attributes: ['id', 'eventId', 'userId', 'status']
+    });
+
+    if (!attendance) {
+        const err = new Error("Attendance between the user and the event does not exist");
+        err.status = 404;
+        err.message = "Attendance between the user and the event does not exist";
+        return next(err)
+    };
+
+    if (event.Group.Organizer.id === req.user.id || attendance.userId === req.user.id) {
+
+        attendance.destroy();
+    
+        res.json({
+            "message": "Successfully deleted attendance from event"
+          });
+
+    } else { 
+        const err = new Error("Only the User or organizer may delete an Attendance");
+        err.status = 403;
+        err.message = "Only the User or organizer may delete an Attendance";
+        return next(err)
+    };
+
+});
+
+//PUT Change the status of an attendance for an event specified by id.
+
+router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
+
+    const { eventId } = req.params;
+    const { userId, status } = req.body;
+
+    const event = await Event.findByPk(eventId, {
+        include: [{
+            model: Group,
+            as: 'Group',
+            
+            include: [{
+                model: User,
+                as: 'Organizer',
+                attributes: ['id']
+            }]
+        }]
+    });
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        err.message = "Event couldn't be found";
+        return next(err)
+    };
+
+    const attendance = await Attendance.findOne({
+        where: {
+            userId: req.user.id,
+            eventId
+        },
+        attributes: ['id', 'eventId', 'userId', 'status']
+    });
+
+    if (!attendance) {
+        const err = new Error("Attendance between the user and the event does not exist");
+        err.status = 404;
+        err.message = "Attendance between the user and the event does not exist";
+        return next(err)
+    };
+
+    if (status === 'pending') {
+        const err = new Error("Cannot change an attendance status to pending");
+        err.status = 400;
+        err.message = "Cannot change an attendance status to pending";
+        return next(err)
+    };
+
+    if (event.Group.Organizer.id === req.user.id) {
+
+        const confirmation = await attendance.update({
+            eventId,
+            userId,
+            status
+        });    
+
+        const response = {
+            id: attendance.dataValues.id,
+            eventId: confirmation.dataValues.eventId,
+            userId: confirmation.dataValues.userId,
+            status: confirmation.dataValues.status
+        };
+    
+        res.json(response);
+
+    } else { 
+        const err = new Error("Only the User or organizer may delete an Attendance");
+        err.status = 403;
+        err.message = "Only the User or organizer may delete an Attendance";
+        return next(err)
+    };
+
+});
+
+//POST Request attendance for an event specified by id.
+
 router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
 
