@@ -21,32 +21,31 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
         err.status = 404;
         err.message = "Venue couldn't be found";
         return next(err);
-    }
+    };
 
 
-    const update = await venue.update({
+    const updatedVenue = await venue.update({
         groupId: venue.groupId,
         address,
         city,
         state,
         lat,
         lng
-    })
+    });
 
+    const final = {
+        id: venueId,
+        groupId: updatedVenue.groupId,
+        address: updatedVenue.address,
+        city: updatedVenue.city,
+        state: updatedVenue.state,
+        lat: updatedVenue.lat,
+        lng: updatedVenue.lng
+      };
 
+    res.json(final);
 
-    const final = {};
-    final.id = venueId
-    final.groupId = update.groupId;
-    final.address = update.address;
-    final.city = update.city;
-    final.state = update.state;
-    final.lat = update.lat;
-    final.lng = update.lng;
-
-    res.json(final)    
-
-})
+});
 
 
 module.exports = router

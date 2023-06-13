@@ -372,13 +372,13 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
         err.status = 404;
         err.message = "Group couldn't be found";
         return next(err);
-    }
+    };
 
     res.json({
         Venues: venues
-    })
+    });
 
-})
+});
 
 //POST Create a new Venue for a Group specified by its id
 
@@ -387,27 +387,21 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
     const { groupId } = req.params;
     const { address, city, state, lat, lng } = req.body;
 
-    const group = await Group.findOne({
-        where: {
-            id: groupId
-        },
-    })
-
-    console.log(group)
+    const group = await Group.findByPk(groupId);
 
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
         return next(err);
-    }
+    };
 
     if (group.organizerId != req.user.id) {
         const err = new Error("Action could not be performed");
         err.status = 401
         err.message = "Action could not be performed"
         return next(err);
-    }
+    };
 
     const venue = await Venue.create({
         groupId,
@@ -416,21 +410,22 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
         state,
         lat: parseFloat(lat),
         lng: parseFloat(lng)
-    })
+    });
 
-    const final = {};
-    final.id = venue.dataValues.id;
-    final.groupId = venue.dataValues.groupId;
-    final.address = venue.dataValues.address;
-    final.city = venue.dataValues.city;
-    final.state = venue.dataValues.state;
-    final.lat = venue.dataValues.lat;
-    final.lng = venue.dataValues.lng;
+    const final = {
+        id: venue.id,
+        groupId: venue.groupId,
+        address: venue.address,
+        city: venue.city,
+        state: venue.state,
+        lat: venue.lat,
+        lng: venue.lng
+      };
 
 
-    res.json(final)
+    res.json(final);
 
-})
+});
 
 //POST an image to a group based on the group's id
 
@@ -475,7 +470,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
 
 })
 
-//DELETE groups by groupId
+//DELETE an existing group by GroupId
 
 router.delete('/:groupId', requireAuth, async (req, res, next) => {
 
@@ -485,33 +480,29 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
         where: {
             id: groupId
         }
-    })
+    });
 
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
         return next(err);
-    }
+    };
 
     if (group.organizerId != req.user.id) {
         const err = new Error("Action could not be performed");
         err.status = 401
         err.message = "Action could not be performed"
         return next(err);
-    }  
+    }; 
 
     await group.destroy();
 
     res.json( {
         "message": "Successfully deleted"
-    })
+    });
 
-}
-
-)
-
-
+});
 
 //PUT updates and returns an existing group.
 router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next) => {
@@ -520,25 +511,21 @@ router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next)
 
     const { groupId } = req.params;
 
-    const group = await Group.findOne({
-        where: {
-            id: groupId
-        }
-    })
+    const group = await Group.findByPk(groupId);
 
     if (!group) {
         const err = new Error("Group couldn't be ground");
         err.status = 404;
         err.message = "Group couldn't be ground";
         return next(err);
-    }
+    };
 
     if (group.organizerId != req.user.id) {
         const err = new Error("Action could not be performed");
         err.status = 401
         err.message = "Action could not be performed"
         return next(err);
-    }
+    };
 
     const updates = await group.update({
         name,
@@ -547,7 +534,7 @@ router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next)
         private,
         city,
         state
-    })
+    });
 
     res.json({
         id: group.id,
@@ -561,9 +548,9 @@ router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next)
         createdAt: group.createdAt,
         updatedAt: group.updatedAt
 
-    })
+    });
 
-})
+});
 
 
 //GET all Groups joined or organized by the Current User
@@ -645,20 +632,20 @@ router.get('/:groupId', async (req, res, next) => {
             }
                 ],
 
-    })
+    });
 
     if (!group) {
         const err = new Error("No group found");
         err.status = 404;
         err.message = "No group found";
         return next(err);
-    }
+    };
 
     let numMembers = await Membership.count({
         where: {
             groupId: groupId
         }
-    })
+    });
 
     group.dataValues.numMembers = numMembers;
 
@@ -666,7 +653,7 @@ router.get('/:groupId', async (req, res, next) => {
 
     res.json(group)
 
-})
+});
 
 //POST a new group
 router.post('/', requireAuth, validateCreateGroup, async (req, res, next) => {
@@ -693,27 +680,7 @@ router.post('/', requireAuth, validateCreateGroup, async (req, res, next) => {
 
 //GET all groups
 router.get('/', async (req, res, next) => {
-    let allGroups = await Group.findAll(
-    //    
-    // --Eager Loading attempted but postgreSQL did not work with it
-    // {
-    //     include: [
-    //         {
-    //         model: User,
-    //         as: 'organizerId',
-    //         attributes: ['id'],
-    //         },
-    //         {
-    //         model: Image,
-    //         as: 'previewImage',
-    //         where: {
-    //           imageableType: 'Group',
-    //         },
-    //         attributes: ['image'],
-    //         },
-    //     ]
-    // }
-    );
+    let allGroups = await Group.findAll();
 
     for (let i = 0; i < allGroups.length; i++) {
         let numMembers = await Membership.count({
