@@ -66,7 +66,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     res.json({
         "message": "Successfully deleted membership from group"
-      })
+      });
 
 
 });
@@ -183,11 +183,11 @@ router.post('/:groupId/membership', async (req, res, next) => {
         status: 'pending'
     });
 
-    const response = {};
-
-    response.groupId = joinRequest.groupId;
-    response.memberId = joinRequest.userId;
-    response.status = joinRequest.status;
+    const response = {
+        groupId: joinRequest.groupId,
+        memberId: joinRequest.userId,
+        status: joinRequest.status
+      };
 
     res.json(response)
 
@@ -242,11 +242,9 @@ router.get('/:groupId/members', async (req, res, next) => {
         })
     };
 
-    
-
     res.json({
             "Members": groupMembers
-    })
+    });
 
 });
 
@@ -279,22 +277,22 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
         endDate
     });
 
-    const final = {};
+    const response = {
+        id: newEvent.id,
+        groupId: newEvent.groupId,
+        venueId: newEvent.venueId,
+        name: newEvent.name,
+        type: newEvent.type,
+        capacity: newEvent.capacity,
+        price: newEvent.price,
+        description: newEvent.description,
+        startDate: newEvent.startDate,
+        endDate: newEvent.endDate
+    };
+  
+    res.json(response);
 
-    final.id = newEvent.dataValues.id
-    final.groupId = newEvent.dataValues.groupId
-    final.venueId = newEvent.dataValues.venueId
-    final.name = newEvent.dataValues.name
-    final.type = newEvent.dataValues.type
-    final.capacity = newEvent.dataValues.capacity
-    final.price = newEvent.dataValues.price
-    final.description = newEvent.dataValues.description
-    final.startDate = newEvent.dataValues.startDate
-    final.endDate = newEvent.dataValues.endDate
-
-    res.json(final);
-
-})
+});
 
 //GET All Events of a Group specified by its id
 

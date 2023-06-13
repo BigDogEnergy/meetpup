@@ -256,12 +256,12 @@ router.get('/:eventId/attendees', async (req, res, next) => {
                 "status": attendees[i].Attendance[0].dataValues.status
             }
         };
-        response.push(attendee)
+        response.push(attendee);
     };
 
     res.json({
         "Attendees": response
-    })
+    });
 
 });
 
@@ -338,6 +338,8 @@ router.post('/:eventId/images', async (req, res, next) => {
 
 });
 
+//PUT edit an event based on eventId
+
 router.put('/:eventId', async (req, res, next) => {
 
     const { eventId } = req.params;
@@ -371,18 +373,19 @@ router.put('/:eventId', async (req, res, next) => {
         endDate
     });
 
-    const response = {};
-    response.id = updatedEvent.id
-    response.groupId = event.groupId
-    response.venueId = updatedEvent.venueId
-    response.name = updatedEvent.name
-    response.capacity = updatedEvent.capacity
-    response.price = updatedEvent.price
-    response.description = updatedEvent.description
-    response.startDate = updatedEvent.startDate
-    response.endDate = updatedEvent.endDate
+    const response = {
+        id: updatedEvent.id,
+        groupId: event.groupId,
+        venueId: updatedEvent.venueId,
+        name: updatedEvent.name,
+        capacity: updatedEvent.capacity,
+        price: updatedEvent.price,
+        description: updatedEvent.description,
+        startDate: updatedEvent.startDate,
+        endDate: updatedEvent.endDate
+      };
 
-    res.json(response)
+    res.json(response);
 
 });
 
