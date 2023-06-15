@@ -36,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
         constraints: false,
         scope: {
           imageableType: 'User'
-        }
+        },
+        as: 'Uploader'
       });
 
       User.hasMany(models.Attendance, {

@@ -14,7 +14,7 @@ module.exports = {
   return queryInterface.bulkInsert(options, [
   {
     organizerId: 1,
-    name: "Demo Group",
+    name: "Beau's Assisstants",
     about: "This is the first test group",
     type: "In person",
     private: true,
@@ -24,7 +24,7 @@ module.exports = {
   {
     organizerId: 2,
     name: "Puppy Helper Patrol",
-    about: "For people who want to get involved with helping raise another person's animal for a few hours occasionally",
+    about: "Something something.",
     type: "In person",
     private: false,
     city: "San Diego",
@@ -41,7 +41,7 @@ module.exports = {
   },
   {
     organizerId: 1,
-    name: "Beau's Assisstants",
+    name: "Demo Group",
     about: "Dogtor Beau's personal group",
     type: "In person",
     private: true,
@@ -51,7 +51,7 @@ module.exports = {
   {
     organizerId: 1,
     name: "The Runners",
-    about: "For people and dogs that are trained to run.",
+    about: "For people and dogs that are trained to run away from our exestential...",
     type: "In person",
     private: false,
     city: "San Diego",

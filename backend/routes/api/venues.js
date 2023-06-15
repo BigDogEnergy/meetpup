@@ -3,7 +3,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Group, Venue, Event, Attendance, Image } = require('../../db/models');
+const { User, Group, Venue, Event, Attendance, Image, Membership } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors, validateCreateVenue } = require('../../utils/validation');
 
@@ -14,15 +14,28 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
     const { venueId } = req.params;
     const { address, city, state, lat, lng } = req.body;
 
-    const venue = await Venue.findByPk(venueId);
+    const venue = await Venue.findByPk(venueId, {
+        include: {
+            model: Group,
+            attributes: ['organizerId']
+        }
+    });
 
-    if (!venue) {
+    const membershipCheck = await Membership.findByPk(req.user.id);
+
+    if (!venue || !membershipCheck) {
         const err = new Error("Venue couldn't be found")
         err.status = 404;
         err.message = "Venue couldn't be found";
         return next(err);
     };
 
+    if (venue.Group.organizerId !== req.user.id || membershipCheck.dataValues.status !== 'co-host') {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    };
 
     const updatedVenue = await venue.update({
         groupId: venue.groupId,

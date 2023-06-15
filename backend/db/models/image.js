@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       
-      // Image.belongsTo(models.User, {
-      //   foreignKey: 'imageableId',
-      //   constraints: false,
-      // });
+      Image.belongsTo(models.User, {
+        foreignKey: 'imageableId',
+        constraints: false,
+        as: 'Uploader'
+      });
 
       Image.belongsTo(models.Group, {
         foreignKey: 'imageableId',
@@ -40,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     imageableId: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    imageableUser: {
       allowNull: false,
       type: DataTypes.INTEGER
     },

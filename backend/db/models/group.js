@@ -91,6 +91,9 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       searchScope: {}, 
+      userScope: {
+        attributes: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state']
+      },
       eventRoute: {
         attributes: ['id', 'name', 'private', 'city', 'state']
       },

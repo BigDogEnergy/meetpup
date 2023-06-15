@@ -24,6 +24,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      imageableUser: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       imageableType: {
         allowNull: false,
         type: Sequelize.ENUM({

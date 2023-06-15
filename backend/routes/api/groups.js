@@ -395,9 +395,9 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
     };
 
     if (group.organizerId != req.user.id) {
-        const err = new Error("Action could not be performed");
-        err.status = 401
-        err.message = "Action could not be performed"
+        const err = new Error("Forbidden");
+        err.status = 403
+        err.message = "Forbidden"
         return next(err);
     };
 
@@ -437,36 +437,37 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         where: {
             id: groupId
         }
-    })
+    });
 
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
         err.message = "Group couldn't be found";
         return next(err);
-    } 
+    } ;
 
     if (group.organizerId != req.user.id) {
-        const err = new Error("Action could not be performed");
-        err.status = 401
-        err.message = "Action could not be performed"
+        const err = new Error("Forbidden");
+        err.status = 403
+        err.message = "Forbidden"
         return next(err);
-    }
+    };
 
     const upload = await Image.create({
         image: url,
         imageableId: groupId,
+        imageableUser: req.user.id,
         imageableType: 'Group',
         preview: preview
-    })
+    });
 
     res.json({
         id: upload.id,
         url: upload.image,
         preview: upload.preview
-    })
+    });
 
-})
+});
 
 //DELETE an existing group by GroupId
 
@@ -519,9 +520,9 @@ router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next)
     };
 
     if (group.organizerId != req.user.id) {
-        const err = new Error("Action could not be performed");
-        err.status = 401
-        err.message = "Action could not be performed"
+        const err = new Error("Forbidden");
+        err.status = 403
+        err.message = "Forbidden"
         return next(err);
     };
 
@@ -554,7 +555,7 @@ router.put('/:groupId', requireAuth, validateCreateGroup, async (req, res, next)
 //GET all Groups joined or organized by the Current User
 router.get('/current', requireAuth, async (req, res, next) => {
 
-    const userGroups = await Group.findAll({
+    const userGroups = await Group.scope('userScope').findAll({
         where: {
             organizerId: req.user.id
         }
@@ -609,7 +610,7 @@ router.get('/:groupId', async (req, res, next) => {
 
     const { groupId } = req.params
 
-    const group = await Group.findOne({
+    const group = await Group.scope('userScope').findOne({
         where: {
             id: groupId
         },

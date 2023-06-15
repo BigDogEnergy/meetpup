@@ -27,12 +27,24 @@ router.delete('/group-images/:imageId', requireAuth, async (req, res, next) => {
         return next(err)
     };
 
-    image.destroy();
+    console.log(image.dataValues.imageableUser)
 
-    res.status(200);
-    res.json( {
-        "Message": "Successfully deleted"
-    });
+    if (image.dataValues.imageableUser !== req.user.id) {
+
+        res.status(403)
+        res.json(    {
+            "message": "Forbidden"
+          })
+    } else {
+
+        await image.destroy();
+
+            res.status(200);
+            res.json( {
+                "Message": "Successfully deleted"
+        });
+
+    };
 
 });
 
