@@ -312,6 +312,9 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
         }
     });
 
+    console.log("CHC", coHostCheck)
+    console.log("Group",group)
+
     if ( !coHostCheck || group.dataValues.organizerId !== req.user.id){
         const err = new Error("Forbidden");
         err.status = 403;
