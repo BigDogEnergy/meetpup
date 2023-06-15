@@ -296,15 +296,6 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
 
     const group = await Group.findByPk(groupId);
 
-    const coHostCheck = await Membership.findByPk(req.user.id);
-
-    if (coHostCheck.dataValues.status !== 'co-host' || group.dataValues.organizerId !== req.user.id){
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.message = "Forbidden";
-        return next(err);
-    };
-
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
@@ -312,32 +303,50 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
         return next(err);
     };
 
-    const newEvent = await Event.create({
-        groupId: groupId,
-        venueId,
-        name,
-        type,
-        capacity,
-        price: (parseFloat(price)),
-        description,
-        startDate,
-        endDate
+
+    const coHostCheck = await Membership.findOne({
+        where: {
+            userId: req.user.id,
+            groupId: groupId,
+            status: 'co-host'
+        }
     });
 
-    const response = {
-        id: newEvent.id,
-        groupId: newEvent.groupId,
-        venueId: newEvent.venueId,
-        name: newEvent.name,
-        type: newEvent.type,
-        capacity: newEvent.capacity,
-        price: newEvent.price,
-        description: newEvent.description,
-        startDate: newEvent.startDate,
-        endDate: newEvent.endDate
-    };
-  
-    res.json(response);
+    if ( !coHostCheck || group.dataValues.organizerId !== req.user.id){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    } else {
+
+        const newEvent = await Event.create({
+            groupId: groupId,
+            venueId,
+            name,
+            type,
+            capacity,
+            price: (parseFloat(price)),
+            description,
+            startDate,
+            endDate
+        });
+    
+        const response = {
+            id: newEvent.id,
+            groupId: newEvent.groupId,
+            venueId: newEvent.venueId,
+            name: newEvent.name,
+            type: newEvent.type,
+            capacity: newEvent.capacity,
+            price: newEvent.price,
+            description: newEvent.description,
+            startDate: newEvent.startDate,
+            endDate: newEvent.endDate
+        };
+      
+        res.json(response);
+
+    }
 
 });
 
