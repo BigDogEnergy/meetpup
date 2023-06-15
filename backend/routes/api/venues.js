@@ -23,14 +23,14 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
 
     const membershipCheck = await Membership.findByPk(req.user.id);
 
-    if (!venue || !membershipCheck) {
+    if (!venue) {
         const err = new Error("Venue couldn't be found")
         err.status = 404;
         err.message = "Venue couldn't be found";
         return next(err);
     };
 
-    if (venue.Group.organizerId !== req.user.id || membershipCheck.dataValues.status !== 'co-host') {
+    if (!membershipCheck || venue.Group.organizerId !== req.user.id || membershipCheck.dataValues.status !== 'co-host') {
         const err = new Error("Forbidden");
         err.status = 403;
         err.message = "Forbidden";

@@ -2,9 +2,10 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Group, Venue, Event, Attendance, Image } = require('../../db/models');
+const { User, Group, Venue, Event, Attendance, Image, Membership } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors, validateCreateVenue } = require('../../utils/validation');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 
@@ -116,7 +117,15 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         return next(err)
     };
 
-    if (event.Group.Organizer.id === req.user.id) {
+    const membership = await Membership.findOne({
+        where: {
+            groupId: event.groupId,
+            userId: req.user.id,
+            status: 'co-host'
+        }
+    });
+
+    if (event.Group.Organizer.id === req.user.id || membership) {
 
         const confirmation = await attendance.update({
             eventId,
@@ -134,9 +143,9 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         res.json(response);
 
     } else { 
-        const err = new Error("Only the User or organizer may delete an Attendance");
+        const err = new Error("Forbidden");
         err.status = 403;
-        err.message = "Only the User or organizer may delete an Attendance";
+        err.message = "Forbidden";
         return next(err)
     };
 
@@ -233,35 +242,85 @@ router.get('/:eventId/attendees', async (req, res, next) => {
         return next(err)
     };
 
-    const attendees = await User.scope("attendance").findAll({
-        include: [{
-            model: Event,
-            as: "Attendances",
-            where: {
-                id: eventId,
-            },
-            attributes: []
-        }, { model: Attendance.scope("eventAttendees"), as: "Attendance"
-        }]
-    })
+    const membership = await Membership.findOne({
+        where: {
+          groupId: event.groupId,
+          userId: req.user.id,
+          status: 'co-host'
+        }
+      });
 
-    const response = []
+    if (event.Group.Organizer.id === req.user.id || membership) {
 
-    for (let i=0; i < attendees.length; i++) {
-        const attendee = {
-            id: attendees[i].id,
-            firstName: attendees[i].firstName,
-            lastName: attendees[i].lastName,
-            Attendance: {
-                "status": attendees[i].Attendance[0].dataValues.status
-            }
+        const attendees = await User.scope("attendance").findAll({
+            include: [{
+                model: Event,
+                as: "Attendances",
+                where: {
+                    id: eventId,
+                },
+                attributes: []
+            }, { model: Attendance.scope("eventAttendees"), as: "Attendance"
+            }]
+        });
+    
+        const response = []
+    
+        for (let i=0; i < attendees.length; i++) {
+            const attendee = {
+                id: attendees[i].id,
+                firstName: attendees[i].firstName,
+                lastName: attendees[i].lastName,
+                Attendance: {
+                    "status": attendees[i].Attendance[0].dataValues.status
+                }
+            };
+            response.push(attendee);
         };
-        response.push(attendee);
-    };
+    
+        res.json({
+            "Attendees": response
+        });
 
-    res.json({
-        "Attendees": response
-    });
+    } else {
+
+        const attendees = await User.scope("attendance").findAll({
+            include: [{
+                model: Event,
+                as: "Attendances",
+                where: {
+                    id: eventId,
+                },
+                attributes: []
+            }, { model: Attendance.scope("eventAttendees"), 
+                    as: "Attendance",
+                    where: {
+                        status: {
+                            [Op.ne]: 'pending'
+                        }
+                    }
+                }]
+        });
+    
+        const response = []
+    
+        for (let i=0; i < attendees.length; i++) {
+            const attendee = {
+                id: attendees[i].id,
+                firstName: attendees[i].firstName,
+                lastName: attendees[i].lastName,
+                Attendance: {
+                    "status": attendees[i].Attendance[0].dataValues.status
+                }
+            };
+            response.push(attendee);
+        };
+    
+        res.json({
+            "Attendees": response
+        });
+    }
+    
 
 });
 
@@ -292,7 +351,15 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
         return next(err)
     };
 
-    if (event.Group.Organizer.id !== req.user.id) {
+    const membership = await Membership.findOne({
+        where: {
+          groupId: event.groupId,
+          userId: req.user.id,
+          status: 'co-host'
+        }
+      });
+
+    if (event.Group.Organizer.id !== req.user.id || !membership) {
         const err = new Error("Forbidden");
         err.status = 403;
         err.message = "Forbidden";
@@ -314,7 +381,12 @@ router.post('/:eventId/images', async (req, res, next) => {
     const { eventId } = req.params;
     const { url, preview } = req.body;
 
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findByPk(eventId, {
+        include: {
+            model: Group,
+            attributes: ['organizerId']
+        }
+    });
 
     if (!event) {
         const err = new Error("Event couldn't be found");
@@ -323,18 +395,44 @@ router.post('/:eventId/images', async (req, res, next) => {
         return next(err)
     };
 
-    const upload = await Image.create({
-        image: url,
-        imageableId: eventId,
-        imageableType: 'Event',
-        preview: preview
-    });
+    const attendance = await Attendance.findOne({
+        where: {
+          eventId: eventId,
+          userId: req.user.id,
+          status: 'attending'
+        }
+      });
     
-    res.json({
-    id: upload.id,
-    url: upload.image,
-    preview: upload.preview
-    });
+      const membership = await Membership.findOne({
+        where: {
+          groupId: event.groupId,
+          userId: req.user.id,
+          status: 'co-host'
+        }
+      });
+
+    if (attendance || event.Group.organizerId === req.user.id || membership) {
+        
+        const upload = await Image.create({
+            image: url,
+            imageableId: eventId,
+            imageableUser: req.user.id,
+            imageableType: 'Event',
+            preview: preview
+        });
+
+        res.json({
+            id: upload.id,
+            eventId: upload.imageableId,
+            url: upload.image,
+            preview: upload.preview
+        });
+    } else {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    };
 
 });
 
@@ -345,8 +443,21 @@ router.put('/:eventId', async (req, res, next) => {
     const { eventId } = req.params;
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 
-    const event = await Event.findByPk(eventId)
+    const event = await Event.findByPk(eventId, {
+        include: {
+            model: Group,
+            attributes: ['organizerId']
+        }
+    })
     const venue = await Venue.findByPk(venueId)
+
+    const membership = await Membership.findOne({
+        where: {
+          groupId: event.groupId,
+          userId: req.user.id,
+          status: 'co-host'
+        }
+      });
 
     if (!event) {
         const err = new Error("Event couldn't be found");
@@ -362,30 +473,40 @@ router.put('/:eventId', async (req, res, next) => {
         return next(err);
     };
 
-    const updatedEvent = await event.update({
-        venueId,
-        name,
-        type,
-        capacity,
-        price,
-        description,
-        startDate,
-        endDate
-    });
+    if (event.Group.organizerId === req.user.id || membership) {
+        const updatedEvent = await event.update({
+            venueId,
+            name,
+            type,
+            capacity,
+            price,
+            description,
+            startDate,
+            endDate
+        });
+    
+        const response = {
+            id: updatedEvent.id,
+            groupId: event.groupId,
+            venueId: updatedEvent.venueId,
+            name: updatedEvent.name,
+            capacity: updatedEvent.capacity,
+            price: updatedEvent.price,
+            description: updatedEvent.description,
+            startDate: updatedEvent.startDate,
+            endDate: updatedEvent.endDate
+          };
+    
+        res.json(response);
+    } else {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    }
 
-    const response = {
-        id: updatedEvent.id,
-        groupId: event.groupId,
-        venueId: updatedEvent.venueId,
-        name: updatedEvent.name,
-        capacity: updatedEvent.capacity,
-        price: updatedEvent.price,
-        description: updatedEvent.description,
-        startDate: updatedEvent.startDate,
-        endDate: updatedEvent.endDate
-      };
 
-    res.json(response);
+
 
 });
 
@@ -410,9 +531,32 @@ router.get('/:eventId', async (req, res, next) => {
         return next(err)
     };
 
+    let eventImages = await Image.findAll({
+        where: {
+            imageableId: event.dataValues.id,
+            imageableType: 'Event'
+        }
+    });
 
+    let numAttending = await Attendance.count({
+        where: {
+            eventId: event.dataValues.id
+        }
+    });
 
-    res.json(event)
+    const imageObjects = eventImages.map(image => ({
+        id: image.id,
+        url: image.image,
+        preview: image.preview,
+      }));
+
+    const eventDetails = {
+        ...event.toJSON(),
+        numAttending: numAttending,
+        eventImages: imageObjects
+      };
+    
+      res.json(eventDetails);
 
 });
 

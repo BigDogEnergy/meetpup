@@ -2,8 +2,9 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Group, Venue, Event, Attendance, Image } = require('../../db/models');
+const { User, Group, Venue, Event, Attendance, Image, Membership } = require('../../db/models');
 const { check } = require('express-validator');
+const { Op } = require('sequelize')
 const { handleValidationErrors, validateCreateVenue } = require('../../utils/validation');
 
 const router = express.Router();
@@ -13,6 +14,7 @@ const router = express.Router();
 router.delete('/group-images/:imageId', requireAuth, async (req, res, next) => {
 
     const { imageId } = req.params;
+
     const image = await Image.findOne({
         where: {
             imageableId: imageId,
@@ -27,9 +29,21 @@ router.delete('/group-images/:imageId', requireAuth, async (req, res, next) => {
         return next(err)
     };
 
-    console.log(image.dataValues.imageableUser)
+    const group = await Group.findOne({
+        where: {
+          organizerId: req.user.id,
+          id: image.dataValues.imageableUser
+        }
+    });
 
-    if (image.dataValues.imageableUser !== req.user.id) {
+    const membership = await Membership.findOne({
+        where: {
+            userId: req.user.id,
+            status: 'co-host'
+        }
+    });
+
+    if (!group || !membership) {
 
         res.status(403)
         res.json(    {
@@ -56,8 +70,8 @@ router.delete('/event-images/:imageId', requireAuth, async (req, res, next) => {
     const { imageId } = req.params;
     const image = await Image.findOne({
         where: {
-            imageableId: imageId,
-            imageableType: 'Event'
+            imageableType: 'Event',
+            id: imageId
         }
     });
 
@@ -66,6 +80,32 @@ router.delete('/event-images/:imageId', requireAuth, async (req, res, next) => {
         err.status = 404;
         err.message = "Event Image couldn't be found"
         return next(err)
+    };
+
+    const event = await Event.findOne({
+        where: {
+            id: image.dataValues.imageableId,
+        },
+        include: [
+            {
+                model: Group,
+                as: 'Group',
+            }
+        ]
+    });
+
+    const membership = await Membership.findOne({
+        where: {
+            userId: req.user.id,
+            status: 'co-host'
+        }
+    });
+
+    if (membership.dataValues.groupId !== event.dataValues.groupId || event.Group.organizerId !== req.user.id ) {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
     };
 
     image.destroy();

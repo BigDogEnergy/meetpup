@@ -60,7 +60,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
         err.status = 403;
         err.message = "Forbidden";
         return next(err);
-    }
+    };
 
     membership.destroy();
 
@@ -110,12 +110,41 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         return next(err);
     };
 
+    const coHostCheck = await Membership.findOne({
+        where: {
+          groupId: groupId,
+          userId: req.user.id,
+          status: 'co-host'
+        }
+      });
+    
+    if (!coHostCheck || group.organizerId !== req.user.id) {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    };
+
+    if (status === 'co-host' && group.organizerId !==req.user.id) {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    };
+
     if (status === 'pending') {
-        const err = new Error("Validations Error");
+        const err = new Error("Validation Error");
         err.status = 400;
         err.message = "Cannot change a membership status to pending";
         return next(err);
-    }
+    };
+
+    if (membership.status === 'member' && status === 'member') {
+        const err = new Error("Validation Error");
+        err.status = 400;
+        err.message = "User is already a member of the group";
+        return next(err);
+    };
 
     await Membership.update(
         {
@@ -132,6 +161,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     const updated = await Membership.findByPk(memberId)
 
     const response = {
+        id: updated.id,
         groupId: updated.groupId,
         memberId: updated.userId,
         status: updated.status
@@ -140,7 +170,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     res.json(response)
 });
 
-//POST add a member to a group based on groupID
+//POST add a membership request to a group based on groupID
 router.post('/:groupId/membership', async (req, res, next) => {
 
     const { groupId } = req.params;
@@ -184,6 +214,7 @@ router.post('/:groupId/membership', async (req, res, next) => {
     });
 
     const response = {
+        id: joinRequest.id,
         groupId: joinRequest.groupId,
         memberId: joinRequest.userId,
         status: joinRequest.status
@@ -216,8 +247,15 @@ router.get('/:groupId/members', async (req, res, next) => {
 
     let groupMembers = []
 
+    const membership = await Membership.findOne({
+        where: {
+          groupId: groupId,
+          userId: req.user.id,
+          status: 'co-host'
+        }
+      });
 
-    if (group.Organizer.id === req.user.id) {
+    if (group.Organizer.id === req.user.id || membership) {
         groupMembers = await User.scope('userMembership').findAll({
             include: [{
                 model: Membership.scope('userMembership'),
@@ -256,7 +294,16 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
     const { groupId } = req.params;
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 
-    const group = await Group.findByPk(groupId)
+    const group = await Group.findByPk(groupId);
+
+    const coHostCheck = await Membership.findByPk(req.user.id);
+
+    if (coHostCheck.dataValues.status !== 'co-host' || group.dataValues.organizerId !== req.user.id){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
+    };
 
     if (!group) {
         const err = new Error("Group couldn't be found");
@@ -462,7 +509,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     });
 
     res.json({
-        id: upload.id,
+        id: upload.imageableId,
         url: upload.image,
         preview: upload.preview
     });
