@@ -315,12 +315,7 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
     console.log("CHC", coHostCheck)
     console.log("Group",group)
 
-    if ( !coHostCheck || group.dataValues.organizerId !== req.user.id){
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.message = "Forbidden";
-        return next(err);
-    } else {
+    if ( coHostCheck || group.dataValues.organizerId == req.user.id){
 
         const newEvent = await Event.create({
             groupId: groupId,
@@ -348,6 +343,13 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
         };
       
         res.json(response);
+
+    } else {
+
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.message = "Forbidden";
+        return next(err);
 
     }
 
