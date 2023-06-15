@@ -38,7 +38,7 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     const attendance = await Attendance.findOne({
         where: {
-            userId: req.user.id,
+            userId: userId,
             eventId
         },
         attributes: ['id', 'eventId', 'userId', 'status']

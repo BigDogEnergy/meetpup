@@ -23,8 +23,6 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
         }]
     });
 
-    console.log(memberId)
-
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
@@ -311,9 +309,6 @@ router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, re
             status: 'co-host'
         }
     });
-
-    console.log("CHC", coHostCheck)
-    console.log("Group",group)
 
     if ( coHostCheck || group.dataValues.organizerId == req.user.id){
 
@@ -708,8 +703,6 @@ router.get('/:groupId', async (req, res, next) => {
     });
 
     group.dataValues.numMembers = numMembers;
-
-
 
     res.json(group)
 

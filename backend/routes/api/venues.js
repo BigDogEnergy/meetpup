@@ -21,8 +21,6 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
         }
     });
 
-    const membershipCheck = await Membership.findByPk(req.user.id);
-
     if (!venue) {
         const err = new Error("Venue couldn't be found")
         err.status = 404;
@@ -30,33 +28,44 @@ router.put('/:venueId', requireAuth, validateCreateVenue, async (req, res, next)
         return next(err);
     };
 
-    if (!membershipCheck || venue.Group.organizerId !== req.user.id || membershipCheck.dataValues.status !== 'co-host') {
+    const membershipCheck = await Membership.findOne({
+        where: {
+            groupId: venue.groupId,
+            userId: req.user.id,
+            status: 'co-host'
+        }
+    });
+
+
+    if (venue.Group.organizerId === req.user.id || membershipCheck) {
+
+        const updatedVenue = await venue.update({
+            groupId: venue.groupId,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        });
+    
+        const final = {
+            id: venueId,
+            groupId: updatedVenue.groupId,
+            address: updatedVenue.address,
+            city: updatedVenue.city,
+            state: updatedVenue.state,
+            lat: updatedVenue.lat,
+            lng: updatedVenue.lng
+          };
+    
+        res.json(final);
+
+    } else {
         const err = new Error("Forbidden");
         err.status = 403;
         err.message = "Forbidden";
         return next(err);
-    };
-
-    const updatedVenue = await venue.update({
-        groupId: venue.groupId,
-        address,
-        city,
-        state,
-        lat,
-        lng
-    });
-
-    const final = {
-        id: venueId,
-        groupId: updatedVenue.groupId,
-        address: updatedVenue.address,
-        city: updatedVenue.city,
-        state: updatedVenue.state,
-        lat: updatedVenue.lat,
-        lng: updatedVenue.lng
-      };
-
-    res.json(final);
+    }
 
 });
 
