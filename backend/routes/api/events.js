@@ -578,8 +578,6 @@ router.get('/', async (req, res, next) => {
         }
       });
   
-      events[i].numAttending = numAttending;
-  
       let eventImage = await Image.findOne({
         where: {
           imageableId: events[i].id,
@@ -592,8 +590,10 @@ router.get('/', async (req, res, next) => {
       };
 
       if (eventImage) {
+        events[i].numAttending = numAttending;
         events[i].previewImage = eventImage.image;
       } else {
+        events[i].numAttending = numAttending;
         events[i].previewImage = null;
       }
     }
