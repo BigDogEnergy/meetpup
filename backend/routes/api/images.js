@@ -69,6 +69,7 @@ router.delete('/group-images/:imageId', requireAuth, async (req, res, next) => {
 router.delete('/event-images/:imageId', requireAuth, async (req, res, next) => {
 
     const { imageId } = req.params;
+
     const image = await Image.findOne({
         where: {
             imageableType: 'Event',
@@ -83,6 +84,8 @@ router.delete('/event-images/:imageId', requireAuth, async (req, res, next) => {
         return next(err)
     };
 
+    // console.log(image)
+
     const event = await Event.findOne({
         where: {
             id: image.dataValues.imageableId,
@@ -95,26 +98,31 @@ router.delete('/event-images/:imageId', requireAuth, async (req, res, next) => {
         ]
     });
 
+
     const membership = await Membership.findOne({
         where: {
+            groupId: event.Group.id,
             userId: req.user.id,
             status: 'co-host'
         }
     });
 
-    if (membership.dataValues.groupId !== event.dataValues.groupId || event.Group.organizerId !== req.user.id ) {
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.message = "Forbidden";
-        return next(err);
-    };
+    if (event.Group.organizerId === req.user.id || membership) {
 
-    image.destroy();
+        await image.destroy();
 
-    res.status(200);
-    res.json( {
-        "Message": "Successfully deleted"
-    });
+        res.status(200);
+        res.json( {
+            "Message": "Successfully deleted"
+        });
+
+    } else {
+
+    const err = new Error("Forbidden");
+    err.status = 403;
+    err.message = "Forbidden";
+    return next(err);
+    }
 
 });
 

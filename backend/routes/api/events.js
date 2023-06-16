@@ -423,7 +423,7 @@ router.post('/:eventId/images', async (req, res, next) => {
 
         res.json({
             id: upload.id,
-            // eventId: upload.imageableId,
+            eventId: upload.imageableId,
             url: upload.image,
             preview: upload.preview
         });
