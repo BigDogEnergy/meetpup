@@ -43,13 +43,7 @@ router.delete('/group-images/:imageId', requireAuth, async (req, res, next) => {
         }
     });
 
-    if (!group || !membership) {
-
-        res.status(403)
-        res.json(    {
-            "message": "Forbidden"
-          })
-    } else {
+    if (group || membership) {
 
         await image.destroy();
 
@@ -57,6 +51,13 @@ router.delete('/group-images/:imageId', requireAuth, async (req, res, next) => {
             res.json( {
                 "Message": "Successfully deleted"
         });
+
+    } else {
+
+        res.status(403)
+        res.json(    {
+            "message": "Forbidden"
+          })
 
     };
 
