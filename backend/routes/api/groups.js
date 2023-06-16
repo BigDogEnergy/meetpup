@@ -115,57 +115,42 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
           status: 'co-host'
         }
       });
+
+    if (coHostCheck || group.organizerId === req.user.id) {
+
+        await membership.update(
+            {
+                status: status,
+            });
+
+        const response = {
+            id: membership.id,
+            groupId: membership.groupId,
+            memberId: membership.userId,
+            status: membership.status
+        };
     
-    if (!coHostCheck || group.organizerId !== req.user.id) {
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.message = "Forbidden";
-        return next(err);
-    };
+        res.json(response)
 
-    if (status === 'co-host' && group.organizerId !==req.user.id) {
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.message = "Forbidden";
-        return next(err);
-    };
+    } else if (status === 'pending'){            
+            const err = new Error("Validation Error");
+            err.status = 400;
+            err.message = "Cannot change a membership status to pending";
+            return next(err);
 
-    if (status === 'pending') {
-        const err = new Error("Validation Error");
-        err.status = 400;
-        err.message = "Cannot change a membership status to pending";
-        return next(err);
-    };
+    } else if (membership.status === 'member' && status === 'member') {
+            const err = new Error("Validation Error");
+            err.status = 400;
+            err.message = "User is already a member of the group";
+            return next(err);
+    } else {     
+            const err = new Error("Forbidden");
+            err.status = 403;
+            err.message = "Forbidden";
+            return next(err);}
 
-    if (membership.status === 'member' && status === 'member') {
-        const err = new Error("Validation Error");
-        err.status = 400;
-        err.message = "User is already a member of the group";
-        return next(err);
-    };
 
-    await Membership.update(
-        {
-            status: status
-        },
-        {
-            where: {
-                groupId: groupId,
-                userId: memberId
-            }
-        }
-    );
 
-    const updated = await Membership.findByPk(memberId)
-
-    const response = {
-        id: updated.id,
-        groupId: updated.groupId,
-        memberId: updated.userId,
-        status: updated.status
-    };
-
-    res.json(response)
 });
 
 //POST add a membership request to a group based on groupID
