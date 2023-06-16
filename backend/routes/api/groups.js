@@ -118,6 +118,27 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     if (coHostCheck || group.organizerId === req.user.id) {
 
+        if (status === 'pending'){            
+            const err = new Error("Validation Error");
+            err.status = 400;
+            err.message = "Cannot change a membership status to pending";
+            return next(err);
+        };
+
+        if (status === 'pending' && group.organizerId !== req.user.id) {
+            const err = new Error("Forbidden");
+            err.status = 403;
+            err.message = "Forbidden";
+            return next(err);
+        };
+
+        if (membership.status === 'member' && status === 'member') {
+            const err = new Error("Validation Error");
+            err.status = 400;
+            err.message = "User is already a member of the group";
+            return next(err);
+        };
+
         await membership.update(
             {
                 status: status,
@@ -132,25 +153,11 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     
         res.json(response)
 
-    } else if (status === 'pending'){            
-            const err = new Error("Validation Error");
-            err.status = 400;
-            err.message = "Cannot change a membership status to pending";
-            return next(err);
-
-    } else if (membership.status === 'member' && status === 'member') {
-            const err = new Error("Validation Error");
-            err.status = 400;
-            err.message = "User is already a member of the group";
-            return next(err);
     } else {     
             const err = new Error("Forbidden");
             err.status = 403;
             err.message = "Forbidden";
             return next(err);}
-
-
-
 });
 
 //POST add a membership request to a group based on groupID
