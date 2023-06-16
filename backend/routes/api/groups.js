@@ -53,19 +53,20 @@ router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
         return next(err);
     };
 
-    if (membership.userId !== req.user.id || group.Organizer.id !== req.user.id) {
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.message = "Forbidden";
-        return next(err);
+    if (membership.userId === req.user.id || group.Organizer.id === req.user.id) {
+        
+        await membership.destroy();
+
+        res.json({
+            "message": "Successfully deleted membership from group"
+          });
+
+    } else {
+      const err = new Error("Forbidden");
+      err.status = 403;
+      err.message = "Forbidden";
+      return next(err);
     };
-
-    membership.destroy();
-
-    res.json({
-        "message": "Successfully deleted membership from group"
-      });
-
 
 });
 
