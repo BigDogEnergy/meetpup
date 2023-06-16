@@ -563,43 +563,46 @@ router.get('/:eventId', async (req, res, next) => {
 //GET Returns all the events.
 
 router.get('/', async (req, res, next) => {
-
     const events = await Event.findAll({
-        include: [
-            {   model: Group.scope('eventRoute')    },
-            {   model: Venue.scope('eventRoute')    }
-        ],
-        attributes: { exclude: ['capacity', 'price'] }
-    })
-
-    for (let i=0; i < events.length; i++) {
-        let numAttending = await Attendance.count({
-            where: {
-                eventId: events[i].dataValues.id
-            }
-        });
-
-        events[i].dataValues.numAttending = numAttending;
-
-        let previewImage = await Image.findOne({
-            where: {
-                imageableId: events[i].dataValues.id,
-                imageableType: 'Event'
-            }
-        })
-
-        if (previewImage) {
-            events[i].dataValues.previewImage = previewImage.url;
-        } else {
-            events[i].dataValues.previewImage = null;
+      include: [
+        { model: Group.scope('eventRoute') },
+        { model: Venue.scope('eventRoute') }
+      ],
+      attributes: { exclude: ['startDate', 'endDate', 'createdAt', 'updatedAt', 'capacity', 'price'] }
+    });
+  
+    for (let i = 0; i < events.length; i++) {
+      let numAttending = await Attendance.count({
+        where: {
+          eventId: events[i].id
         }
+      });
+  
+      events[i].numAttending = numAttending;
+  
+      let eventImage = await Image.findOne({
+        where: {
+          imageableId: events[i].id,
+          imageableType: 'Event'
+        }
+      });
+  
+      events[i] = {
+        ...events[i].toJSON()
+      };
 
-
+      if (eventImage) {
+        events[i].previewImage = eventImage.image;
+      } else {
+        events[i].previewImage = null;
+      }
     }
-
-    res.json(   {  "Events": events  }   )
-
-});
+  
+    res.json({ "Events": events });
+  });
+  
+  
+  
 
 module.exports = router
 
