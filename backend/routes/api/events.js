@@ -522,6 +522,7 @@ router.get('/:eventId', async (req, res, next) => {
             {   model: Group.scope('eventRoute')    },
             {   model: Venue.scope('eventRoute')    }
         ],
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
     });
 
     if (!event) {

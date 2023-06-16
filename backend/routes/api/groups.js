@@ -375,7 +375,9 @@ router.get('/:groupId/events', async (req, res, next) => {
         include: [
             { model: Group.scope('eventIdRoute') },
             { model: Venue.scope('eventRoute') }
-        ] 
+        ],
+        attributes: { exclude: ['createdAt', 'updatedAt', 'capacity', 'price'] }
+
     });
 
     for (let i = 0; i < events.length; i++) {
