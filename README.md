@@ -53,7 +53,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /users
+  * URL: /session
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -101,7 +101,7 @@ information.
 
     ```json
     {
-      "email": "john.smith@gmail.com",
+      "credential": "john.smith@gmail.com",
       "password": "secret password"
     }
     ```
@@ -273,7 +273,7 @@ Returns all the groups.
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36",
           "numMembers": 10,
-          "previewImage": "image url",
+          "previewImage": "image url"
         }
       ]
     }
@@ -310,7 +310,7 @@ Returns all the groups.
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36",
           "numMembers": 10,
-          "previewImage": "image url",
+          "previewImage": "image url"
         }
       ]
     }
@@ -384,7 +384,7 @@ Returns the details of a group specified by its id.
 
     ```json
     {
-      "message": "Group couldn't be found",
+      "message": "Group couldn't be found"
     }
     ```
 
@@ -402,12 +402,12 @@ Creates and returns a new group.
 
     ```json
     {
-      "name": "Evening Tennis on the Water",
-      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "name": "Beau's Secret Helpers",
+      "about": "It takes a village to raise a wolf puppy. Especially one as spoiled as Beau.",
       "type": "In person",
-      "private": true,
-      "city": "New York",
-      "state": "NY",
+      "private": false,
+      "city": "San Diego",
+      "state": "CA"
     }
     ```
 
@@ -421,14 +421,14 @@ Creates and returns a new group.
     {
       "id": 1,
       "organizerId": 1,
-      "name": "Evening Tennis on the Water",
-      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "name": "Beau's Secret Helpers",
+      "about": "It takes a village to raise a wolf puppy. Especially one as spoiled as Beau.",
       "type": "In person",
-      "private": true,
-      "city": "New York",
-      "state": "NY",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36"
+      "private": false,
+      "city": "San Diego",
+      "state": "CA",
+      "createdAt": "2023-06-15T22:45:07.267Z",
+      "updatedAt": "2023-06-15T22:45:07.267Z"
     }
     ```
 
@@ -447,7 +447,7 @@ Creates and returns a new group.
         "type": "Type must be 'Online' or 'In person'",
         "private": "Private must be a boolean",
         "city": "City is required",
-        "state": "State is required",
+        "state": "State is required"
       }
     }
     ```
@@ -467,7 +467,7 @@ Create and return a new image for a group specified by id.
 
     ```json
     {
-      "url": "image url",
+      "url": "a really cute dog image url",
       "preview": true
     }
     ```
@@ -481,7 +481,7 @@ Create and return a new image for a group specified by id.
     ```json
     {
       "id": 1,
-      "url": "image url",
+      "url": "a really cute dog image url",
       "preview": true
     }
     ```
@@ -513,12 +513,12 @@ Updates and returns an existing group.
 
     ```json
     {
-      "name": "Evening Tennis on the Water",
-      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "name": "NEW DOG RELATED NAME IN ALL CAPS",
+      "about": "Probably something related to running around Fiesta Island together, but we can settle for PB Dog Park",
       "type": "In person",
       "private": true,
-      "city": "New York",
-      "state": "NY",
+      "city": "San Diego",
+      "state": "CA"
     }
     ```
 
@@ -530,16 +530,16 @@ Updates and returns an existing group.
 
     ```json
     {
-      "id": 1,
-      "organizerId": 1,
-      "name": "Evening Tennis on the Water",
-      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
-      "type": "In person",
-      "private": true,
-      "city": "New York",
-      "state": "NY",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40"
+    "id": 8,
+    "organizerId": 6,
+    "name": "NEW DOG RELATED NAME IN ALL CAPS",
+    "about": "Probably something related to running around Fiesta Island together, but we can settle for PB Dog Park",
+    "type": "In person",
+    "private": true,
+    "city": "San Diego",
+    "state": "CA",
+    "createdAt": "2023-06-15T22:45:07.267Z",
+    "updatedAt": "2023-06-15T22:49:44.038Z"
     }
     ```
 
@@ -642,7 +642,7 @@ Returns all venues for a group specified by its id
         "city": "New York",
         "state": "NY",
         "lat": 37.7645358,
-        "lng": -122.4730327,
+        "lng": -122.4730327
       }
     ]
   }
@@ -677,12 +677,12 @@ Creates and returns a new venue for a group specified by its id
 
   ```json
   {
-    "address": "123 Disney Lane",
-    "city": "New York",
-    "state": "NY",
-    "lat": 37.7645358,
-    "lng": -122.4730327,
-  }
+    "address": "1998 28th St",
+    "city": "San Diego",
+    "state": "CA",
+    "lat": 32.72621,
+    "lng": 32.72621
+  } 
   ```
 
 * Successful Response
@@ -693,13 +693,13 @@ Creates and returns a new venue for a group specified by its id
 
   ```json
   {
-    "id": 1,
-    "groupId": 1,
-    "address": "123 Disney Lane",
-    "city": "New York",
-    "state": "NY",
-    "lat": 37.7645358,
-    "lng": -122.4730327,
+    "id": 8,
+    "groupId": 6,
+    "address": "1998 28th St",
+    "city": "San Diego",
+    "state": "CA",
+    "lat": "32.7262100",
+    "lng": "32.7262100"
   }
   ```
 
@@ -729,7 +729,7 @@ Creates and returns a new venue for a group specified by its id
         "city": "City is required",
         "state": "State is required",
         "lat": "Latitude is not valid",
-        "lng": "Longitude is not valid",
+        "lng": "Longitude is not valid"
       }
     }
     ```
@@ -749,13 +749,15 @@ Edit a new venue specified by its id
   * Body:
 
   ```json
+  
   {
-    "address": "123 Disney Lane",
-    "city": "New York",
-    "state": "NY",
+    "address": "AWESOME NEW DOG FRIENDLY ADDRESS",
+    "city": "Dog Island",
+    "state": "CA",
     "lat": 37.7645358,
-    "lng": -122.4730327,
+    "lng": -122.4730327
   }
+  
   ```
 
 * Successful Response
@@ -766,13 +768,13 @@ Edit a new venue specified by its id
 
   ```json
   {
-    "id": 1,
-    "groupId": 1,
-    "address": "123 Disney Lane",
-    "city": "New York",
-    "state": "NY",
+    "id": "6",
+    "groupId": 6,
+    "address": "AWESOME NEW DOG FRIENDLY ADDRESS",
+    "city": "Dog Island",
+    "state": "CA",
     "lat": 37.7645358,
-    "lng": -122.4730327,
+    "lng": -122.4730327
   }
   ```
 
@@ -802,7 +804,7 @@ Edit a new venue specified by its id
         "city": "City is required",
         "state": "State is required",
         "lat": "Latitude is not valid",
-        "lng": "Longitude is not valid",
+        "lng": "Longitude is not valid"
       }
     }
     ```
@@ -865,7 +867,7 @@ Returns all the events.
           "Venue": {
             "id": 1,
             "city": "New York",
-            "state": "NY",
+            "state": "NY"
           },
         },
       ]
@@ -928,7 +930,7 @@ Returns all the events of a group specified by its id
           "Venue": {
             "id": 1,
             "city": "New York",
-            "state": "NY",
+            "state": "NY"
           },
         },
       ]
@@ -1035,13 +1037,13 @@ Creates and returns a new event for a group specified by its id
     ```json
     {
       "venueId": 1,
-      "name": "Tennis Group First Meet and Greet",
+      "name": "Scooby Doo's Marathon",
       "type": "Online",
-      "capacity": 10,
-      "price": 18.50,
-      "description": "The first meet and greet for our group! Come say hello!",
-      "startDate": "2021-11-19 20:00:00",
-      "endDate": "2021-11-19 22:00:00",
+      "capacity": 1000,
+      "price": 69.95,
+      "description": "Likely a Mario Kart Tournament",
+      "startDate": "2024-11-19 20:00:00",
+      "endDate": "2024-11-19 22:00:00"
     }
     ```
 
@@ -1053,16 +1055,16 @@ Creates and returns a new event for a group specified by its id
 
     ```json
     {
-      "id": 1,
-      "groupId": 1,
+      "id": 7,
+      "groupId": 6,
       "venueId": 1,
-      "name": "Tennis Group First Meet and Greet",
+      "name": "Scooby Doo's Marathon",
       "type": "Online",
-      "capacity": 10,
-      "price": 18.50,
-      "description": "The first meet and greet for our group! Come say hello!",
-      "startDate": "2021-11-19 20:00:00",
-      "endDate": "2021-11-19 22:00:00",
+      "capacity": 1000,
+      "price": 69.95,
+      "description": "Likely a Mario Kart Tournament",
+      "startDate": "2024-11-19T20:00:00.000Z",
+      "endDate": "2024-11-19T22:00:00.000Z"
     }
     ```
 
@@ -1083,7 +1085,7 @@ Creates and returns a new event for a group specified by its id
         "price": "Price is invalid",
         "description": "Description is required",
         "startDate": "Start date must be in the future",
-        "endDate": "End date is less than start date",
+        "endDate": "End date is less than start date"
       }
     }
     ```
@@ -1162,14 +1164,14 @@ Edit and returns an event specified by its id
 
     ```json
     {
-      "venueId": 1,
-      "name": "Tennis Group First Meet and Greet",
+      "venueId": 6,
+      "name": "NEW BETTER NAME",
       "type": "Online",
-      "capacity": 10,
-      "price": 18.50,
-      "description": "The first meet and greet for our group! Come say hello!",
-      "startDate": "2021-11-19 20:00:00",
-      "endDate": "2021-11-19 22:00:00",
+      "capacity": 50,
+      "price": 3.99,
+      "description": "New and better name. We picked the best name, no one has better names than us.",
+      "startDate": "2024-11-19 20:00:00",
+      "endDate": "2024-11-19 21:00:00"
     }
     ```
 
@@ -1181,16 +1183,15 @@ Edit and returns an event specified by its id
 
     ```json
     {
-      "id": 1,
-      "groupId": 1,
-      "venueId": 1,
-      "name": "Tennis Group First Meet and Greet",
-      "type": "Online",
-      "capacity": 10,
-      "price": 18.50,
-      "description": "The first meet and greet for our group! Come say hello!",
-      "startDate": "2021-11-19 20:00:00",
-      "endDate": "2021-11-19 22:00:00",
+      "id": 7,
+      "groupId": 6,
+      "venueId": 6,
+      "name": "NEW BETTER NAME",
+      "capacity": 50,
+      "price": 3.99,
+      "description": "New and better name. We picked the best name, no one has better names than us.",
+      "startDate": "2024-11-19T20:00:00.000Z",
+      "endDate": "2024-11-19T21:00:00.000Z"
     }
     ```
 
@@ -1211,7 +1212,7 @@ Edit and returns an event specified by its id
         "price": "Price is invalid",
         "description": "Description is required",
         "startDate": "Start date must be in the future",
-        "endDate": "End date is less than start date",
+        "endDate": "End date is less than start date"
       }
     }
     ```
@@ -1903,7 +1904,7 @@ Delete an existing image for a Group.
   of the Group
 * Request
   * Method: DELETE
-  * URL: /group-images/:imageId
+  * URL: /images/group-images/:imageId
   * Body: none
 
 * Successful Response
@@ -1940,7 +1941,7 @@ Delete an existing image for an Event.
   of the Group that the Event belongs to
 * Request
   * Method: DELETE
-  * URL: /event-images/:imageId
+  * URL: /images/event-images/:imageId
   * Body: none
 
 * Successful Response
