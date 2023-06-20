@@ -88,6 +88,8 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         }]
     });
 
+    console.log(event)
+
     if (!event) {
         const err = new Error("Event couldn't be found");
         err.status = 404;
@@ -97,7 +99,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     const attendance = await Attendance.findOne({
         where: {
-            userId: req.user.id,
+            userId: userId,
             eventId
         },
         attributes: ['id', 'eventId', 'userId', 'status']
@@ -127,17 +129,17 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     if (event.Group.Organizer.id === req.user.id || membership) {
 
-        const confirmation = await attendance.update({
+        await attendance.update({
             eventId,
             userId,
             status
         });    
 
         const response = {
-            id: confirmation.dataValues.id,
-            eventId: confirmation.dataValues.eventId,
-            userId: confirmation.dataValues.userId,
-            status: confirmation.dataValues.status
+            id: attendance.dataValues.id,
+            eventId: attendance.dataValues.eventId,
+            userId: attendance.dataValues.userId,
+            status: attendance.dataValues.status
         };
     
         res.json(response);
@@ -362,7 +364,7 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
     if (event.Group.Organizer.id === req.user.id || membership) {
  
         await event.destroy();
-        
+
         res.json({
             "message": "Succesfully deleted"
         });
