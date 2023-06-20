@@ -134,7 +134,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         });    
 
         const response = {
-            id: attendance.dataValues.id,
+            id: confirmation.dataValues.id,
             eventId: confirmation.dataValues.eventId,
             userId: confirmation.dataValues.userId,
             status: confirmation.dataValues.status
@@ -359,18 +359,21 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
         }
       });
 
-    if (event.Group.Organizer.id !== req.user.id || !membership) {
+    if (event.Group.Organizer.id === req.user.id || membership) {
+ 
+        await event.destroy();
+        
+        res.json({
+            "message": "Succesfully deleted"
+        });
+
+
+    } else {
         const err = new Error("Forbidden");
         err.status = 403;
         err.message = "Forbidden";
         return next(err)
     };
-
-    event.destroy();
-
-    res.json({
-        "message": "Succesfully deleted"
-    });
 
 });
 
