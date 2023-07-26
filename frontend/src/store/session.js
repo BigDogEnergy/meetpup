@@ -59,6 +59,15 @@ export const signup = (user) => async (dispatch) => {
     return response;
   };
 
+// Logout (delete) User thunk action
+export const logout = () => async (dispatch) => {
+    const response = await csrfFetch('/api/session', {
+      method: 'DELETE',
+    });
+    dispatch(removeUser());
+    return response;
+  };
+
 // INITIAL STATE
 const initialState = { user: null };
 
