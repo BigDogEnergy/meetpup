@@ -22,7 +22,7 @@ function App() {
         <Route path="/signup">
           <SignupFormPage />
         </Route>
-        <Route exact path="/">
+        <Route path="/">
           <div>This is the root</div>
         </Route>
       </Switch>
