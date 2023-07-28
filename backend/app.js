@@ -22,27 +22,29 @@ app.use(express.json());
 if (!isProduction) {
     // enable cors only in development
     app.use(cors());
-  }
-  
-  // helmet helps set a variety of headers to better secure the app
-  app.use(
-    helmet.crossOriginResourcePolicy({
-      policy: "cross-origin"
-    })
-  );
-  
-  // Set the _csrf token and create req.csrfToken method
-  app.use(
-    csurf({
-      cookie: {
-        secure: isProduction,
-        sameSite: isProduction && "Lax",
-        httpOnly: true
-      }
-    })
-  );
+}
 
-  app.use(routes); // Connect all the routes
+// helmet helps set a variety of headers to better secure the app
+app.use(
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
+  })
+);
+
+// Set the _csrf token and create req.csrfToken method
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true
+    }
+  })
+);
+
+app.use(routes); // Connect all the defined routes
+
+app.use(express.static('../front/build'))
 
 //Resource Not Found Error-Handler
   app.use((_req, _res, next) => {

@@ -25,7 +25,7 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route path="/">
-            <h1>Root</h1>
+            We are at "/"
           </Route>
         </Switch>
       )}
