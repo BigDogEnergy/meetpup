@@ -44,7 +44,8 @@ app.use(
 
 app.use(routes); // Connect all the defined routes
 
-app.use(express.static('../front/build'))
+
+// app.use(express.static(path.join(__dirname, '../frontend/public')));
 
 //Resource Not Found Error-Handler
   app.use((_req, _res, next) => {
