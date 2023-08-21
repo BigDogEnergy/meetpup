@@ -27,7 +27,7 @@ function App() {
             <SignupFormPage />
           </Route>
           
-          <Route path="/">
+          <Route exact path="/">
             <h1>We are at "/"</h1>
           </Route>
         
