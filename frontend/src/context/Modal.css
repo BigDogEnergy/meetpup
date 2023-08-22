@@ -1,0 +1,41 @@
+#modal {
+    position: fixed;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-background {
+    position: fixed;
+    /* height: 300rem; */
+    /* width: 300rem; */
+    align-items: center;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgb(128, 128, 128, 0.7);
+    z-index: -1;
+}
+
+#modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    background-color: white;
+    /* height: 600px;
+    width: 480px; */
+    padding: 15px;
+    z-index: 2;
+    border-radius: 10px;
+}
+
+#login-container {
+    z-index: 2;
+    background-color: white;
+}

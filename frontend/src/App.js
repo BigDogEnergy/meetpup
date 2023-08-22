@@ -28,7 +28,7 @@ function App() {
           </Route>
           
           <Route exact path="/">
-            <h1>We are at "/"</h1>
+            Splash Page Needed
           </Route>
         
         </Switch>

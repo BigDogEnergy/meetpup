@@ -27,9 +27,10 @@ function LoginFormPage() {
   return (
     <>
       <div className="login-container">
-        <h1 className="title-h1">Log In</h1>
+        <div className="title-h1">Log In</div>
         <form onSubmit={handleSubmit}>
-          <div className="input-wrapper">
+          <div className="input-wrapper-user">
+            <div className="error-msg"> {errors.credential && <p className="error-msg">{errors.credential}</p>} </div>
             <label>
               Username or Email
               <input
@@ -40,7 +41,7 @@ function LoginFormPage() {
               />
             </label>
           </div>
-          <div className="input-wrapper">
+          <div className="input-wrapper-pass">
             <label>
               Password
               <input
@@ -51,7 +52,6 @@ function LoginFormPage() {
               />
             </label>
           </div>
-          {errors.credential && <p className="error-msg">{errors.credential}</p>}
           <button type="submit">Log In</button>
         </form>
       </div>
