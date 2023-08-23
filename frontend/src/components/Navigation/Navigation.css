@@ -2,12 +2,18 @@
     display: none;
 }
 
+.start-a-new-group {
+  padding-right: 15px;
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;
+  border-bottom: 3px solid lightgray;
+  padding-bottom: 10px;
 }
 
-.nav-bar-right {
+.nav-bar-right-content {
   display: flex;
   justify-content: space-between;
 }

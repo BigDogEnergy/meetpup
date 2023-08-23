@@ -1,0 +1,59 @@
+.main-splash-div {
+    display: flex;
+    flex-direction: column;
+    /* align-items: space-between; */
+}
+
+.main-splash-topleft {
+    display: flex;
+    flex-direction: column;
+    /* width: 50%; */
+    border: 1px solid black
+}
+
+.main-splash-topleft-title {
+    display: flex;
+    flex-direction: row;
+    /* width: 30%; */
+    border: 1px solid black
+}
+
+.main-splash-topright {
+    display: flex;
+    flex-direction: column;
+    /* width: 30%; */
+    border: 1px solid black
+}
+
+.main-splash-top-container {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black
+}
+
+.main-splash-center-explanation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black
+}
+
+.main-splash-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    border: 1px solid black
+}
+
+.join-meetpup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.join-meetpup-button {
+    align-items: center;
+    justify-content: center;
+}

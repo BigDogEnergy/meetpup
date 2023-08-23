@@ -1,0 +1,65 @@
+import React from "react";
+import { useSelector } from 'react-redux';
+import './Splash.css';
+import { Link } from 'react-router-dom';
+
+function Splash() {
+    const User = useSelector(state => state.session.user);
+
+    return (
+
+        <div className="main-splash-div">
+            <div className="main-splash-top-container">
+                <div className="main-splash-topleft">
+                    <h1 className="main-splash-topleft-title">The pet platform -- Where we find local pet assistance from our neighbors</h1>
+                    <div className="main-splash-topleft-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                </div>
+                <div className="main-splash-topright">
+                    Use your imagination to see the image I will replace this text with.
+                </div>
+            </div>
+            
+
+            <div className="main-splash-center-explanation">
+                <h2 className="main-splash-center-explanation-title">How MeetPup works</h2>
+                <div className="main-splash-center-explanation-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+            </div>
+
+
+            <div className="main-splash-nav-container">
+
+                <div className="main-splash-nav-1">
+                    <h3 className="main-splash-nav-1-title">
+                        See all groups
+                    </h3>
+                    <div className="main-splash-nav-1-text"> 
+                        Lorem ipsum dolor sit amet. 
+                    </div>
+                </div>
+
+                <div className="main-splash-nav-2">
+                    <h3 className="main-splash-nav-2-title"> 
+                        Find an event
+                    </h3>
+                    <div className="main-splash-nav-2-text"> 
+                        Lorem ipsum dolor sit amet. 
+                    </div>
+                </div>
+                <div className="main-splash-nav-3">
+                    <h3 className="main-splash-nav-3-title">
+                        Start a new group
+                    </h3>
+                    <div className="main-splash-nav-3-text"> 
+                        Lorem ipsum dolor sit amet. 
+                    </div>
+                </div>
+                
+            </div>
+            <div className="join-meetpup-container">
+                <button className="join-meetpup-button">Join MeetPup</button>
+            </div>
+        </div>
+    );
+};
+
+export default Splash

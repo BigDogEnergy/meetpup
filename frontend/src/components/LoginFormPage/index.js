@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
+
+
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  //Demo User Button Config
+  const demoUserButton = (e) => {
+
+    setErrors('')
+    setCredential('eztest@user.io')
+    setPassword('password1')
+    history.push('/')
+  };
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -23,6 +35,16 @@ function LoginFormPage() {
       }
     );
   };
+
+  //Error Handling
+
+  // useEffect(() => {
+  //   if (credential.length < 4 || password.length < 6) {
+  //     setErrors('The provided credentials were invalid.')
+  //   }
+  // })
+
+  //Content
 
   return (
     <>
@@ -52,7 +74,14 @@ function LoginFormPage() {
               />
             </label>
           </div>
-          <button type="submit">Log In</button>
+          <div className="login-button-div">
+            <button type="submit">Log In</button>
+          </div>
+          <div>
+            <button className="demo-user-div" type="submit" onClick={demoUserButton}>
+              Demo User
+            </button>
+          </div>
         </form>
       </div>
     </>

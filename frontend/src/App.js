@@ -5,6 +5,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import Splash from "./components/Splash";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function App() {
           </Route>
           
           <Route exact path="/">
-            Splash Page Needed
+            <Splash />
           </Route>
         
         </Switch>
