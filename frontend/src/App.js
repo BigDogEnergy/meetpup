@@ -31,6 +31,10 @@ function App() {
           <Route exact path="/">
             <Splash />
           </Route>
+
+          <Route exact path='/groups'>
+            <Groups />
+          </Route>
         
         </Switch>
       )}

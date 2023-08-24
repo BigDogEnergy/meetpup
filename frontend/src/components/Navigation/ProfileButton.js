@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+
 
 function ProfileButton({ user }) {
+  // console.log(user)
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -31,21 +35,28 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
+  //Profile is hidden by adding styling CSS
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
+  //Determine the arrow icon based on the showMenu state
+  const arrowIcon = showMenu ? faChevronDown : faChevronUp;
 
   return (
     <>
       <div className={"nav-bar-right-content"}>
-        <div className={"start-a-new-group"}> Start a new group </div>
+        <div className={"start-a-new-group"}> 
+          Start a new group 
+        </div>
         <button onClick={openMenu}>
           <i className="fas fa-user-circle" />
+          <FontAwesomeIcon icon={arrowIcon} className={`arrow-icon ${showMenu ? "arrow-down" : "arrow-up"}`} />
         </button>
       </div>
       
 
       <div className={ulClassName} ref={ulRef}>
         <div className={"user-data-container"}>
-          <div className={"user-greeting"}>Hello, {user.username}</div>
+          <div className={"user-greeting"}>Hello, {user.firstName}</div>
           <div className={"user-email"}>{user.email}</div>
         </div>
           <button onClick={logout}>Log Out</button>

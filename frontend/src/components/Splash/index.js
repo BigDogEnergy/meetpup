@@ -45,19 +45,30 @@ function Splash() {
                         Lorem ipsum dolor sit amet. 
                     </div>
                 </div>
+
+                {/* Conditionally loaded Link for Group*/}
                 <div className="main-splash-nav-3">
-                    <h3 className="main-splash-nav-3-title">
-                        Start a new group
-                    </h3>
-                    <div className="main-splash-nav-3-text"> 
-                        Lorem ipsum dolor sit amet. 
+                    {User ? (
+                                <Link to="/" className="main-splash-nav-3-title">
+                                    Start a new group
+                                </Link>
+                            ) : (
+                                    <h3 className="main-splash-nav-3-title">
+                                        Start a new group
+                                    </h3>
+                                )}
+                    <div className="main-splash-nav-3-text">
+                        Lorem ipsum dolor sit amet.
                     </div>
+                </div>  
+            </div>
+
+            {/* // Join MeetPup Button */}
+            {!User && (
+                <div className="join-meetpup-container">
+                    <button className="join-meetpup-button">Join MeetPup</button>
                 </div>
-                
-            </div>
-            <div className="join-meetpup-container">
-                <button className="join-meetpup-button">Join MeetPup</button>
-            </div>
+            )}
         </div>
     );
 };

@@ -42,7 +42,7 @@ function LoginFormPage() {
   //   if (credential.length < 4 || password.length < 6) {
   //     setErrors('The provided credentials were invalid.')
   //   }
-  // })
+  // }, [credential, password]);
 
   //Content
 
@@ -75,7 +75,7 @@ function LoginFormPage() {
             </label>
           </div>
           <div className="login-button-div">
-            <button type="submit">Log In</button>
+            <button type="submit" disabled={errors.credential || credential.length < 4 || password.length < 6}>Log In</button>
           </div>
           <div>
             <button className="demo-user-div" type="submit" onClick={demoUserButton}>
