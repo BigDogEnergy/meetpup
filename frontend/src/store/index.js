@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { restoreCSRF, csrfFetch } from '../store/csrf';
 import sessionReducer from './session';
+import { groupReducer } from './groups'
 
 //For testing purposes
 import * as sessionActions from "../store/session";
@@ -15,6 +16,7 @@ const demoUser = {
 
 export const rootReducer = combineReducers({
   session: sessionReducer,
+  group: groupReducer,
 });
 
 //Enhancer

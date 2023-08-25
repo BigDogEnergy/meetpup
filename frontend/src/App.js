@@ -6,6 +6,9 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Splash from "./components/Splash";
+import Groups from './components/Groups'
+// import { getAllGroups } from './store/groups'
+import SingleCard from "./components/SingleCard";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +33,10 @@ function App() {
           
           <Route exact path="/">
             <Splash />
+          </Route>
+
+          <Route path='/groups/:groupId'>
+            <SingleCard />
           </Route>
 
           <Route exact path='/groups'>
