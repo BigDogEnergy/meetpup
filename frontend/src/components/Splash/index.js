@@ -29,9 +29,9 @@ function Splash() {
             <div className="main-splash-nav-container">
 
                 <div className="main-splash-nav-1">
-                    <h3 className="main-splash-nav-1-title">
+                    <Link to='/groups' className="main-splash-nav-1-title">
                         See all groups
-                    </h3>
+                    </Link>
                     <div className="main-splash-nav-1-text"> 
                         Lorem ipsum dolor sit amet. 
                     </div>

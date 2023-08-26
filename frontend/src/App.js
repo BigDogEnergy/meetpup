@@ -7,8 +7,8 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Splash from "./components/Splash";
 import Groups from './components/Groups'
-// import { getAllGroups } from './store/groups'
 import SingleCard from "./components/SingleCard";
+import CreateGroupForm from "./components/CreateGroupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +22,10 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+
+          <Route exact path='/groups/new'>
+            <CreateGroupForm />
+          </Route>
 
           <Route path="/login">
             <LoginFormPage />

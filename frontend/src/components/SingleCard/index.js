@@ -27,7 +27,6 @@ function SingleCard() {
     }, [groupId, dispatch]);
 
 
-
     //onClick related
 
     //xxxxxxadd stuff here when we see everything loads
@@ -45,8 +44,9 @@ function SingleCard() {
     
 
     return (
+        <>
+        <div className='back-to-groups-button'> Groups </div> 
         <div className='single-card-container'>
-            {/* <link to='/groups'> Groups </link> */}
             <div className='single-card-top'>
                 <div className='single-card-image'>placeholder div for img, there were conditional loading errors for the below code. Fix later</div>
             {/* {preview ? (
@@ -54,21 +54,22 @@ function SingleCard() {
                 ) : (
                 <div>lolbrokeAF</div>
                 )} */}
-                <div className='single-card-top-name'>
-                    {group.name}
-                </div>
-                <div className='single-card-top-location'>
-                    {group.city}, {group.state}
-                </div>
-                <div className='single-card-top-privacy-status'>
-                    {group.private ? 'Private' : 'Public'}
-                </div>
-                <div>
-                    {/* Organized by {organizer.firstName} */}
-                </div>
-                {/* <div className='single-card-top-empty-space'></div> */}
-                <div className='single-card-top-buttons'>
-                    {buttons}
+                <div className='single-card-top-info'>
+                    <h2 className='single-card-top-name'>
+                        {group.name}
+                    </h2>
+                    <div className='single-card-top-location'>
+                        {group.city}, {group.state}
+                    </div>
+                    <div className='single-card-top-privacy-status'>
+                        {group.private ? 'Private' : 'Public'}
+                    </div>
+                    <div className='single-card-top-organizer-fullname'>
+                        Organized by:
+                    </div>
+                    <div className='single-card-top-buttons'>
+                        {buttons}
+                    </div>
                 </div>
             </div>
 
@@ -84,6 +85,7 @@ function SingleCard() {
                 <div className='single-card-events-container'>Events here</div>
             </div>
         </div>
+        </>
     )
 
 };

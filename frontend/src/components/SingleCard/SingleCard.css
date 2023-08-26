@@ -1,0 +1,18 @@
+.single-card-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    height: 100%;
+}
+
+.single-card-top {
+    display: flex;
+    justify-content: center;
+    border: 1px solid black
+}
+
+.single-card-image {
+    display: flex;
+    flex: 0 0 40%;
+    border: 1px solid black
+}

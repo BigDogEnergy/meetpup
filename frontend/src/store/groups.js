@@ -7,6 +7,7 @@ const LOAD_ONE_GROUP = 'groups/LOAD_ONE'
 const ADD_GROUP = 'groups/ADD'
 const REMOVE_GROUP = 'groups/REMOVE'
 const EDIT_GROUP = 'groups/EDIT'
+const ADD_IMAGE = 'groups/ADD_IMAGE'
 
 //---> Action Creators
 
@@ -17,6 +18,11 @@ const loadGroups = groups => ({
 
 const loadOneGroup = group => ({
     type: LOAD_ONE_GROUP,
+    group
+});
+
+const addImage = group => ({
+    type: ADD_IMAGE,
     group
 });
 
@@ -58,9 +64,25 @@ export const createGroup = (newGroup) => async dispatch => {
 
     if (response.ok) {
         const newGroup = await response.json();
-        dispatch()
-    }    
+        dispatch(getGroupDetails(newGroup));
+        return newGroup;
+    }; 
 }
+
+//POST /api/groups (CREATE) -- IMAGE
+export const addGroupImage = (groupId, image) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+        method: 'POST',
+        body: JSON.stringify(image)
+    });
+
+    if (response.ok) {
+        const newImage = await response.json();
+        dispatch(getGroupDetails(groupId))
+        return newImage
+    };
+
+};
 
 //GET /api/groups/:groupId (READ)
 export const getGroupDetails = groupId => async dispatch => {
