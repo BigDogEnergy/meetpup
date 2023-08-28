@@ -17,6 +17,8 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+//isLoaded inside of a useEffect can be solution to loading errors
+
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -39,7 +41,7 @@ function App() {
             <Splash />
           </Route>
 
-          <Route path='/groups/:groupId'>
+          <Route exact path='/groups/:groupId'>
             <SingleCard />
           </Route>
 

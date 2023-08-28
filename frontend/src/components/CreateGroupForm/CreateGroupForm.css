@@ -1,0 +1,49 @@
+.create-group-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black
+}
+
+.create-group-header-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+
+.create-group-location-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+
+.create-group-name-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+
+.create-group-about-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+
+.create-group-steps-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+.create-group-type-input {
+    display: flex;
+    width: 12.5%;
+}
+
+.create-group-privacy-input {
+    display: flex;
+    width: 12.5%;
+}

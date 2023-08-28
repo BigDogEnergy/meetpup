@@ -11,11 +11,9 @@ function LoginFormModal() {
             <div className='log-in-button' onClick={() => setShowModal(true)}>Log In</div>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    {/* <div className='login-modal-main-div'> */}
                         <div>
                             <LoginForm />
                         </div>
-                    {/* </div> */}
                 </Modal>
             )}
         </>
