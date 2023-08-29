@@ -133,6 +133,42 @@ export const getGroupDetails = groupId => async dispatch => {
     }
 };
 
+//DELETE /api/groups/:groupId (DELETE)
+export const deleteGroup = groupId => async dispatch => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            const group = await response.json()
+            dispatch(removeGroup(group))
+            return group;
+        }
+    } catch (error) {
+        console.error('deleteGroup thunk error', error);
+    }
+}
+
+//PUT /api/groups/:groupId (PUT)
+export const updateGroup = (group, groupId) => async dispatch => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}`, {
+            method: 'PUT',
+            body: JSON.stringify(group)
+        });
+
+        if (response.ok) {
+            const group = await response.json();
+            dispatch(editGroup(group));
+            return group;
+        };
+        
+    } catch(error) {
+        console.error('updateGroup thunk error', error);
+    }
+};
+
 //---> Reducer
 
 const initialState = {

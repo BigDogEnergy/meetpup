@@ -38,9 +38,9 @@ function Splash() {
                 </div>
 
                 <div className="main-splash-nav-2">
-                    <h3 className="main-splash-nav-2-title"> 
+                    <Link to='/' className="main-splash-nav-2-title"> 
                         Find an event
-                    </h3>
+                    </Link>
                     <div className="main-splash-nav-2-text"> 
                         Lorem ipsum dolor sit amet. 
                     </div>
@@ -49,7 +49,7 @@ function Splash() {
                 {/* Conditionally loaded Link for Group*/}
                 <div className="main-splash-nav-3">
                     {User ? (
-                                <Link to="/" className="main-splash-nav-3-title">
+                                <Link to="/groups/new" className="main-splash-nav-3-title">
                                     Start a new group
                                 </Link>
                             ) : (

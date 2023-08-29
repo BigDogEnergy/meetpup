@@ -1,29 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React from "react";
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { createGroup, addGroupImage } from '../../store/groups'
-import './CreateGroupForm.css'
+import { useHistory, useParams } from 'react-router-dom';
+import { updateGroup, getGroupDetails, deleteGroup, addGroupImage } from "../../store/groups";
+import './EditGroupForm.css'
 
-function CreateGroupForm() {
-
+function EditGroupForm({ groups }) {
     const dispatch = useDispatch();
     const history = useHistory();
+    const { groupId } = useParams();
 
-    //state-related
 
+    //useEffect #1
+    useEffect(() => {
+        dispatch(getGroupDetails(groupId))
+    }, [])
+
+    //state variables
+    const group = useSelector(state => state.group.oneGroup);
+    console.log("edit group", group)
     const User = useSelector(state => state.session.user);
     if (!User) {
         history.push('/')
     };
 
     //field selector states
-    const [ name, setName ] = useState('');
-    const [ about, setAbout ] = useState('');
+    const [ name, setName ] = useState(group?.name);
+    const [ about, setAbout ] = useState(group?.about);
     const [ type, setType ] = useState('');
     const [ privacy, setPrivacy ] = useState('');
-    const [ city, setCity ] = useState('');
-    const [ state, setState ] = useState('');
-    const [ url, setUrl ] = useState('');
+    const [ city, setCity ] = useState(group?.city);
+    const [ state, setState ] = useState(group?.state);
+    const [ url, setUrl ] = useState(group?.GroupImages[0]?.url);
     const [ isLoaded, setIsLoaded ] = useState(false)
 
     //field error states
@@ -36,34 +44,33 @@ function CreateGroupForm() {
     const [ urlErr, setUrlErr ] = useState('')
     const [ renderErr, setRenderErr ] = useState('');
     const [ fieldErrors, setFieldErrors ] = useState('');
+    
 
-
-
-    //use-effect
+    //use-effect #2
     useEffect (() => {
 
         //name
-        if (!name.length) {
+        if (!name?.length) {
             setNameErr('Name is required')
         } else {
             setNameErr('')
         };
 
         //about
-        if (!about.length || about.length < 50 ) {
+        if (!about?.length || about.length < 50 ) {
             setAboutErr('Description must be at least 50 characters long')
         } else {
             setAboutErr('')
         };
 
         //location
-        if (!city.length) {
+        if (!city?.length) {
             setCityErr('City is required')
         } else {
             setCityErr('')
         };
         
-        if (!state.length) {
+        if (!state?.length) {
             setStateErr('State is required')
         } else {
             setStateErr('')
@@ -83,23 +90,21 @@ function CreateGroupForm() {
             setPrivacyErr('')
         };
 
-        //url
-            const urlValidation = str => {
-                return /(https?:\/\/.*\.(?:png|jpg|jpeg))/.test(str);
-            }
+        // //url
+        //     const urlValidation = str => {
+        //         return /(https?:\/\/.*\.(?:png|jpg|jpeg))/.test(str);
+        //     }
 
-        if (!url.length) {
-            setUrlErr('Image url must end in .png, .jpg, or .jpeg')
-        } else if (url.length && !urlValidation(url)) {
-            setUrlErr('Invalid image URL provided')
-        } else {
-            setUrlErr('')
-        }
+        // if (!url.length) {
+        //     setUrlErr('Image url must end in .png, .jpg, or .jpeg')
+        // } else if (url.length && !urlValidation(url)) {
+        //     setUrlErr('Invalid image URL provided')
+        // } else {
+        //     setUrlErr('')
+        // }
 
 
-    }, [name, about, city, state, privacy, type, url, dispatch]);
-
-    //On Submits
+    }, [name, about, city, state, privacy, type, dispatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -117,7 +122,7 @@ function CreateGroupForm() {
             !urlErr
         ) {
             const payload = {
-                organizerId: User.id,
+                // organizerId: User.id,
                 name,
                 about,
                 type,
@@ -129,26 +134,25 @@ function CreateGroupForm() {
             console.log("payload",payload);
 
             try{
-                const newGroup = await dispatch(createGroup(payload))
-                const newImg = {
-                    id: newGroup.id,
-                    url: url,
-                    preview: true
-                };
+                const updatedGroup = await dispatch(updateGroup(payload, groupId))
+                // const newImg = {
+                //     id: updatedGroup.id,
+                //     url: url,
+                //     preview: true
+                // };
 
-                if (url.length > 0) {
-                    const response = dispatch(addGroupImage(newGroup.id, newImg))
-                };
+                // if (url.length > 0) {
+                //     const response = dispatch(addGroupImage(updatedGroup.id, newImg))
+                // };
 
-                history.push(`/groups/${newGroup.id}`)
+                history.push(`/groups/${updatedGroup.id}`)
 
             } catch(error) {
                 console.error('Error in handleSubmit:', error);
             }   
-        }         
+        }   
+    }      
         
-    };
-
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -156,10 +160,10 @@ function CreateGroupForm() {
 
                     <div className='create-group-header-container'>
                         <div className='create-group-header-title'>
-                            Become an Organizer
+                            Update your group's information
                         </div>
                         <div className='create-group-header-text'> 
-                            We'll walk you through a few steps to build your local community 
+                            We'll walk you through a few steps to help you edit your group's information
                         </div>
                     </div>
 
@@ -298,15 +302,16 @@ function CreateGroupForm() {
                             type='submit'
                             disabled={renderErr.length}
                             >
-                            Create Group
+                            Update Group
                         </button>
                     </div>
                 </div>
             </form>
-        </div>
-        
+        </div>  
     )
-
 };
 
-export default CreateGroupForm
+
+
+
+export default EditGroupForm;

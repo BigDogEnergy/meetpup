@@ -36,7 +36,7 @@ function LoginFormPage() {
     );
   };
 
-  //Error Handling
+  //Error Handling?
 
   // useEffect(() => {
   //   if (credential.length < 4 || password.length < 6) {

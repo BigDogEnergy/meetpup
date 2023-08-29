@@ -1,0 +1,33 @@
+.confirm-modal {
+    position: fixed;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.confirm-modal-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.7);
+    z-index: -1; /* Behind the content but within the modal */
+}
+
+
+.confirm-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    z-index: 2;
+    border-radius: 10px;
+}

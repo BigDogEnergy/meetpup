@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom' 
 
 
 function ProfileButton({ user }) {
@@ -44,9 +45,9 @@ function ProfileButton({ user }) {
   return (
     <>
       <div className={"nav-bar-right-content"}>
-        <div className={"start-a-new-group"}> 
+        <Link to='/groups/new' className={"start-a-new-group"}> 
           Start a new group 
-        </div>
+        </Link>
         <button onClick={openMenu}>
           <i className="fas fa-user-circle" />
           <FontAwesomeIcon icon={arrowIcon} className={`arrow-icon ${showMenu ? "arrow-down" : "arrow-up"}`} />
