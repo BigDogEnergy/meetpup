@@ -11,6 +11,7 @@ import SingleCard from "./components/SingleCard";
 import CreateGroupForm from "./components/CreateGroupForm";
 import EditGroupForm from "./components/EditGroupForm";
 import { getAllGroups } from "./store/groups";
+import Events from "./components/Events";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +61,10 @@ function App() {
 
           <Route exact path='/groups'>
             <Groups />
+          </Route>
+
+          <Route path='/events'>
+            <Events />
           </Route>
         
         </Switch>

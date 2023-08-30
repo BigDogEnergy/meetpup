@@ -51,7 +51,7 @@ module.exports = {
   {
     organizerId: 1,
     name: "The Runners",
-    about: "For people and dogs that are trained to run away from our exestential...",
+    about: "For people and dogs that are trained to run away from our exestential crises...",
     type: "In person",
     private: false,
     city: "San Diego",

@@ -573,7 +573,7 @@ router.get('/', async (req, res, next) => {
         { model: Group.scope('eventRoute') },
         { model: Venue.scope('eventRoute') }
       ],
-      attributes: { exclude: ['startDate', 'endDate', 'createdAt', 'updatedAt', 'capacity', 'price'] }
+      attributes: { exclude: ['createdAt', 'updatedAt', 'capacity', 'price'] }
     });
   
     for (let i = 0; i < events.length; i++) {

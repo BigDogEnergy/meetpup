@@ -20,8 +20,8 @@ module.exports = {
         name: "Test name for Event 1",
         type: "Online",
         description: "This is Event 1's description",
-        startDate: "2023-06-01 07:00:00",
-        endDate: "2023-07-01 07:00:00",
+        startDate: "2023-09-01 07:00:00",
+        endDate: "2023-10-01 07:00:00",
       },
       {
         groupId: 2,

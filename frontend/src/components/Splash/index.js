@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector } from 'react-redux';
 import './Splash.css';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDog } from '@fortawesome/free-solid-svg-icons';
 
 function Splash() {
     const User = useSelector(state => state.session.user);
@@ -15,7 +17,7 @@ function Splash() {
                     <div className="main-splash-topleft-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
                 </div>
                 <div className="main-splash-topright">
-                    Use your imagination to see the image I will replace this text with.
+                    <FontAwesomeIcon icon={faDog} size="2x" />
                 </div>
             </div>
             
@@ -29,6 +31,7 @@ function Splash() {
             <div className="main-splash-nav-container">
 
                 <div className="main-splash-nav-1">
+                <FontAwesomeIcon icon="fa-solid fa-hands-clapping" size="lg" />
                     <Link to='/groups' className="main-splash-nav-1-title">
                         See all groups
                     </Link>
@@ -38,7 +41,7 @@ function Splash() {
                 </div>
 
                 <div className="main-splash-nav-2">
-                    <Link to='/' className="main-splash-nav-2-title"> 
+                    <Link to='/events' className="main-splash-nav-2-title"> 
                         Find an event
                     </Link>
                     <div className="main-splash-nav-2-text"> 

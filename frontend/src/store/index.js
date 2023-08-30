@@ -6,6 +6,7 @@ import { groupReducer } from './groups'
 
 //For testing purposes
 import * as sessionActions from "../store/session";
+import { eventReducer } from './events';
 
 const demoUser = {
   email: "eztest@user.io",
@@ -17,6 +18,7 @@ const demoUser = {
 export const rootReducer = combineReducers({
   session: sessionReducer,
   group: groupReducer,
+  events: eventReducer
 });
 
 //Enhancer
