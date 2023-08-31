@@ -93,7 +93,7 @@ function SingleCard() {
                     </div>
                 </Modal>
             )}
-            <div className='back-to-groups-button'> Groups </div> 
+            <Link className='back-to-groups-button' to='/groups'> Groups </Link> 
             <div className='single-card-container'>
                 <div className='single-card-top'>
                     <img className='single-card-image' src={preview} alt="No Image"/>

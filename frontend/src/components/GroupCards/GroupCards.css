@@ -3,3 +3,8 @@
     justify-content: center;
     border: 1px solid black
 }
+
+img {
+    max-width: 500px; /* or any other value */
+    max-height: 500px; /* or any other value */
+}

@@ -20,11 +20,15 @@
     width: 40%; /* Ensure the container spans the full width */
     position: relative;
     overflow: hidden;
-  }
+}
   
-  .group-card-img {
+.group-card-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
+}
   
+img {
+    max-width: 500px; /* or any other value */
+    max-height: 500px; /* or any other value */
+}
