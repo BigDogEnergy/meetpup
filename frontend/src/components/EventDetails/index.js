@@ -31,7 +31,7 @@ function EventDetails({ event }) {
     const { date, time } = splitDateTime(event.startDate)
     const formattedTime = convertToAMPM(time)
 
-    console.log("date and time", date, time)
+    // console.log("date and time", date, time)
 
     return (
         <Link className="group-card-container" to={`/events/${event.id}`}>

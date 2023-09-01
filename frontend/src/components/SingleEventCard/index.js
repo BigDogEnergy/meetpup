@@ -11,6 +11,7 @@ function SingleEventCard () {
     const history = useHistory();
 
     //state-related
+    const User = useSelector ( state => state.session.user)
     const event = useSelector( state => state.events.oneEvent );
     // console.log('event from SingleEventCard', event)
     const group = useSelector ( state => state.group.oneGroup)
@@ -65,16 +66,36 @@ function SingleEventCard () {
             formattedEndTime = convertToAMPM(endTime);
         } 
     }
+
+    //onClick
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        console.log('eventId', eventId)
+        await dispatch(deleteEvent(eventId)).then(history.push('/events'));
+    };
+
+    //buttons
+    let buttons;
+    if (User && User.id === group.organizerId) {
+        buttons = (
+            <div className='single-card-event-crud-buttons'>
+                <button className='single-card-crud-delete-event' onClick={handleDelete}>Delete</button>
+            </div>
+        )
+    } else {
+        buttons = (null)
+    }
     
 
-    return (event && event.eventImages && group && group.GroupImages && 
+    return (event && event.eventImages && group && group.GroupImages &&
         <>
-            <Link className='single-event-link' to='/events'> Events </Link>
+            
             <div className="single-event-container">
                 <div className="single-event-header-container">
-                    <div className="single-event-header-title">
+                <Link className='single-event-link' to='/events'> Events </Link>
+                    <h1 className="single-event-header-title">
                         {event.name}
-                    </div>
+                    </h1>
                     <div className="single-event-header-host">
                         Hosted by: {group.Organizer?.firstName} {group.Organizer?.lastName}
                     </div>
@@ -82,32 +103,37 @@ function SingleEventCard () {
             
 
                 <div className="single-event-mid-container">
-                    <img className="single-event-mid-image" src={event.eventImages[0].url}/>
-                    <Link className="single-event-mid-group-details-container" to={`/groups/${group.id}`}>
-                        <img className="single-event-mid-group-image" src={group.GroupImages[0].url} />
-                        <div className="single-event-mid-group-name">
-                            {group.name}
-                        </div>
-                        <div className="single-event-mid-group-name">
-                            {group.type}
-                        </div>
-                    </Link>
-                    <div className="single-event-mid-details">
-                        <div>
-                            {date} {formattedTime}
-                        </div>
-                        <div>
-                            {/* {endDate} {formattedEndTime} */}
-                        </div>
-                        <div>
-                            price: {event.price}
-                        </div>
-                        <div>
-                            {event.type}
+                    <img className="single-event-mid-image" src={event.eventImages[0]?.url} alt={"an event image"}/>
+                    <div>
+                        <Link className="single-event-mid-group-details-container" to={`/groups/${group.id}`}>
+                            <img className="single-event-mid-group-image" src={group.GroupImages[0].url} />
+                            <div className="single-event-mid-group-name">
+                                {group.name}
+                            </div>
+                            <div className="single-event-mid-group-name">
+                                {group.type}
+                            </div>
+                            <div>
+                                {buttons}
+                            </div>
+                        </Link>
+                        <div className="single-event-mid-details-container">
+                            <div>
+                                {date} {formattedTime}
+                            </div>
+                            <div>
+                                {endDate} {formattedEndTime}
+                                {/* FIX END DATE LATER */}
+                            </div>
+                            <div>
+                                price: {event.price}
+                            </div>
+                            <div>
+                                {event.type}
+                            </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
                 <div className='single-event-details-container'>
                     <div className="single-event-details-content">
                     {event.description}

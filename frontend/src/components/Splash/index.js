@@ -31,7 +31,7 @@ function Splash() {
             <div className="main-splash-nav-container">
 
                 <div className="main-splash-nav-1">
-                <FontAwesomeIcon icon="fa-solid fa-hands-clapping" size="lg" />
+                {/* <FontAwesomeIcon icon="fa-solid fa-hands-clapping" size="lg" /> */}
                     <Link to='/groups' className="main-splash-nav-1-title">
                         See all groups
                     </Link>

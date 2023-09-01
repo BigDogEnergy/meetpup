@@ -20,9 +20,9 @@ function SingleCard() {
     // console.log("SingleCard index group", group)
     const User = useSelector(state=> state.session.user)
     const organizer = group?.Organizer
-    console.log('singleCard organizer', organizer)
+    // console.log('singleCard organizer', organizer)
     const preview = group?.GroupImages?.[0]?.url || '';
-    console.log('singleCard preview', preview)
+    // console.log('singleCard preview', preview)
 
     //useSelector grabbing each time might need to be a useEffect or additional async login
     
@@ -58,7 +58,7 @@ function SingleCard() {
 
     const handleEvent = async (e) => {
         e.preventDefault();
-        //Needs functionality
+        history.push(`/groups/${group.id}/events/new`)
     }
 
 

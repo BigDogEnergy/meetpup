@@ -13,11 +13,12 @@ import EditGroupForm from "./components/EditGroupForm";
 import { getAllGroups } from "./store/groups";
 import Events from "./components/Events";
 import SingleEventCard from "./components/SingleEventCard";
+import CreateEventForm from "./components/CreateEventForm";
 
 function App() {
   const dispatch = useDispatch();
   const groups = useSelector(state => state.groups)
-  console.log(groups);
+  // console.log("App groups variable", groups);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -38,6 +39,10 @@ function App() {
 
           <Route exact path='/groups/new'>
             <CreateGroupForm />
+          </Route>
+
+          <Route exact path='/groups/:groupId/events/new'>
+            <CreateEventForm />
           </Route>
 
           <Route path="/login">

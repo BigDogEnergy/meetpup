@@ -74,17 +74,27 @@ export const getAllEvents = () => async dispatch => {
 
 // POST EVENT
 export const createEvent = (groupId, newEvent) => async dispatch => {
-    const response = await csrfFetch(`/api/${groupId}/events`, {
-        method: 'POST',
-        body: JSON.stringify(newEvent)
-    });
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}/events`, {
+            method: 'POST',
+            body: JSON.stringify(newEvent)
+        });
 
-    if (response.ok) {
-        const newEvent = await response.json();
-        dispatch(addEvent(newEvent));
-        return newEvent;
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.message || "Error creating event.");
+        }
+
+        const eventData = await response.json();
+        dispatch(addEvent(eventData));
+        return eventData;
+
+    } catch (error) {
+        console.error("Error in createEvent thunk:", error.message);
+        throw error;
     }
 };
+
 
 
 // POST IMAGE for EVENT
@@ -174,8 +184,11 @@ export const eventReducer = (state = initialState, action) => {
             return { ...state, events: action.events };
 
         case REMOVE_EVENT:
-            newState = { ...state};
-            delete newState[action.eventId]
+            newState = { ...state };
+            delete newState.events[action.eventId];
+            if (newState.oneEvent.id === action.eventId) {
+                newState.oneEvent = { Group: {} }; // Resetting oneEvent if it's the deleted event
+            }
             return newState;
 
         // case ADD_IMAGE:

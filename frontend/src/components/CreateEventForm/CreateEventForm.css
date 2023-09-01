@@ -1,0 +1,33 @@
+.create-event-form-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black
+}
+
+.create-event-form-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+
+.create-event-mid-1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+
+.create-event-mid-2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}
+
+.create-event-image-input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 4px solid grey;
+}

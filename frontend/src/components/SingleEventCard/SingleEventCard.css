@@ -1,4 +1,35 @@
 img {
-    max-width: 500px; /* or any other value */
-    max-height: 500px; /* or any other value */
+    max-width: 250px; /* or any other value */
+    max-height: 250px; /* or any other value */
+}
+
+.single-event-container {
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    flex-direction: column;
+}
+
+.single-event-header-container {
+    display: flex;
+    justify-content: left;
+    border: 1px solid black;
+    width: 100%;
+    flex-direction: column;
+}
+
+.single-event-mid-container {
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    /* width: 100%; */
+    flex-direction: row;
+}
+
+.single-event-mid-group-details-container {
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    /* width: 100%; */
+    flex-direction: row;
 }

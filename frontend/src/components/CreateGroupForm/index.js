@@ -128,7 +128,7 @@ function CreateGroupForm() {
 
             console.log("payload",payload);
 
-            try{
+            try {
                 const newGroup = await dispatch(createGroup(payload))
                 const newImg = {
                     id: newGroup.id,
@@ -144,8 +144,8 @@ function CreateGroupForm() {
 
             } catch(error) {
                 console.error('Error in handleSubmit:', error);
-            }   
-        }         
+            };   
+        };         
         
     };
 
