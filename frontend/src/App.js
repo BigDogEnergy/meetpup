@@ -14,18 +14,22 @@ import { getAllGroups } from "./store/groups";
 import Events from "./components/Events";
 import SingleEventCard from "./components/SingleEventCard";
 import CreateEventForm from "./components/CreateEventForm";
+import { getAllEvents } from "./store/events";
+import EditEventForm from "./components/EditEventForm";
 
 function App() {
   const dispatch = useDispatch();
   const groups = useSelector(state => state.groups)
   // console.log("App groups variable", groups);
-
+  // const eventsObj = useSelector(state => state.events.events)
+  // const events = Object.values(eventsObj)
   const [isLoaded, setIsLoaded] = useState(false);
 
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser())
     .then(dispatch(getAllGroups()))
+    .then(dispatch(getAllEvents()))
     .then(() => setIsLoaded(true));
   }, [dispatch]);
 
@@ -63,6 +67,10 @@ function App() {
 
           <Route exact path='/groups/:groupId'>
             <SingleCard />
+          </Route>
+
+          <Route path='/events/:eventId/edit'>
+            <EditEventForm />
           </Route>
 
           <Route path='/events/:eventId'>

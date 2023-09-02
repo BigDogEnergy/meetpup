@@ -4,7 +4,7 @@ import './EventDetails.css'
 
 function EventDetails({ event }) {
 
-    console.log('this is the threaded event', event)
+    // console.log('this is the threaded event in EventDetails', event)
 
     //date and time
     function splitDateTime(dateTimeString) {
