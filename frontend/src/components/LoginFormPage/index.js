@@ -5,6 +5,10 @@ import { Redirect, useHistory } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginFormPage() {
+
+    //Error Handling?
+
+
   const dispatch = useDispatch();
   const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
@@ -25,6 +29,15 @@ function LoginFormPage() {
 
   if (sessionUser) return <Redirect to="/" />;
 
+
+  // useEffect(() => {
+  //   if (credential.length < 4 || password.length < 6) {
+  //     setErrors('The provided credentials were invalid.')
+  //   } else {
+  //     setErrors('')
+  //   }
+  // }, [credential, password]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -36,49 +49,49 @@ function LoginFormPage() {
     );
   };
 
-  //Error Handling?
-
-  // useEffect(() => {
-  //   if (credential.length < 4 || password.length < 6) {
-  //     setErrors('The provided credentials were invalid.')
-  //   }
-  // }, [credential, password]);
-
   //Content
 
   return (
     <>
       <div className="login-container">
-        <div className="title-h1">Log In</div>
+        <div className="login-modal-title">Log In</div>
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper-user">
             <div className="error-msg"> {errors.credential && <p className="error-msg">{errors.credential}</p>} </div>
-            <label>
-              Username or Email
               <input
+                className='input-field'
                 type="text"
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
+                placeholder='Username or Email'
                 required
               />
-            </label>
           </div>
           <div className="input-wrapper-pass">
-            <label>
-              Password
               <input
+                className='input-field'
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder='Password'
                 required
               />
-            </label>
           </div>
+          
           <div className="login-button-div">
-            <button type="submit" disabled={errors.credential || credential.length < 4 || password.length < 6}>Log In</button>
+            <button 
+              className="login-button" 
+              type="submit" 
+              disabled={ credential.length < 4 || password.length < 6}>
+              Log In
+            </button>
           </div>
-          <div>
-            <button className="demo-user-div" type="submit" onClick={demoUserButton}>
+
+          <div className="login-button-div">
+            <button 
+              className="login-button" 
+              type="submit" 
+              onClick={demoUserButton}>
               Demo User
             </button>
           </div>

@@ -1,8 +1,3 @@
-img {
-    max-width: 250px; /* or any other value */
-    max-height: 250px; /* or any other value */
-}
-
 .single-event-container {
     display: flex;
     justify-content: center;

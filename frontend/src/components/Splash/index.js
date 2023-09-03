@@ -3,10 +3,16 @@ import { useSelector } from 'react-redux';
 import './Splash.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDog } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from "react-router-dom";
 
 function Splash() {
+
+    const history = useHistory()
     const User = useSelector(state => state.session.user);
+
+    const handleSignupRedirector = () => {
+        history.push('/signup');
+    }
 
     return (
 
@@ -17,7 +23,7 @@ function Splash() {
                     <div className="main-splash-topleft-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
                 </div>
                 <div className="main-splash-topright">
-                    <FontAwesomeIcon icon={faDog} size="2x" />
+                    <img className='svg' src='https://secure.meetupstatic.com/next/images/shared/online_events.svg?w=640'/>
                 </div>
             </div>
             
@@ -31,7 +37,7 @@ function Splash() {
             <div className="main-splash-nav-container">
 
                 <div className="main-splash-nav-1">
-                {/* <FontAwesomeIcon icon="fa-solid fa-hands-clapping" size="lg" /> */}
+                    <img src='https://secure.meetupstatic.com/next/images/shared/handsUp.svg?w=256' className="svg" />
                     <Link to='/groups' className="main-splash-nav-1-title">
                         See all groups
                     </Link>
@@ -41,6 +47,7 @@ function Splash() {
                 </div>
 
                 <div className="main-splash-nav-2">
+                    <img src='https://secure.meetupstatic.com/next/images/shared/ticket.svg?w=256' className="svg" />
                     <Link to='/events' className="main-splash-nav-2-title"> 
                         Find an event
                     </Link>
@@ -51,14 +58,15 @@ function Splash() {
 
                 {/* Conditionally loaded Link for Group*/}
                 <div className="main-splash-nav-3">
+                    <img src='https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256' className="svg" />
                     {User ? (
                                 <Link to="/groups/new" className="main-splash-nav-3-title">
                                     Start a new group
                                 </Link>
                             ) : (
-                                    <h3 className="main-splash-nav-3-title">
+                                    <div className="main-splash-nav-3-title-no-user">
                                         Start a new group
-                                    </h3>
+                                    </div>
                                 )}
                     <div className="main-splash-nav-3-text">
                         Lorem ipsum dolor sit amet.
@@ -69,7 +77,7 @@ function Splash() {
             {/* // Join MeetPup Button */}
             {!User && (
                 <div className="join-meetpup-container">
-                    <button className="join-meetpup-button">Join MeetPup</button>
+                    <button onClick={handleSignupRedirector} className="join-meetpup-button">Join MeetPup</button>
                 </div>
             )}
         </div>

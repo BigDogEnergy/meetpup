@@ -13,18 +13,24 @@
   padding-bottom: 10px;
 }
 
-.nav-bar-right-content {
+.nav-bar-right {
   display: flex;
   justify-content: space-between;
 }
 
 .nav-links-container {
-  display: flex; /* Display children in a row */
-  flex-direction: row; /* Horizontal alignment */
-  align-items: center; /* Align items vertically within the container */
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-between;
+  padding-top: 22px;
+  padding-right: 25px;
 }
 
-.login,
-.signup {
-  margin-right: 10px; /* Add spacing between the links if needed */
+.meetpup-logo {
+  height: 60px;
+}
+
+.meetpup-signup {
+  text-decoration: none;
+  color: black;
 }

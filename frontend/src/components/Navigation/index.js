@@ -19,12 +19,8 @@ function Navigation({ isLoaded }){
   } else {
     sessionLinks = (
         <div className="nav-links-container">
-            <div className="login">
                 <LoginFormModal />
-            </div>
-            <div className="signup">
-                <NavLink to="/signup">Sign Up</NavLink>
-            </div>
+                <NavLink className ='meetpup-signup'to="/signup">Sign Up</NavLink>
         </div>
     );
   }
@@ -33,7 +29,7 @@ function Navigation({ isLoaded }){
     <div className='nav-bar'>
         <div className='nav-bar-left'>
             <NavLink to="/">
-              <img src={logoImage} alt='MeetPup' />
+              <img className='meetpup-logo' src={logoImage} alt='MeetPup' />
             </NavLink>
         </div>
         <div className='nav-bar-right'>
