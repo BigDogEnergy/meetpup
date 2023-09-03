@@ -2,8 +2,38 @@
     display: none;
 }
 
+.profile-dropdown {
+  border: 2px solid black;
+  position: absolute;
+  top: 60px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 5px;
+  padding-top: 5px;
+  padding-bottom: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 10px lightgray;
+  font-size: small;
+  /* cursor: pointer; */
+}
+
+.user-email {
+  width: 99%;
+  border-bottom: 1px solid lightgray;
+}
+
 .start-a-new-group {
-  padding-right: 15px;
+  padding-right: 30px;
+  text-decoration: none;
+  color: black;
+}
+
+.fas {
+  color: rgb(252,91,94)
 }
 
 .nav-bar {
@@ -16,6 +46,36 @@
 .nav-bar-right {
   display: flex;
   justify-content: space-between;
+}
+
+.nav-bar-right-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drop-down-button .fas {
+  font-size: 2em;
+  padding-right: 6px;
+}
+.drop-down-button .arrow-icon {
+  font-size: 1.2em;
+}
+
+.drop-down-button .arrow-icon {
+  color: lightgray;
+  /* padding-left: 2px; */
+}
+
+.drop-down-logout {
+  cursor: pointer;
+}
+
+.drop-down-button {
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background-color: white;
 }
 
 .nav-links-container {

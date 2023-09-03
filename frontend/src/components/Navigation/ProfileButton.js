@@ -4,6 +4,7 @@ import * as sessionActions from '../../store/session';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom' 
+import { useHistory } from "react-router-dom";
 
 
 function ProfileButton({ user }) {
@@ -11,6 +12,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const history = useHistory();
 
   const openMenu = () => {
     if (showMenu) return;
@@ -34,6 +36,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    history.push('/')
   };
 
   //Profile is hidden by adding styling CSS
@@ -45,10 +48,10 @@ function ProfileButton({ user }) {
   return (
     <>
       <div className={"nav-bar-right-content"}>
-        <Link to='/groups/new' className={"start-a-new-group"}> 
+        <Link to='/groups/new' className="start-a-new-group"> 
           Start a new group 
         </Link>
-        <button onClick={openMenu}>
+        <button className='drop-down-button' onClick={openMenu}>
           <i className="fas fa-user-circle" />
           <FontAwesomeIcon icon={arrowIcon} className={`arrow-icon ${showMenu ? "arrow-down" : "arrow-up"}`} />
         </button>
@@ -56,11 +59,14 @@ function ProfileButton({ user }) {
       
 
       <div className={ulClassName} ref={ulRef}>
-        <div className={"user-data-container"}>
-          <div className={"user-greeting"}>Hello, {user.firstName}</div>
-          <div className={"user-email"}>{user.email}</div>
+        <div className="user-data-container">
+          <div className="user-greeting">Hello, {user.firstName}</div>
+          <div className="user-email">{user.email}</div>
         </div>
-          <button onClick={logout}>Log Out</button>
+
+        <div className='drop-down-logout' onClick={logout}>
+          Log Out
+        </div>
       </div>
     </>
   );
