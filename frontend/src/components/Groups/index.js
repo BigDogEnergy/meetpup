@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getAllGroups } from "../../store/groups"
 import './Groups.css';
 import GroupDetails from '../GroupCards'
 
 function Groups() {
-    let dispatch = useDispatch() 
+    const location = useLocation()
+    const dispatch = useDispatch() 
     const groupsObj = useSelector(state => state.group.groups)
+
+    const isAtGroups = location.pathname === "/groups";
+    const isAtEvents = location.pathname === "/events";
 
     let groups = [];
     if (groupsObj) {
@@ -40,13 +44,20 @@ function Groups() {
 
     return (groups && 
         <div className="groups-page">
-            <div className="groups-page-title-container">
-                <Link className='groups-page-toggle-1' to='/groups'>
-                    Groups
-                </Link>
-                <Link className='groups-page-toggle-2' to='/events'>
-                    Events
-                </Link>
+            <div className="groups-page-container">
+                <div className="groups-page-header">
+                    <Link 
+                        className={isAtGroups ? "groups-page-toggle-1" : "groups-page-toggle-2"} 
+                        to='/groups'>
+                            Groups
+                    </Link>
+                    <Link 
+                        className={isAtGroups ? 'groups-page-toggle-2' : 'groups-page-toggle-1'}
+                        to='/events'>
+                            Events
+                    </Link>
+                </div>
+
                 <div className='groups-page-view-text'>
                     Groups in MeetPup
                 </div>

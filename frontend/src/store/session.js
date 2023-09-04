@@ -54,9 +54,17 @@ export const signup = (user) => async (dispatch) => {
         password,
       }),
     });
-    const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data.user));
+      return response;
+    } else {
+        const data = await response.json();
+        console.log("response from signup error", data)
+    }
+
+
   };
 
 // Logout (delete) User thunk action

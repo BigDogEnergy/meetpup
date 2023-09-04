@@ -1,20 +1,18 @@
-.groups-page-title-container {
+.groups-page-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid black
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 .groups-page-grouplist {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
 }
-/* 
-.groups-card-container {
+
+.groups-page-header {
     display: flex;
-    flex-direction: column;
-    border: 1px solid black;
-} */
+}
 
 .group-card-img-container {
     width: 40%; /* Ensure the container spans the full width */
@@ -27,8 +25,30 @@
     height: 100%;
     object-fit: cover;
 }
-  
-img {
-    max-width: 500px; /* or any other value */
-    max-height: 500px; /* or any other value */
+
+.groups-page-toggle-1,
+.groups-page-toggle-2 {
+    text-align: flex-start;
+    text-decoration: none;
+    margin-right: 15px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: large;
+}
+
+.groups-page-toggle-1 {
+    text-decoration: underline;
+    color: rgb(1,130,148);
+
+}
+
+.groups-page-toggle-2 {
+    color: lightgray;
+}
+
+
+.groups-page-view-text {
+    font-size: small;
+    color: lightgray;
+    margin-bottom: 10px;
 }

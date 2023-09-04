@@ -1,10 +1,59 @@
-.group-card-container {
-    display: flex;
-    justify-content: center;
-    border: 1px solid black
+.group-card-link-container {
+    text-decoration: none;
+    color: black;
 }
 
-img {
-    max-width: 500px; /* or any other value */
-    max-height: 500px; /* or any other value */
+.group-card-container {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+}
+
+.group-card-container:hover {
+    box-shadow: 0px 0px 10px lightgray;
+}
+
+.group-card-img-container {
+    display: flex;
+    align-items: center;
+    height: 125px;
+    width: 165px;
+    justify-content: center;
+    padding-right: 20px;
+    overflow: hidden;
+}
+
+.group-card-img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.group-card-details {
+    width: 80%;
+}
+
+.group-card-details-name {
+    font-weight: bold;
+    display: flex;
+    height: 24px;
+}
+
+.group-card-details-location {
+    color: gray;
+    font-size: small;
+    margin-bottom:10px;
+}
+
+.group-card-details-about {
+    font-size: small;
+    padding-bottom: 5%;
+}
+
+.group-card-details-members {
+    color: gray;
+    font-size: small;
+    padding-top: 16px;
 }

@@ -64,9 +64,14 @@ function ProfileButton({ user }) {
           <div className="user-email">{user.email}</div>
         </div>
 
+        <Link to='/groups' className='drop-down-groups'>
+          View Groups
+        </Link>
+
         <div className='drop-down-logout' onClick={logout}>
           Log Out
         </div>
+
       </div>
     </>
   );

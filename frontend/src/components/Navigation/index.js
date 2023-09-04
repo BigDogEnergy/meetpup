@@ -5,6 +5,7 @@ import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import LoginFormModal from '../LoginFormModal';
 import logoImage from '../../photos/logo.jpeg'
+import SignupFormModal from '../SignupFormModal';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
@@ -20,7 +21,8 @@ function Navigation({ isLoaded }){
     sessionLinks = (
         <div className="nav-links-container">
                 <LoginFormModal />
-                <NavLink className ='meetpup-signup'to="/signup">Sign Up</NavLink>
+                {/* <NavLink className ='meetpup-signup'to="/signup">Sign Up</NavLink> */}
+                <SignupFormModal />
         </div>
     );
   }

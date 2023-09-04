@@ -24,7 +24,7 @@ module.exports = {
         endDate: "2023-10-01 07:00:00",
       },
       {
-        groupId: 2,
+        groupId: 1,
         venueId: 2,
         capacity: 2,
         price: 2,
@@ -35,7 +35,7 @@ module.exports = {
         endDate: "2023-09-01 07:00:00",
       },
       {
-        groupId: 3,
+        groupId: 1,
         venueId: 3,
         capacity: 3,
         price: 3,
@@ -46,7 +46,7 @@ module.exports = {
         endDate: "2023-10-01 07:00:00",
       },
       {
-        groupId: 4,
+        groupId: 1,
         venueId: 4,
         capacity: 4,
         price: 4,
@@ -57,7 +57,7 @@ module.exports = {
         endDate: "2023-11-01 07:00:00",
       },
       {
-        groupId: 5,
+        groupId: 1,
         venueId: 5,
         capacity: 5,
         price: 5,

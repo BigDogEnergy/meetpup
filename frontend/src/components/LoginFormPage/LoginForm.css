@@ -5,11 +5,16 @@
   justify-content: center;
 }
 
-.login-container button[type="submit"] {
+.login-button {
   width: 100%;
   padding: 10px;
-  box-shadow: 2px 2px 2px
+  box-shadow: 2px 2px 2px;
+  height: 40px;
+  cursor: pointer; 
+  color: grey;
+  margin-top: 15px;
 }
+
 
 .login-modal-title {
   padding-bottom: 15px;
@@ -32,13 +37,6 @@
   row-gap: 8px;
 }
 
-.login-button {
-  height: 40px;
-  cursor: pointer; 
-  color: grey;
-  margin-top: 15px;
-}
-
 .login-button:disabled {
   opacity: 0.5; 
   cursor: not-allowed;
@@ -57,4 +55,5 @@
 
 .error-msg {
   color: red;
+  font-size: small;
 }

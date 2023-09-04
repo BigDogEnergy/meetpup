@@ -42,10 +42,10 @@ function Events() {
         (events && 
             <div className="groups-page">
                 <div className="groups-page-title-container">
-                    <Link className='groups-page-toggle-1' to='/groups'>
+                    <Link className='groups-page-toggle-2' to='/groups'>
                         Groups
                     </Link>
-                    <Link className='groups-page-toggle-2' to='/events'>
+                    <Link className='groups-page-toggle-1' to='/events'>
                         Events
                     </Link>
                     <div className='groups-page-view-text'>

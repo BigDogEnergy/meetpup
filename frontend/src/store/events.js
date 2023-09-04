@@ -7,8 +7,17 @@ const REMOVE_EVENT = 'events/REMOVE'
 const EDIT_EVENT = 'events/EDIT'
 const LOAD_ONE_EVENT = 'events/LOAD_ONE'
 const ADD_IMAGE = 'events/ADD_IMAGE'
+// const LOAD_GROUP_EVENTS = 'events/LOAD_GROUP_EVENTS'
 
 //      Action Creators
+
+// const loadGroupEvents = groupId => {
+//     console.log('eventCount Action Creator', groupId);
+//     return {
+//         type: LOAD_GROUP_EVENTS,
+//         groupId
+//     }
+// }
 
 const loadEvents = events => {
     console.log('loadEvents Action Creator', events);
@@ -95,7 +104,17 @@ export const createEvent = (groupId, newEvent) => async dispatch => {
     }
 };
 
+// //GET COUNT OF EVENTS BY GROUP
+// export const getEventCount = (groupId) => async dispatch => {
+//     const response = await csrfFetch(`/api/groups/${groupId}/events`)
 
+//     if (response.ok) {
+//         const eventCount = await response.json();
+//         console.log(eventCount);
+//         dispatch(loadGroupEvents(eventCount.length));
+//         return eventCount.length
+//     };
+// };
 
 // POST IMAGE for EVENT
 export const newEventImage = (eventId, imageUrl) => async dispatch => {
@@ -177,6 +196,7 @@ export const eventReducer = (state = initialState, action) => {
     let newState = {};
     let events;
     let oneEvent;
+    let eventCount;
     switch (action.type) {
 
         case LOAD_EVENTS:
@@ -202,6 +222,11 @@ export const eventReducer = (state = initialState, action) => {
             newState.events = {...state.events, [action.event.id]: action.event };
             newState.oneEvent = { ...action.event }
             return newState;
+
+        // case LOAD_GROUP_EVENTS:
+        //     eventCount = {}
+        //     newState.eventCount = { action }
+
 
         default:
                 return state;

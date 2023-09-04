@@ -39,76 +39,109 @@ function SignupFormPage() {
             });
         }
         return setErrors({
-            confirmPassword: "Confirm Password field must be the same as the Password field"
+            confirmPassword: "Password fields must match"
         });
     };
 
     return (
         <>
             <div className="signup-form-container">
-                <h1>Sign Up</h1>
+                <div className="signup-form-title">Sign Up</div>
                 <form onSubmit={handleSubmit}>
+
+                {errors.email && 
+                    <div className="error-msg">
+                        {errors.email}
+                    </div>}
                     <label>
-                        Email
                         <input
+                            placeholder='Email'
+                            className='input-field'
                             type="text"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required
                             />
                     </label>
-                    {errors.email && <p>{errors.email}</p>}
+                    
+                {errors.username && 
+                    <div className="error-msg">
+                        {errors.username}
+                    </div>}
                     <label>
-                        Username
                         <input 
+                            placeholder='Username'
+                            className='input-field'
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            required
                         />
                     </label>
-                    {errors.username && <p>{errors.username}</p>}
+                    
+                    {errors.firstName && 
+                        <div className="error-msg">
+                            {errors.firstName}
+                        </div>}
                     <label>
-            First Name
-            <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-            />
-            </label>
-            {errors.firstName && <p>{errors.firstName}</p>}
-            <label>
-            Last Name
-            <input
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-            />
-            </label>
-            {errors.lastName && <p>{errors.lastName}</p>}
-            <label>
-            Password
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-            />
-            </label>
-            {errors.password && <p>{errors.password}</p>}
-            <label>
-            Confirm Password
-            <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-            />
-            </label>
-            {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-            <button type="submit">Sign Up</button>
+                    <input
+                        placeholder='First Name'
+                        className='input-field'
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        />
+                    </label>
+                    
+                    {errors.lastName && 
+                        <div className="error-msg">
+                            {errors.lastName}
+                        </div>}
+                    <label>
+                    <input
+                        placeholder='Last Name'
+                        type="text"
+                        className='input-field'
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                    </label>
+
+                    {errors.password && 
+                        <div className="error-msg">
+                            {errors.password}
+                        </div>}
+                    <label>
+                    <input
+                        type="password"
+                        placeholder='Password'
+                        className='input-field'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    </label>
+                    
+                    {errors.confirmPassword && 
+                        <div className='error-msg'>
+                            {errors.confirmPassword}
+                        </div>}
+                    <label>
+                    <input
+                        placeholder='Confirm Password'
+                        type="password"
+                        className='input-field'
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    </label>
+
+                    
+                    <div className='login-button-div'>
+                        <button 
+                            type="submit"
+                            className='login-button'
+                            disabled={ !email.length || username.length < 4 || !firstName.length || !lastName.length || password.length < 6 || confirmPassword.length < 6}>
+                                Sign Up
+                        </button>
+                    </div>
                 </form>
             </div>
         </>
