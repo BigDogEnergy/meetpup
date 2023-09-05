@@ -1,6 +1,6 @@
 # MeetPup
 
-MeetPup is an inspired clone of the site: Meet-UP.  This project is an effort to display the work for the utilization of React, Redux, Express, Sequelize, and PostgreSQL.
+MeetPup is an inspired clone of the site: Meet-UP.  This project is an effort to display the work for the utilization of React, Redux, Express, Sequelize, PostgreSQL, and Render.
 
 Live site: https://meetpup.onrender.com
 
