@@ -5,3 +5,6 @@
 
 ## Database
 [<img src="https://user-images.githubusercontent.com/105324675/190727354-8f322958-5b34-4c96-b052-358d06d0d9ef.svg" width="75" height="75">](https://www.postgresql.org) [<img src="https://user-images.githubusercontent.com/105324675/190739700-864f937c-4e43-48ea-9216-00edb49d301d.svg" width="75" height="75">](https://sequelize.org/)
+
+## Hosting
+![111](https://github.com/BigDogEnergy/meetpup/assets/111461423/ebe956f9-fe97-4cd8-b7c9-415beb50adf8)
