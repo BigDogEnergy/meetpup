@@ -156,7 +156,7 @@ function CreateGroupForm() {
 
                     <div className='create-group-header-container'>
                         <div className='create-group-header-title'>
-                            Become an Organizer
+                            Start a New Group
                         </div>
                         <div className='create-group-header-text'> 
                             We'll walk you through a few steps to build your local community 
@@ -165,10 +165,10 @@ function CreateGroupForm() {
 
                     <div className='create-group-location-container'>
                         <div className='create-group-location-title'>
-                            First set your group's location
+                           Set your group's location
                         </div>
                         <div className='create-group-location-text'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Meetup groups meet locally, in person, and online. We'll connect you with people in your area.
                         </div>
                         <input 
                             className='create-group-location-city-input'
@@ -176,7 +176,7 @@ function CreateGroupForm() {
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                             placeholder='Enter City'/>
-                        <div className='create-group-location-state-error'>
+                        <div className='error-msg'>
                             {!!renderErr && cityErr.length > 0 && cityErr}
                         </div>
                         <input 
@@ -185,7 +185,7 @@ function CreateGroupForm() {
                             value={state}
                             onChange={(e) => setState(e.target.value)}
                             placeholder='Enter State'/>
-                        <div className='create-group-location-state-error'>
+                        <div className='error-msg'>
                             {!!renderErr && stateErr.length > 0 && stateErr}
                         </div>
                     </div>
@@ -195,7 +195,7 @@ function CreateGroupForm() {
                             What will your group's name be?
                         </div>
                         <div className='create-group-name-text'>
-                            Choose a name that will give a clear idea of what the group is about. Feel free to get creative!
+                            Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.
                         </div>
                         <input 
                             className='create-group-name-input'
@@ -203,14 +203,14 @@ function CreateGroupForm() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder='What is your group name?'/>
-                        <div className='create-group-name-error'>
+                        <div className='error-msg'>
                             {!!renderErr && nameErr.length > 0 && nameErr}
                         </div>
                     </div>
 
                     <div className='create-group-about-container'>
                         <div className='create-group-about-title'>
-                            Now describe what your group will be about
+                            Describe the purpose of your group
                         </div>
                         <div className='create-group-about-text'>
                             People will see this when you promote your group.
@@ -228,15 +228,12 @@ function CreateGroupForm() {
                             value={about}
                             onChange={(e) => setAbout(e.target.value)} 
                             placeholder='Please write at least 50 characters'/>
-                        <div className='create-group-name-error'>
+                        <div className='error-msg'>
                             {!!renderErr && aboutErr.length > 0 && aboutErr}
                         </div>
                     </div>
 
                     <div className='create-group-steps-container'>
-                        <div className='create-group-steps-title'>
-                            Final Steps...
-                        </div>
                         <div className='create-group-steps-type-text'>
                             Is this an in person or online group?
                         </div>
@@ -253,7 +250,7 @@ function CreateGroupForm() {
                                 Online
                             </option>
                         </select>
-                        <div className='create-group-type-error'>
+                        <div className='error-msg'>
                             {!!renderErr && typeErr.length > 0 && typeErr}
                         </div>
 
@@ -273,7 +270,7 @@ function CreateGroupForm() {
                                 Public
                             </option>
                         </select>
-                        <div className='create-group-type-error'>
+                        <div className='error-msg'>
                             {!!renderErr && privacyErr.length > 0 && privacyErr}
                         </div>
 
@@ -286,7 +283,7 @@ function CreateGroupForm() {
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                             placeholder='Please add image URL'/>
-                        <div className='create-group-add-image-error'>
+                        <div className='error-msg'>
                             {!!renderErr && urlErr.length > 0 && urlErr}
                         </div>
                     </div>

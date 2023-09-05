@@ -82,7 +82,7 @@ function CreateEventForm() {
 
         //end-time error handler
         if (!endTime) {
-            setEndDateErr('An end time is required')
+            setEndTimeErr('An end time is required')
         } else {
             setEndTimeErr('')
         }
@@ -200,13 +200,14 @@ function CreateEventForm() {
 
             const formattedStartDate = formatDateTime(startDate, startTime);
             const formattedEndDate = formatDateTime(endDate, endTime);    
+            // const formattedPrice = (parseFloat(price))
 
             const payload = {
                 venueId: 1,  // FUTURE FEATURE UPDATE
                 name: name,
                 type: type,
                 capacity: 10,  // FUTURE FEATURE UPDATE
-                price: parseFloat(price),
+                price: price,
                 description: about,
                 startDate: formattedStartDate,
                 endDate: formattedEndDate
@@ -214,17 +215,21 @@ function CreateEventForm() {
 
             console.log("this is the payload", payload)
 
-            const newEvent = dispatch(createEvent(groupId, payload))
+            const newEvent = await dispatch(createEvent(groupId, payload))
             
+            console.log(newEvent, "This is the new event we are receiving back")
+
             const newPic = {
                 url: url,
                 preview: true
             };
 
             if (newPic.url.length > 0 ) {
+                // console.log("!!!!!!!!!!!!!", newPic)
+                // console.log("newEvent.id", newEvent.id)
                 dispatch(newEventImage(newEvent.id, newPic.url))
             }
-            history.push(`/group/events/${newEvent.id}`)
+            history.push(`/events/${newEvent.id}`)
 
         }
     }
@@ -246,7 +251,7 @@ function CreateEventForm() {
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Event Name"
                             />
-                        <div className="create-event-name-input-errors">
+                        <div className="error-msg">
                             {!!renderErr && nameErr.length > 0 && nameErr}
                         </div>
                     </div>
@@ -268,7 +273,7 @@ function CreateEventForm() {
                                 Online
                             </option>
                         </select>
-                        <div className='create-event-type-error'>
+                        <div className="error-msg">
                             {!!renderErr && typeErr.length > 0 && typeErr}
                         </div>
 
@@ -288,7 +293,7 @@ function CreateEventForm() {
                                 Public
                             </option>
                         </select>
-                        <div className='create-event-type-error'>
+                        <div className="error-msg">
                             {!!renderErr && privacyErr.length > 0 && privacyErr}
                         </div>
                         <div className="create-event-price-input-text">
@@ -300,10 +305,10 @@ function CreateEventForm() {
                             min='0'
                             step="1"
                             onChange={(e) => setPrice(e.target.value)}
-                            placeholder="$ How much will the event cost?"
+                            placeholder="0"
                             />
 
-                        <div className='create-event-type-error'>
+                        <div className="error-msg">
                             {!!renderErr && priceErr.length > 0 && priceErr}
                         </div>
                     </div>
@@ -313,20 +318,27 @@ function CreateEventForm() {
                             When does your event start?
                         </div>
                         <input type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
-                        {!!renderErr && startDateErr.length > 0 && startDateErr}
-                        <input type='time' value={startTime} onChange={(e) => setStartTime(e.target.value)}/>
-                        {!!renderErr && startTimeErr}
-
-                        <div className='create-event-type-error'>
+                        <div className="error-msg">
+                            {!!renderErr && startDateErr.length > 0 && startDateErr}
                         </div>
+
+                        <input type='time' value={startTime} onChange={(e) => setStartTime(e.target.value)}/>
+                        <div className="error-msg">
+                            {!!renderErr && startTimeErr}
+                        </div>
+
 
                         <div>
                             When does your event end?
                         </div>
                         <input type='date' value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
-                        <input type='time' value={endTime} onChange={(e) => setEndTime(e.target.value)}/>
-                        <div className='create-event-type-error'>
+                        <div className="error-msg">
                             {!!renderErr && endDateErr.length > 0 && endDateErr}
+                        </div>
+
+                        <input type='time' value={endTime} onChange={(e) => setEndTime(e.target.value)}/>
+                        <div className="error-msg">
+                            {!!renderErr && endTimeErr}
                         </div>
                     </div>
 
@@ -339,16 +351,13 @@ function CreateEventForm() {
                             type='text'
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
-                            placeholder='Please add image URL'/>
-                        <div className='create-event-add-image-error'>
+                            placeholder='Image URL'/>
+                        <div className="error-msg">
                             {!!renderErr && urlErr.length > 0 && urlErr}
                         </div>
                     </div>
 
                     <div className='create-event-about-container'>
-                        <div className='create-event-about-title'>
-                            Now describe what your event will be about
-                        </div>
                         <div className='create-event-about-text'>
                             Describe your event:            
                         </div>
@@ -359,11 +368,11 @@ function CreateEventForm() {
                             minLength={50}
                             value={about}
                             onChange={(e) => setAbout(e.target.value)} 
-                            placeholder='Please write at least 50 characters'
+                            placeholder='Please include at least 50 characters'
                             />
-                        <div className='create-event-name-error'>
-                            {!!renderErr && aboutErr.length > 0 && aboutErr}
-                        </div>
+                            <div className="error-msg">
+                                {!!renderErr && aboutErr.length > 0 && aboutErr}
+                            </div>
                     </div>
 
                     <div className='create-event-submit-button-container'>

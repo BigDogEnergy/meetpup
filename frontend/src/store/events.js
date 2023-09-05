@@ -59,11 +59,11 @@ const loadOneEvent = event => {
     };
 };
 
-const addImage = image => {
-    console.log('addImage Action Creator', image);
+const addImage = (eventId, image) => {
+    console.log('addImage Action Creator', image, eventId);
     return {
         type: ADD_IMAGE,
-        image
+        image, eventId
     };
 }
 
@@ -84,10 +84,15 @@ export const getAllEvents = () => async dispatch => {
 // POST EVENT
 export const createEvent = (groupId, newEvent) => async dispatch => {
     try {
+
+        // console.log("This is the passed in created event",newEvent)
+        // console.log("this is the passed in groupId", groupId)
+
         const response = await csrfFetch(`/api/groups/${groupId}/events`, {
             method: 'POST',
             body: JSON.stringify(newEvent)
         });
+
 
         if (!response.ok) {
             const data = await response.json();
@@ -120,12 +125,16 @@ export const createEvent = (groupId, newEvent) => async dispatch => {
 export const newEventImage = (eventId, imageUrl) => async dispatch => {
     const response = await csrfFetch(`/api/events/${eventId}/images`, {
         method: 'POST',
-        body: JSON.stringify(imageUrl)
+        body: JSON.stringify({
+            url:imageUrl,
+            preview: true
+        })
     });
 
     if (response.ok) {
         const newEventImage = await response.json();
-        dispatch(addImage(eventId))
+        console.log('newEventImage in thunk', newEventImage)
+        dispatch(addImage(eventId, newEventImage))
         return newEventImage
     };
 };
@@ -211,7 +220,12 @@ export const eventReducer = (state = initialState, action) => {
             }
             return newState;
 
-        // case ADD_IMAGE:
+        case ADD_IMAGE:
+            newState = {...state};
+            if (newState.oneEvent.id === action.eventId) {
+                newState.oneEvent.eventImages[0] = {...action.image}
+            }
+            return newState;
 
         case EDIT_EVENT:
             newState = { ...state, [action.event.id]: action.event}

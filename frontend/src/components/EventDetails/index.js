@@ -9,7 +9,7 @@ function EventDetails({ event }) {
 
     const dispatch = useDispatch();
 
-    console.log('eventDetails event', event)
+    // console.log('eventDetails event', event)
 
     //date and time
     function splitDateTime(dateTimeString) {

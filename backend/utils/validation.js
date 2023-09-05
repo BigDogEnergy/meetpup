@@ -51,7 +51,6 @@ check('capacity')
 check('price')
   .exists({checkFalsy: true})
   .notEmpty()
-  .isNumeric()
   .withMessage("Price is invalid"),
 
 check('description')

@@ -125,7 +125,7 @@ export const getGroupDetails = groupId => async dispatch => {
         if (response.ok) {
             const group = await response.json();
             dispatch(loadOneGroup(group));
-            console.log('loadOneGroup THUNK success', group);
+            // console.log('loadOneGroup THUNK success', group);
             return group;
         }
     } catch(error) {

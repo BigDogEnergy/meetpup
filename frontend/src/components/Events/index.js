@@ -21,11 +21,13 @@ function Events() {
 
     let eventDisplay;
     const futureEvents = events.filter(event => event.startDate >= new Date().toISOString());
-    console.log('this is future events', futureEvents) 
+    const pastEvents = events.filter(event => event.startDate < new Date().toISOString());
+
+    // console.log('this is future events', futureEvents) 
     if (futureEvents.length > 0) {
         eventDisplay = (
             futureEvents.map(event => (
-                console.log("!!!!!!!!!!!!!!",event),
+                // console.log("!!!!!!!!!!!!!!",event),
                 <EventDetails key={event.id} event={event} />
             ))
         )
@@ -40,6 +42,22 @@ function Events() {
 
     }
 
+    let pastEventDisplay;
+    if (pastEvents.length > 0) {
+        pastEventDisplay = (
+            pastEvents.map(event => (
+                <EventDetails key={event.id} event={event} />
+            ))
+    );
+    } else {
+        pastEventDisplay = (
+            <div className="no-past-events-container">
+                <div className="no-past-events-text"> There are no past events to display! </div>
+            </div>
+        );
+    }
+
+
 
     return (
         (events && 
@@ -52,10 +70,16 @@ function Events() {
                         Events
                     </Link>
                     <div className='groups-page-view-text'>
-                        Events in MeetPup
+                        Upcoming Events in MeetPup
                     </div>
                     <div className='groups-page-grouplist'>
                         {eventDisplay}
+                    </div>
+                    <div className='groups-page-view-text'>
+                        Past Events
+                    </div>
+                    <div className="groups-page-grouplist">
+                        {pastEventDisplay}
                     </div>
                 </div>
             </div>

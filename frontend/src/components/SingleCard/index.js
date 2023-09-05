@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { deleteGroup, getGroupDetails } from '../../store/groups'
@@ -63,9 +62,6 @@ function SingleCard() {
     const uniquePastEvents = getUniquePastEvents(filteredEventsArr);
     const uniquePastEventsCount = uniquePastEvents.length;
 
-    
-    console.log(uniquePastEvents, " Past unique !!!!!!!!!!!!!!!!!!!")
-    console.log(uniqueEvents, "Future unique ????????????????")
     //use effect
     useEffect(() => {
         dispatch(getGroupDetails(groupId)).then(() => setGroupLoading(false));
@@ -173,7 +169,7 @@ function SingleCard() {
                                 {group.city}, {group.state}
                             </div>
                             <div className='single-card-top-privacy-status'>
-                            {uniqueEvents.length} events &middot;  {group.private ? 'Private' : 'Public'}
+                                {uniqueEvents.length} events &middot;  {group.private ? 'Private' : 'Public'}
                             </div>
                             <div className='single-card-top-organizer-fullname'>
                                 Organized by: {group.Organizer?.firstName} {group.Organizer?.lastName}

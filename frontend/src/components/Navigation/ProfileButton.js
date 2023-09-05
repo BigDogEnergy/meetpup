@@ -68,6 +68,10 @@ function ProfileButton({ user }) {
           View Groups
         </Link>
 
+        <Link to='/events' className="drop-down-groups">
+          View Events
+        </Link>
+
         <div className='drop-down-logout' onClick={logout}>
           Log Out
         </div>

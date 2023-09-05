@@ -6,10 +6,9 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import './SingleEventCard.css'
 
 function SingleEventCard ({ event }) {
-    // const { eventId } = useParams();
+
     const dispatch = useDispatch();
     const history = useHistory();
-
 
     //state-related
     const User = useSelector ( state => state.session.user)
@@ -19,12 +18,6 @@ function SingleEventCard ({ event }) {
     useEffect(() => {
         dispatch(singleEventData(event?.id))
     }, [dispatch])
-    
-    // useEffect(() => {
-    //     if (event.Group) {
-    //         dispatch(getGroupDetails(event.Group.id))
-    //     }
-    // }, [event])
 
     //date and time helper functions
     function splitDateTime(dateTimeString) {
@@ -59,16 +52,9 @@ function SingleEventCard ({ event }) {
     let date = '', time = '', endDate = '', endTime = '', formattedTime = '', formattedEndTime = '';
 
     if (event?.startDate && event?.endDate) {
-        // console.log("Original event.startDate:", event.startDate);
-        // console.log("Original event.endDate:", event.endDate);
         
         ({ date, time } = splitDateTime(event?.startDate));
-        // console.log("About to call splitDateTime with event.endDate:", event.endDate);
         ({ endDate, endTime } = splitEndTime(event?.endDate));
-        
-        // console.log("Extracted date:", date);
-        // console.log("Extracted endDate:", endDate);
-        // console.log('extracted endTime:', endTime)
         
         if (time) {
             formattedTime = convertToAMPM(time);
@@ -79,65 +65,42 @@ function SingleEventCard ({ event }) {
         } 
     }
 
-    // //onClick
-    // const handleDelete = async (e) => {
-    //     e.preventDefault();
-    //     console.log('eventId', eventId)
-    //     await dispatch(deleteEvent(eventId)).then(history.push('/events'));
-    // };
-
-    // //buttons
-    // let buttons;
-    // if (User && User.id === group.organizerId) {
-    //     buttons = (
-    //         <div className='single-card-event-crud-buttons'>
-    //             <button className='single-card-crud-delete-event' onClick={handleDelete}>Delete</button>
-    //         </div>
-    //     )
-    // } else {
-    //     buttons = (null)
-    // }
-    
-
     return (event && event.eventImages &&
         <>
-            
-            <div className="single-event-container">
-                <div className="single-event-header-container">
-                {/* <Link className='single-event-link' to='/events'> Events </Link> */}
-                    <h1 className="single-event-header-title">
-                        {event.name}
-                    </h1>
-                    {/* <div className="single-event-header-host">
-                        Hosted by: {group.Organizer?.firstName} {group.Organizer?.lastName}
-                    </div> */}
-                </div>
-            
-
-                <div className="single-event-mid-container">
-                    <img className="single-event-mid-image" src={event.eventImages[0]?.url} alt={"an event image"}/>
-                        <div className="single-event-mid-details-container">
-                            <div className="single-event-mid-start-date">
-                                {date} {formattedTime}
-                            </div>
-                            <div className="single-event-mid-end-date">
-                                {endDate} {formattedEndTime}
-                            </div>
-                            <div className="single-event-mid-price">
-                                price: {event.price}
-                            </div>
-                            <div className="single-event-mid-type">
-                                {event.type}
-                            </div>
-                            </div>
-                        </div>
-                    <div className='single-event-details-container'>
-    
-                    <div className="single-event-details-content">
-                        {event.description}
+            <Link className='link-to-event' to={`/events/${event.id}`}>
+                <div className="single-event-container">
+                    <div className="single-event-header-container">
+                        <h1 className="single-event-header-title">
+                            {event.name}
+                        </h1>
                     </div>
-                </div>
-            </div> 
+                
+
+                    <div className="single-event-mid-container">
+                        <img className="single-event-mid-image" src={event.eventImages[0]?.url} alt={"an event image"}/>
+                            <div className="single-event-mid-details-container">
+                                <div className="single-event-mid-start-date">
+                                    {date} &middot; {formattedTime}
+                                </div>
+                                <div className="single-event-mid-end-date">
+                                    {endDate} &middot; {formattedEndTime}
+                                </div>
+                                <div className="single-event-mid-price">
+                                   ${event.price === 0 || event.price === "0" ? "FREE" : event.price}
+                                </div>
+                                <div className="single-event-mid-type">
+                                    {event.Venue.city} {event.Venue.state}
+                                </div>
+                                </div>
+                            </div>
+                        
+                            <div className='single-event-details-container'>
+                                <div className="single-event-details-content">
+                                    {event.description}
+                                </div>
+                            </div>
+                </div> 
+            </Link>
 
         </>
     )

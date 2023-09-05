@@ -10,28 +10,46 @@ function EditGroupForm({ groups }) {
     const history = useHistory();
     const { groupId } = useParams();
 
+    //state variables
+    const group = useSelector(state => state.group.oneGroup);
+    const User = useSelector(state => state.session.user);
+    
+    console.log("group",group)
+    console.log('User', User)
+
+    if (!User || User.id !== group.organizerId) {
+        history.push('/')
+    };
 
     //useEffect #1
     useEffect(() => {
         dispatch(getGroupDetails(groupId))
     }, [])
 
-    //state variables
-    const group = useSelector(state => state.group.oneGroup);
-    console.log("edit group", group)
-    const User = useSelector(state => state.session.user);
-    if (!User) {
-        history.push('/')
-    };
+    useEffect(() => {
+        if (group) {
+            setName(group.name);
+            setAbout(group.about);
+            setType(group.type);
+            setPrivacy(group.private);
+            setCity(group.city);
+            setState(group.state);
+            if (group.GroupImages && group.GroupImages[0]) {
+                setUrl(group.GroupImages[0].url);
+            }
+            setIsLoaded(true);
+        }
+    }, [group]);    
+
 
     //field selector states
-    const [ name, setName ] = useState(group?.name);
-    const [ about, setAbout ] = useState(group?.about);
+    const [ name, setName ] = useState('');
+    const [ about, setAbout ] = useState('');
     const [ type, setType ] = useState('');
     const [ privacy, setPrivacy ] = useState('');
-    const [ city, setCity ] = useState(group?.city);
-    const [ state, setState ] = useState(group?.state);
-    const [ url, setUrl ] = useState(group?.GroupImages[0]?.url);
+    const [ city, setCity ] = useState('');
+    const [ state, setState ] = useState('');
+    const [ url, setUrl ] = useState('');
     const [ isLoaded, setIsLoaded ] = useState(false)
 
     //field error states
@@ -44,7 +62,6 @@ function EditGroupForm({ groups }) {
     const [ urlErr, setUrlErr ] = useState('')
     const [ renderErr, setRenderErr ] = useState('');
     const [ fieldErrors, setFieldErrors ] = useState('');
-    
 
     //use-effect #2
     useEffect (() => {
@@ -77,14 +94,14 @@ function EditGroupForm({ groups }) {
         };
 
         //type
-        if (!type.length) {
+        if (!type?.length) {
             setTypeErr('Group Type is required')
         } else {
             setTypeErr('')
         };
 
         //private
-        if (!privacy.length) {
+        if (privacy !== true && privacy !== false) {
             setPrivacyErr('Visibility Type is required')
         } else {
             setPrivacyErr('')
@@ -135,16 +152,6 @@ function EditGroupForm({ groups }) {
 
             try{
                 const updatedGroup = await dispatch(updateGroup(payload, groupId))
-                // const newImg = {
-                //     id: updatedGroup.id,
-                //     url: url,
-                //     preview: true
-                // };
-
-                // if (url.length > 0) {
-                //     const response = dispatch(addGroupImage(updatedGroup.id, newImg))
-                // };
-
                 history.push(`/groups/${updatedGroup.id}`)
 
             } catch(error) {
@@ -180,7 +187,7 @@ function EditGroupForm({ groups }) {
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                             placeholder='Enter City'/>
-                        <div className='create-group-location-state-error'>
+                        <div className='error-msg'>
                             {!!renderErr && cityErr.length > 0 && cityErr}
                         </div>
                         <input 
@@ -189,7 +196,7 @@ function EditGroupForm({ groups }) {
                             value={state}
                             onChange={(e) => setState(e.target.value)}
                             placeholder='Enter State'/>
-                        <div className='create-group-location-state-error'>
+                        <div className='error-msg'>
                             {!!renderErr && stateErr.length > 0 && stateErr}
                         </div>
                     </div>
@@ -207,7 +214,7 @@ function EditGroupForm({ groups }) {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder='What is your group name?'/>
-                        <div className='create-group-name-error'>
+                        <div className='error-msg'>
                             {!!renderErr && nameErr.length > 0 && nameErr}
                         </div>
                     </div>
@@ -232,7 +239,7 @@ function EditGroupForm({ groups }) {
                             value={about}
                             onChange={(e) => setAbout(e.target.value)} 
                             placeholder='Please write at least 50 characters'/>
-                        <div className='create-group-name-error'>
+                        <div className='error-msg'>
                             {!!renderErr && aboutErr.length > 0 && aboutErr}
                         </div>
                     </div>
@@ -257,7 +264,7 @@ function EditGroupForm({ groups }) {
                                 Online
                             </option>
                         </select>
-                        <div className='create-group-type-error'>
+                        <div className='error-msg'>
                             {!!renderErr && typeErr.length > 0 && typeErr}
                         </div>
 
@@ -268,7 +275,7 @@ function EditGroupForm({ groups }) {
                             className='create-group-privacy-input'
                             type='text'
                             value={privacy}
-                            onChange={(e) => setPrivacy(e.target.value)}>     
+                            onChange={(e) => setPrivacy(e.target.value === 'true' ? true : false)}>     
                             <option></option>                       
                             <option value={'true'}>
                                 Private
@@ -277,8 +284,8 @@ function EditGroupForm({ groups }) {
                                 Public
                             </option>
                         </select>
-                        <div className='create-group-type-error'>
-                            {!!renderErr && privacyErr.length > 0 && privacyErr}
+                        <div className='error-msg'>
+                            {!!renderErr && privacyErr}
                         </div>
 
                         <div className='create-group-add-image-text'>
@@ -290,7 +297,7 @@ function EditGroupForm({ groups }) {
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                             placeholder='Please add image URL'/>
-                        <div className='create-group-add-image-error'>
+                        <div className='error-msg'>
                             {!!renderErr && urlErr.length > 0 && urlErr}
                         </div>
                     </div>
