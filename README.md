@@ -2075,3 +2075,302 @@ Return events filtered by query parameters.
       }
     }
     ```
+# Functional Features in Frontend
+
+## Groups
+
+### Create a Group
+![20626049-9406-4EA8-A3EA-4916E2E60F55](https://github.com/BigDogEnergy/meetpup/assets/111461423/0173c78c-958f-46c8-8c22-4443a6e0d194)
+
+### Read all Groups
+![AC93CEBB-D9C7-4AFA-822F-29A062F91A4C](https://github.com/BigDogEnergy/meetpup/assets/111461423/6eebadc6-9c23-4edf-b2ce-b9155a76621b)
+
+### Update a Group
+![520D74C3-C28E-4B4B-B861-FC0CDC0ABEE0](https://github.com/BigDogEnergy/meetpup/assets/111461423/38026b85-d434-42d3-ba50-a49e58173184)
+
+### Delete a Group
+
+## Events
+
+### Create an Event
+![7E8024DA-FD89-4440-997A-1FBBDBFC3D44](https://github.com/BigDogEnergy/meetpup/assets/111461423/875eed97-5895-4f09-b20b-acb37b5221b1)
+
+### Read all Events
+![086BDF11-F954-4327-93E5-B14351DF1317](https://github.com/BigDogEnergy/meetpup/assets/111461423/fd82c28d-aaec-4f71-8f2e-d54ffb904523)
+
+### Delete an Event
+![C21EF62A-A809-4561-AD44-2DAFAC21F0A1](https://github.com/BigDogEnergy/meetpup/assets/111461423/da7a96b3-747f-4bb8-8a36-a7d019abb930)
+
+# React Components List
+
+## Splash
+Our landing Page
+<img width="1512" alt="DD734BE8-9C2C-4D9D-BFB5-8CE53AEC8A7D" src="https://github.com/BigDogEnergy/meetpup/assets/111461423/3f148a3d-5c15-48b5-bd21-04af616f4ab8">
+
+##Navigation
+Our Navigation component is hosted at the top of ever page to allow for easy site maneuverability
+
+## SignUp form Modal
+Upon attempting to Sign Up for MeetPup, the SignUp form Modal opens and displays our Sign Up Form Page
+
+## SignUp form Page
+Creates a new User to navigate site.
+
+## Login form Modal
+If a new user already has a log-in, they may browse their groups and events via the Login Form Modal
+
+## Login Form Page
+the login modal hosts the Login Form Page for all users
+
+## Create Group Form
+From our landing page, Users may create a group via this form component
+
+## Groups
+Groups component allows us to view all Groups, which loads our Single Card component
+
+## Single Card
+Creates an individual card for each group within our database
+
+## GroupCards
+Upon clicking any card, user is redirected to our Group Cards component which hosts group details  our group can be updated here via the Edit Group Form component and deleted.
+
+## Update Group Form
+
+## Confirmation Modal
+upon attempt to delete a group, a modal component was created to verify desire to delete a group.
+
+## Single Event Card
+Within our group details component, we host our Single Event Card which redirects to our Single Event Detail component for each of our upcoming and past events for each group
+
+##Single Event Detail
+Hosts our detailed Event component which allows us to read single events and methods for deleting.  Upon completion of the update Event component, it will also be available through Single Event Detail
+
+## Events
+Events component allows us to view all Events, both upcoming at the top and past events at the bottom
+
+# FrontEnd Routes
+Below is our Front End paths 
+
+ <>
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && (
+        <Switch>
+
+          <Route exact path='/groups/new'>
+            <CreateGroupForm />
+          </Route>
+
+          <Route exact path='/groups/:groupId/events/new'>
+            <CreateEventForm />
+          </Route>
+
+          <Route path="/login">
+            <LoginFormPage />
+          </Route>
+          
+          <Route path="/signup">
+            <SignupFormPage />
+          </Route>
+          
+          <Route exact path="/">
+            <Splash />
+          </Route>
+
+          <Route path='/groups/:groupId/edit'>
+            <EditGroupForm groups={groups}/>
+          </Route>
+
+          <Route exact path='/groups/:groupId'>
+            <SingleCard />
+          </Route>
+
+          <Route path='/events/:eventId/edit'>
+            <EditEventForm />
+          </Route>
+
+          <Route exact path='/events/:eventId'>
+            <SingleEventDetail />
+          </Route>
+
+          <Route exact path='/groups'>
+            <Groups />
+          </Route>
+
+          <Route path='/events'>
+            <Events />
+          </Route>
+        
+        </Switch>
+      )}
+# Redux Store Tree
+
+export const rootReducer = combineReducers({
+  session: sessionReducer,
+  group: groupReducer,
+  events: eventReducer
+});
+
+
+# Future Features
+We will soon implement Memberships, Attendance, Venues full CRUDS and Update CRUD for our Events component
+
+# Technical Details
+A few of the greatest challenges faced during this project composition includes conditional loading, proper utilization and construction of state, and breaking down each step within project construction.  I would frequently find I had tangentially moved to another component or task while coding this project
+
+Another challenge and accomplished feat involved solving how to best format our Date and Time information to meet the requirements within each component.  These were the helper functions composed to complete this task:
+
+```
+ //date and time helper functions
+    function splitDateTime(dateTimeString) {
+        const [date, fullTime] = dateTimeString.split('T');
+        const time = fullTime ? fullTime.split('.')[0] : '';
+        return { date, time } ;
+    }
+    
+    function splitEndTime(dateTimeString) {
+        const [endDate, fullTime] = dateTimeString.split('T');
+        const endTime = fullTime ? fullTime.split('.')[0] : '';
+        return { endDate, endTime } ;
+    }
+
+    function convertToAMPM(timeString) {
+        if (!timeString) return '';
+        const [hour, minute] = timeString.split(':');
+        let amOrPm = 'AM';
+        let adjustedHour = parseInt(hour, 10);
+    
+        if (adjustedHour >= 12) {
+            amOrPm = 'PM';
+            if (adjustedHour > 12) {
+                adjustedHour -= 12;
+            }
+        }
+        
+        return `${adjustedHour}:${minute} ${amOrPm}`;
+    }
+```
+
+A section of code I wish to revise in the future for efficiency includes my Group Detail component which also hosts all upcoming events and past events.  Rewriting my store to hold this information in state without having to make multiple calls to the backend would drastically increase the functioning speed of my application:
+
+```
+
+{showModal && (
+            <Modal onClose={() => setShowModal(false)}>
+                {modalContent === 'joinGroup' && (
+                    <div className='feature-coming-soon'>
+                        <div>Feature coming soon...</div>
+                    </div>
+                )}
+
+                {modalContent === 'deleteConfirmation' && (
+                    <div className="confirm-modal-content">
+                        <div className="confirm-modal-title">
+                            Confirm Delete
+                        </div>
+                        <div className="confirm-modal-text">
+                            Are you sure you want to delete this group?
+                        </div>
+                        <div className="confirm-modal-option-1">
+                            <button className='single-card-crud-event-red' onClick={handleConfirmDelete}>Confirm (Delete Group)</button>
+                        </div>
+                        <div className="confirm-modal-option-2">
+                            <button className='single-card-crud-event' onClick={() => setShowModal(false)}>Cancel (Keep Group)</button>
+                        </div>
+
+                    </div>
+                )}
+            </Modal>
+        )}
+
+        {( loading || groupLoading) ? (
+            <div className="loading-container">
+                Loading...
+            </div>
+        ) : (
+            <div className="single-eventDetail-container">
+                <div className="event-header-container">
+                    <div className='redirect-to-allCards'> 
+                        <div className='single-link-arrow'>&lt;</div>
+                        <Link className='single-event-link' to='/groups'>Groups </Link> 
+                    </div>
+                </div>
+                <div className='single-card-container'>
+                    <div className='single-card-top'>
+                        <img className='single-card-image' src={preview} alt="No Image"/>
+                        <div className='single-card-top-info'>
+                            <div className='single-card-top-name'>
+                                {group.name}
+                            </div>
+                            <div className='single-card-top-location'>
+                                {group.city}, {group.state}
+                            </div>
+                            <div className='single-card-top-privacy-status'>
+                                {uniqueEvents.length} events &middot;  {group.private ? 'Private' : 'Public'}
+                            </div>
+                            <div className='single-card-top-organizer-fullname'>
+                                Organized by: {group.Organizer?.firstName} {group.Organizer?.lastName}
+                            </div>
+                            <div className='single-card-top-buttons'>
+                                {buttons}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='single-event-body-container'>
+                        <div className='single-group-body-container'>
+                            <div className='single-card-bottom-top-container'>
+                                <div className='single-card-top-name'>Organizer</div>
+                                <div className='single-card-top-location'> {group.Organizer?.firstName} </div>
+                            </div>
+                            <div className='single-card-bottom-mid-container'>
+                                <div className='single-card-top-name'>What we're about</div>
+                                <div className='single-card-about'>{group.about}</div>
+                            </div>
+
+                            <div className='single-card-events-container'> 
+                                <div className='single-card-top-name'> 
+                                    Upcoming Events({futureEventsCount})
+                                </div>
+                                
+                                {loading ? (
+                                    <div className='loading-notification'>Loading events...</div>
+                                ): uniqueEvents.length === 0 ? (
+                                    <div className='no-upcoming-events-text'>No upcoming events</div>
+                                ) : (
+                                    uniqueEvents.map(event => (
+                                        <SingleEventCard key={event.id} event={event} />
+                                    ))
+                                )}
+                            </div>
+
+                            <div className='single-card-events-container'>
+                                <div className='single-card-top-name'>
+                                    Past Events({uniquePastEventsCount})
+                                </div>
+                                <div>
+                                {loading ? (
+                                    <div className='loading-notification'>Loading events...</div>
+                                ): uniquePastEvents.length === 0 ? (
+                                    <div className='no-upcoming-events-text'>No upcoming events</div>
+                                ) : (
+                                    uniquePastEvents.map(event => (
+                                        <SingleEventCard key={event.id} event={event} />
+                                    ))
+                                )}
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            
+            </div>)}
+
+```
+
+# Contact
+
+Chris Gomez: Andre89Gomez@gmail.com
+
+
+
