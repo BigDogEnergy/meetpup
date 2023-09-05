@@ -4,30 +4,24 @@
     border: 1px solid black
 }
 
-.create-event-form-header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-bottom: 4px solid grey;
+.create-event-form-title-text {
+    font-size: small;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .create-event-mid-1 {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 4px solid grey;
-}
-
-.create-event-mid-2 {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-bottom: 4px solid grey;
+    border-bottom: 2px solid grey;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .create-event-image-input {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 4px solid grey;
+    border-bottom: 2px solid grey;
 }

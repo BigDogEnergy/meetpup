@@ -3,7 +3,9 @@
     margin-top: 5%;
 }
 
-.single-event-header-container{
+.event-header-container{
+    display: flex;
+    flex-direction: column;
     padding-bottom: 3%;
     margin-left: 15%;
     margin-right: 15%;
@@ -24,10 +26,10 @@
     color:darkcyan;
 }
 
-.single-event-header-title{
+.event-header-title{
     font-size: large;
-    padding-top: 3%;
-    padding-bottom: 3%;
+    padding-top: 15px;
+    padding-bottom: 10px;
     font-weight: bold;
 }
 
@@ -51,24 +53,190 @@
 }
 
 .single-card-image-container{
-    padding-right: 10px;
+    margin-right: 10px;
+    /* overflow:hidden; */
+}
+
+.event-mid-image{
+    overflow: hidden;
+    /* height: 125px; */
+    /* width: 225px; */
 }
 
 .group-image-container{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:auto;
     height: auto;
 }
 
 .single-event-mid-group-image{
-    height: 40px;
+    height: 50px;
 }
 
 .group-info-mid-right-upper-container{
-    z-index: 1;
+    /* z-index: 1; */
     display: flex;
     flex-direction: row;
     background-color: white;
-    border: 1px, solid, black;
-    border-radius: 10%;
+    /* border: 1px, solid, black; */
+    border-radius: 10px;
+    padding: 10px;
 }
 
+.group-name-privacy{
+    padding: 10px;
+}
+
+.group-name-eventDetails{
+    font-size: small;
+    font-weight: bold;
+}
+
+.group-privacy-eventDetails{
+    font-size: small;
+    color: gray;
+    padding-top: 5px;
+}
+
+.single-event-mid-details-container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+}
+
+.single-event-date-price-type-container{
+    margin-top: 10px;
+    height: 226px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: white;
+    /* border: 1px, solid, black; */
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.single-event-date-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 10px;
+    font-size: small;
+    color: gray;
+}
+
+.single-event-date-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-left: 26px;
+}
+
+.single-event-mid-end-date{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.end-date-word{
+    padding-right: 17px;
+}
+
+.single-event-mid-price-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 28px;
+    font-size: small;
+    color: gray;
+}
+
+.single-event-price-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.single-event-mid-price{
+    padding-left: 4px;
+}
+
+.single-event-mid-type-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 28px;
+    font-size: small;
+    color: gray;
+}
+
+.single-event-map-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.single-card-event-crud-buttons{
+    display:flex;
+    justify-content: space-between;
+    padding-left: 50px;
+}
+
+.single-card-crud-event{
+    background-color: darkgray;
+    color: white;
+    margin: 5px;
+    border: 1px, solid, darkslategray;
+    box-shadow: 2px 2px 2px black;
+}
+
+.single-card-crud-event:hover{
+    background-color:darkslategrey;
+}
+
+.single-card-crud-event:active{
+    transform: scale(0.95);
+}
+
+.single-card-crud-event-red{
+    background-color: rgb(255,91,97);
+    color: white;
+    margin: 5px;
+    border: 1px, solid, darkslategray;
+    box-shadow: 2px 2px 2px black;
+}
+
+.single-card-crud-event-red:hover{
+    background-color: red;
+}
+
+.single-card-crud-event-red:active{
+    transform: scale(0.95);
+}
+
+.single-event-details-container{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: 15%;
+    margin-right: 15%;
+    display: flex;
+    flex-direction: column;
+}
+
+.details-title{
+    font-size: large;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.single-event-details-content{
+    font-size: small;
+}

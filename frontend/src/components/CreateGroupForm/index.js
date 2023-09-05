@@ -170,14 +170,16 @@ function CreateGroupForm() {
                         <div className='create-group-location-text'>
                             Meetup groups meet locally, in person, and online. We'll connect you with people in your area.
                         </div>
-                        <input 
-                            className='create-group-location-city-input'
-                            type='text'
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            placeholder='Enter City'/>
-                        <div className='error-msg'>
-                            {!!renderErr && cityErr.length > 0 && cityErr}
+                        <div className='create-group-location-city'>
+                            <input 
+                                className='create-group-location-city-input'
+                                type='text'
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                placeholder='Enter City'/>
+                            <div className='error-msg'>
+                                {!!renderErr && cityErr.length > 0 && cityErr}
+                            </div>
                         </div>
                         <input 
                             className='create-group-location-state-input'
@@ -241,6 +243,7 @@ function CreateGroupForm() {
                             className='create-group-type-input'
                             type='text'
                             value={type}
+                            placeholder='(Select One)'
                             onChange={(e) => setType(e.target.value)}>    
                             <option></option>                        
                             <option value={'In person'}>
@@ -261,7 +264,8 @@ function CreateGroupForm() {
                             className='create-group-privacy-input'
                             type='text'
                             value={privacy}
-                            onChange={(e) => setPrivacy(e.target.value)}>     
+                            placeholder='(Select One)'
+                            onChange={(e) => setPrivacy(e.target.value)}>
                             <option></option>                       
                             <option value={'true'}>
                                 Private

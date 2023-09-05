@@ -1,22 +1,94 @@
 .single-card-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+
     height: 100%;
 }
 
 .single-card-top {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    border: 1px solid black
+    margin-top: -28px;
+    margin-bottom: 20px;
+    margin-left: 15%;
+    margin-right: 15%;
+    /* border: 1px solid black */
 }
 
-.single-card-image {
-    display: flex;
-    flex: 0 0 40%;
-    border: 1px solid black
+/* .single-card-image{
+    margin-left: -10px;
+} */
+
+.single-card-top-info{
+    display:flex;
+    flex-direction:column;
+    margin-left: 20px;
 }
 
+.single-card-top-name{
+    font-weight: bold;
+}
+
+.single-card-top-location{
+    font-size: small;
+    color: gray;
+    margin-top: 10px;
+}
+
+.single-card-top-privacy-status{
+    font-size: small;
+    color: gray;
+    margin-top: 10px;
+}
+
+.single-card-top-organizer-fullname{
+    font-size: small;
+    color: gray;
+    margin-top: 10px;
+}
+
+.single-card-top-buttons{
+    margin-top: 240px;
+}
+
+.create-group-membership-button{
+    background-color: rgb(249,93,102);
+    color: white;
+    margin: 5px;
+    border: 1px, solid, darkslategray;
+    box-shadow: 2px 2px 2px black;
+}
+
+.create-group-membership-button:hover{
+    background-color: rgb(244, 140, 145);
+}
+
+.create-group-membership-button:active{
+    transform: scale(0.95);
+}
+
+.single-group-body-container{
+    margin-left: 15%;
+    margin-right:15%;
+}
+
+.single-card-bottom-top-container{
+    margin-top: 20px;
+}
+
+.single-card-bottom-mid-container{
+    margin-top: 25px;
+}
+
+.single-card-about{
+    margin-top: 15px;
+    font-size: small;
+}
+
+.single-card-events-container{
+    margin-top: 20px;
+}
 img {
     max-width: 500px; /* or any other value */
     max-height: 500px; /* or any other value */

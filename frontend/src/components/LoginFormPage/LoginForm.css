@@ -56,4 +56,5 @@
 .error-msg {
   color: red;
   font-size: small;
+  height: 16px;
 }

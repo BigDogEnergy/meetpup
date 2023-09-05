@@ -39,3 +39,31 @@
     z-index: 2;
     background-color: white;
 }
+
+.confirm-modal-content {
+    display: flex;
+    flex-direction: column;
+    /* align-items: stretch; */
+}
+
+.confirm-modal-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: large;
+}
+
+.confirm-modal-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: small;
+}
+
+.confirm-modal-option-1,
+.confirm-modal-option-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}

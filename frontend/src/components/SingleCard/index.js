@@ -61,6 +61,10 @@ function SingleCard() {
     
     const uniquePastEvents = getUniquePastEvents(filteredEventsArr);
     const uniquePastEventsCount = uniquePastEvents.length;
+    console.log('unique past events count', uniquePastEventsCount)
+    console.log('unique past events', uniquePastEvents)
+
+
 
     //use effect
     useEffect(() => {
@@ -112,9 +116,9 @@ function SingleCard() {
     if (User && User.id === group.organizerId) {
         buttons = (
             <div className='single-card-crud-buttons'>
-                <button className='single-card-crud-create-event' onClick={handleEvent}>Create event</button>
-                <button className='single-card-crud-edit-group' onClick={handleEdit}>Update</button>
-                <button className='single-card-crud-delete-group' onClick={handleDelete}>Delete</button>
+                <button className='single-card-crud-event' onClick={handleEvent}>Create event</button>
+                <button className='single-card-crud-event' onClick={handleEdit}>Update</button>
+                <button className='single-card-crud-event' onClick={handleDelete}>Delete</button>
             </div>
         )
     } else if (User && User.id !== group.organizerId) {
@@ -140,12 +144,18 @@ function SingleCard() {
                 {modalContent === 'deleteConfirmation' && (
                     <div className="confirm-modal-content">
                         <div className="confirm-modal-title">
-                            <div>Are you sure you want to delete this group?</div>
+                            Confirm Delete
                         </div>
-                        <div className="confirm-modal-options">
-                            <button onClick={handleConfirmDelete}>Confirm (Delete Group)</button>
-                            <button onClick={() => setShowModal(false)}>Cancel (Keep Group)</button>
+                        <div className="confirm-modal-text">
+                            Are you sure you want to delete this group?
                         </div>
+                        <div className="confirm-modal-option-1">
+                            <button className='single-card-crud-event-red' onClick={handleConfirmDelete}>Confirm (Delete Group)</button>
+                        </div>
+                        <div className="confirm-modal-option-2">
+                            <button className='single-card-crud-event' onClick={() => setShowModal(false)}>Cancel (Keep Group)</button>
+                        </div>
+
                     </div>
                 )}
             </Modal>
@@ -156,8 +166,13 @@ function SingleCard() {
                 Loading...
             </div>
         ) : (
-            <> 
-                <Link className='back-to-groups-button' to='/groups'> &lt; Groups </Link> 
+            <div className="single-eventDetail-container">
+                <div className="event-header-container">
+                    <div className='redirect-to-allCards'> 
+                        <div className='single-link-arrow'>&lt;</div>
+                        <Link className='single-event-link' to='/groups'>Groups </Link> 
+                    </div>
+                </div>
                 <div className='single-card-container'>
                     <div className='single-card-top'>
                         <img className='single-card-image' src={preview} alt="No Image"/>
@@ -179,55 +194,56 @@ function SingleCard() {
                             </div>
                         </div>
                     </div>
-
-                    <div className='single-card-bottom'>
-                        <div className='single-card-bottom-top-container'>
-                            <h2>Organizer</h2>
-                            <div> {group.Organizer?.firstName} </div>
-                        </div>
-                        <div className='single-card-bottom-mid-container'>
-                            <h2>What we're about</h2>
-                            <div>{group.about}</div>
-                        </div>
-
-                        <div className='single-card-events-container'> 
-                            <div className='upcoming-events-count'> 
-                                Upcoming Events({futureEventsCount})
+                    <div className='single-event-body-container'>
+                        <div className='single-group-body-container'>
+                            <div className='single-card-bottom-top-container'>
+                                <div className='single-card-top-name'>Organizer</div>
+                                <div className='single-card-top-location'> {group.Organizer?.firstName} </div>
                             </div>
-                            
-                            {loading ? (
-                                <div className='loading-notification'>Loading events...</div>
-                            ): uniqueEvents.length === 0 ? (
-                                <div className='no-upcoming-events-text'>No upcoming events</div>
-                            ) : (
-                                uniqueEvents.map(event => (
-                                    <SingleEventCard key={event.id} event={event} />
-                                ))
-                            )}
-                        </div>
-
-                        <div className='single-card-past-events-container'>
-                            <div className='past-events-count'>
-                                Past Events({uniquePastEventsCount})
+                            <div className='single-card-bottom-mid-container'>
+                                <div className='single-card-top-name'>What we're about</div>
+                                <div className='single-card-about'>{group.about}</div>
                             </div>
-                            <div>
-                            {loading ? (
-                                <div className='loading-notification'>Loading events...</div>
-                            ): uniquePastEvents.length === 0 ? (
-                                <div className='no-upcoming-events-text'>No upcoming events</div>
-                            ) : (
-                                uniquePastEvents.map(event => (
-                                    <SingleEventCard key={event.id} event={event} />
-                                ))
-                            )}
-                            </div>
-                            
-                        </div>
 
+                            <div className='single-card-events-container'> 
+                                <div className='single-card-top-name'> 
+                                    Upcoming Events({futureEventsCount})
+                                </div>
+                                
+                                {loading ? (
+                                    <div className='loading-notification'>Loading events...</div>
+                                ): uniqueEvents.length === 0 ? (
+                                    <div className='no-upcoming-events-text'>No upcoming events</div>
+                                ) : (
+                                    uniqueEvents.map(event => (
+                                        <SingleEventCard key={event.id} event={event} />
+                                    ))
+                                )}
+                            </div>
+
+                            <div className='single-card-events-container'>
+                                <div className='single-card-top-name'>
+                                    Past Events({uniquePastEventsCount})
+                                </div>
+                                <div>
+                                {loading ? (
+                                    <div className='loading-notification'>Loading events...</div>
+                                ): uniquePastEvents.length === 0 ? (
+                                    <div className='no-upcoming-events-text'>No upcoming events</div>
+                                ) : (
+                                    uniquePastEvents.map(event => (
+                                        <SingleEventCard key={event.id} event={event} />
+                                    ))
+                                )}
+                                </div>
+                                
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             
-            </>)}
+            </div>)}
             
                 
         </>

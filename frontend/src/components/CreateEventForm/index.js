@@ -236,9 +236,10 @@ function CreateEventForm() {
 
     return (   
             <form onSubmit={handleSubmit}> 
-                <div className='create-event-form-container'>
-                    <div className="create-event-form-header">
-                        <div className='create-event-form-title'>
+                <div className='create-group-container'>
+                    
+                    <div className="create-group-header-container">
+                        <div className='create-group-header-title'>
                             Create an event for {groupName}
                         </div>
                         <div className="create-event-form-title-text">
@@ -256,8 +257,8 @@ function CreateEventForm() {
                         </div>
                     </div>
 
-                    <div className="create-event-mid-1">
-                        <div>
+                    <div className="create-group-steps-type-text">
+                        <div className="create-event-form-title-text">
                              Is this an In Person or Online event?
                         </div>
                         <select
@@ -277,7 +278,7 @@ function CreateEventForm() {
                             {!!renderErr && typeErr.length > 0 && typeErr}
                         </div>
 
-                        <div className='create-event-steps-privacy-text'>
+                        <div className="create-event-form-title-text">
                             Is this event private or public?
                         </div>
                         <select
@@ -296,7 +297,8 @@ function CreateEventForm() {
                         <div className="error-msg">
                             {!!renderErr && privacyErr.length > 0 && privacyErr}
                         </div>
-                        <div className="create-event-price-input-text">
+                        
+                        <div className="create-event-form-title-text">
                             What is the price for your event?
                         </div>
 
@@ -313,8 +315,8 @@ function CreateEventForm() {
                         </div>
                     </div>
 
-                    <div className="create-event-mid-2">
-                        <div>
+                    <div className="create-event-mid-1">
+                        <div className="create-event-form-title-text">
                             When does your event start?
                         </div>
                         <input type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
@@ -328,7 +330,7 @@ function CreateEventForm() {
                         </div>
 
 
-                        <div>
+                        <div className="create-event-form-title-text">
                             When does your event end?
                         </div>
                         <input type='date' value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
@@ -343,7 +345,7 @@ function CreateEventForm() {
                     </div>
 
                     <div className="create-event-image-input">
-                        <div className='create-event-add-image-text'>
+                        <div className="create-event-form-title-text">
                             Please add an image url for your event below:
                         </div>
                         <input 
@@ -358,7 +360,7 @@ function CreateEventForm() {
                     </div>
 
                     <div className='create-event-about-container'>
-                        <div className='create-event-about-text'>
+                      <div className="create-event-form-title-text">
                             Describe your event:            
                         </div>
                         <input
@@ -377,9 +379,9 @@ function CreateEventForm() {
 
                     <div className='create-event-submit-button-container'>
                         <button 
-                            className='create-event-submit-button'
+                            className='create-group-submit-button'
                             type='submit'
-                            // disabled={renderErr}
+                            disabled={renderErr}
                         >
                             Create Event
                         </button>

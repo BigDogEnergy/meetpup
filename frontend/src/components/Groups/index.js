@@ -47,15 +47,16 @@ function Groups() {
             <div className="groups-page-container">
                 <div className="groups-page-header">
                     <Link 
-                        className={isAtGroups ? "groups-page-toggle-1" : "groups-page-toggle-2"} 
-                        to='/groups'>
-                            Groups
-                    </Link>
-                    <Link 
                         className={isAtGroups ? 'groups-page-toggle-2' : 'groups-page-toggle-1'}
                         to='/events'>
                             Events
                     </Link>
+                    <Link 
+                        className={isAtGroups ? "groups-page-toggle-1" : "groups-page-toggle-2"} 
+                        to='/groups'>
+                            Groups
+                    </Link>
+                    
                 </div>
 
                 <div className='groups-page-view-text'>

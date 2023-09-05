@@ -111,12 +111,13 @@ function SingleEventDetail () {
     if (User && User.id === group.organizerId) {
         buttons = (
             <div className='single-card-event-crud-buttons'>
-                <button className='single-card-crud-delete-event' onClick={handleDelete}>
-                    Delete
-                </button>
-                <button className="single-card-crud-update-event" onClick={handleEdit}> 
+                <button className="single-card-crud-event" onClick={handleEdit}> 
                     Update
                 </button>
+                <button className='single-card-crud-event' onClick={handleDelete}>
+                    Delete
+                </button>
+                
 
             </div>
         )
@@ -139,12 +140,19 @@ function SingleEventDetail () {
 
                 {modalContent === 'deleteConfirmation' && (
                     <div className="confirm-modal-content">
-                        <div className="confirm-modal-title">
-                            <div>Are you sure you want to delete this group?</div>
+                         <div className="confirm-modal-title">
+                            Confirm Delete
+                        </div>
+                        <div className="confirm-modal-text">
+                            Are you sure you want to delete this event?
                         </div>
                         <div className="confirm-modal-options">
-                            <button onClick={handleConfirmDelete}>Confirm (Delete Event)</button>
-                            <button onClick={() => setShowModal(false)}>Cancel (Keep Event)</button>
+                            <div className="confirm-modal-option-1">
+                                <button className='single-card-crud-event-red' onClick={handleConfirmDelete}>Confirm (Delete Event)</button>
+                            </div>
+                            <div className="confirm-modal-option-2">
+                                <button className='single-card-crud-event' onClick={() => setShowModal(false)}>Cancel (Keep Event)</button>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -152,12 +160,12 @@ function SingleEventDetail () {
         )}
             
             <div className="single-eventDetail-container">
-                <div className="single-event-header-container">
+                <div className="event-header-container">
                     <div className='redirect-to-allCards'>
                         <div className='single-link-arrow'>&lt;</div>
                         <Link className='single-event-link' to='/events'> Events </Link>
                     </div>
-                    <div className="single-event-header-title">
+                    <div className="event-header-title">
                         {event.name}
                     </div>
                     <div className="single-event-header-host">
@@ -168,7 +176,7 @@ function SingleEventDetail () {
                 <div className='single-event-body-container'>
                     <div className="single-event-mid-container">
                         <div className='single-card-image-container'>
-                            <img className="single-event-mid-image" src={event?.eventImages[0]?.url} alt={"an event image"}/>
+                            <img className="event-mid-image" src={event?.eventImages[0]?.url} alt={"an event image"}/>
                         </div>
 
                         <div className="single-event-mid-details-container">
@@ -193,7 +201,8 @@ function SingleEventDetail () {
                                             START: {date} &middot; {formattedTime}
                                         </div>
                                         <div className="single-event-mid-end-date">
-                                            END: {endDate} &middot; {formattedEndTime}
+                                            <div className='end-date-word'>END:</div>
+                                            <div className='end-date-info'>{endDate} &middot; {formattedEndTime}</div>
                                         </div>
                                     </div>
                                 </div>

@@ -1,42 +1,103 @@
 .create-group-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid black
+    /* border: 1px solid black; */
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .create-group-header-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 4px solid grey;
+    margin-top: 10px;
+    border-bottom: 2px solid grey;
+}
+
+.create-group-header-title{
+    color: rgb(1,130,148);
+}
+
+.create-group-header-text{
+    font-size: large;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .create-group-location-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 4px solid grey;
+    border-bottom: 2px solid grey;
+}
+
+.create-group-location-title{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.create-group-location-text{
+    font-size: small;
+    margin-bottom: 15px;
 }
 
 .create-group-name-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 4px solid grey;
+    border-bottom: 2px solid grey;
+}
+
+.create-group-name-title{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.create-group-name-text{
+    font-size: small;
+    margin-bottom: 15px;
 }
 
 .create-group-about-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 4px solid grey;
+    border-bottom: 2px solid grey;
+}
+
+.create-group-about-title{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.create-group-about-text{
+    font-size: small;
+    margin-bottom: 15px;
+}
+
+.create-group-about-input{
+    display: flex;
+    justify-content: flex-start;
+    height: 200px;
+}
+
+.create-group-steps-type-text{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid grey;
+
 }
 
 .create-group-steps-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 4px solid grey;
+    border-bottom: 2px solid grey;
+}
+
+.create-group-steps-privacy-text{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .create-group-type-input {
     display: flex;
@@ -46,4 +107,20 @@
 .create-group-privacy-input {
     display: flex;
     width: 12.5%;
+}
+
+.create-group-submit-button{
+    background-color: rgb(249,93,102);
+    color: white;
+    margin: 5px;
+    border: 1px, solid, darkslategray;
+    box-shadow: 2px 2px 2px black;
+}
+
+.create-group-submit-button:hover{
+    background-color: rgb(244, 140, 145);
+}
+
+.create-group-submit-button:active{
+    transform: scale(0.95);
 }

@@ -40,7 +40,8 @@ function EventDetails({ event }) {
 
     return (
 
-        <Link className="group-card-container" to={`/events/${event.id}`}>
+    <Link className="group-card-link-container" to={`/events/${event.id}`}>
+        <div className='group-card-container'>
             <div className="group-card-img-container">
                 <img className='group-card-img' src={event.previewImage} alt='Event preview' />
             </div>
@@ -48,7 +49,7 @@ function EventDetails({ event }) {
 
                 <div className='group-card-top'>
                     <div className='group-card-details-date'>   
-                        {date} @ {formattedTime}
+                        {date} &middot; {formattedTime}
                     </div>
                     <div className='group-card-details-name'>
                         {event.Group.name}
@@ -62,7 +63,8 @@ function EventDetails({ event }) {
                     {event.description}
                 </div>
             </div>
-        </Link>
+        </div>    
+     </Link>
     )
 
 }

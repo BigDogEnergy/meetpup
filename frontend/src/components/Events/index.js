@@ -61,14 +61,17 @@ function Events() {
 
     return (
         (events && 
-            <div className="groups-page">
+            <div className="groups-page-container">
                 <div className="groups-page-title-container">
-                    <Link className='groups-page-toggle-2' to='/groups'>
-                        Groups
-                    </Link>
+                <div className="groups-page-header">
                     <Link className='groups-page-toggle-1' to='/events'>
                         Events
                     </Link>
+                    <Link className='groups-page-toggle-2' to='/groups'>
+                        Groups
+                    </Link>
+                    
+                </div>
                     <div className='groups-page-view-text'>
                         Upcoming Events in MeetPup
                     </div>
