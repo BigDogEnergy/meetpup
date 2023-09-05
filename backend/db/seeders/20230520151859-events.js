@@ -15,13 +15,13 @@ module.exports = {
       {
         groupId: 1,
         venueId: 1,
-        capacity: 1,
+        capacity: 5,
         price: 1,
         name: "Test name for Event 1",
         type: "Online",
         description: "This is Event 1's description",
         startDate: "2023-09-01 07:00:00",
-        endDate: "2023-10-01 07:00:00",
+        endDate: "2023-09-01 08:00:00",
       },
       {
         groupId: 1,
@@ -31,8 +31,8 @@ module.exports = {
         name: "Test Event 2",
         type: "Online",
         description: "This is Event 2's description",
-        startDate: "2023-08-01 07:00:00",
-        endDate: "2023-09-01 07:00:00",
+        startDate: "2023-08-01 04:00:00",
+        endDate: "2023-08-01 09:00:00",
       },
       {
         groupId: 1,
@@ -43,7 +43,7 @@ module.exports = {
         type: "Online",
         description: "This is Event 3's description",
         startDate: "2023-09-01 07:00:00",
-        endDate: "2023-10-01 07:00:00",
+        endDate: "2023-09-02 07:00:00",
       },
       {
         groupId: 1,
@@ -54,7 +54,7 @@ module.exports = {
         type: "Online",
         description: "This is Event 4's description",
         startDate: "2023-10-01 07:00:00",
-        endDate: "2023-11-01 07:00:00",
+        endDate: "2023-10-01 10:00:00",
       },
       {
         groupId: 1,
@@ -64,8 +64,8 @@ module.exports = {
         name: "Test Event 5",
         type: "Online",
         description: "This is Event 5's description",
-        startDate: "2023-11-01 07:00:00",
-        endDate: "2023-12-01 07:00:00",
+        startDate: "2023-12-01 07:00:00",
+        endDate: "2023-12-01 08:00:00",
       },
     ], options);
 

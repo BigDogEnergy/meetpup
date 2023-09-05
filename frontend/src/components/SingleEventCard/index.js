@@ -10,12 +10,9 @@ function SingleEventCard ({ event }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // console.log('threaded events', event)
 
     //state-related
     const User = useSelector ( state => state.session.user)
-    // const event = useSelector( state => state.events.oneEvent);
-    console.log('event from SingleEventCard', event)
     const group = useSelector ( state => state.group.oneGroup)
 
     //useEffect-related
@@ -107,7 +104,7 @@ function SingleEventCard ({ event }) {
             
             <div className="single-event-container">
                 <div className="single-event-header-container">
-                <Link className='single-event-link' to='/events'> Events </Link>
+                {/* <Link className='single-event-link' to='/events'> Events </Link> */}
                     <h1 className="single-event-header-title">
                         {event.name}
                     </h1>
