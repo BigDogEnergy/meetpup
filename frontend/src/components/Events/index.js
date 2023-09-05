@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getAllEvents } from "../../store/events";
 import './Events.css'
 import EventDetails from "../EventDetails";
+import SingleEventCard from "../SingleEventCard";
 
 function Events() {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ function Events() {
     //State-related
     const eventsObj = useSelector(state => state.events.events || []);
     const events = Object.values(eventsObj);
-    console.log('Events index.js first events check', events)
+    // console.log('Events index.js first events check', events)
 
     //useEffect
     useEffect(() => {
@@ -20,10 +21,11 @@ function Events() {
 
     let eventDisplay;
     const futureEvents = events.filter(event => event.startDate >= new Date().toISOString());
-    console.log('this is future events', futureEvents)
+    console.log('this is future events', futureEvents) 
     if (futureEvents.length > 0) {
         eventDisplay = (
             futureEvents.map(event => (
+                console.log("!!!!!!!!!!!!!!",event),
                 <EventDetails key={event.id} event={event} />
             ))
         )
@@ -31,12 +33,13 @@ function Events() {
         eventDisplay= (
             <>
                 <div className="no-groups-container">
-                <div className="no-groups-text"> There are currently no events available to view! </div>
-            </div>
+                    <div className="no-groups-text"> There are currently no events available to view! </div>
+                </div>
             </>
         )
 
     }
+
 
     return (
         (events && 

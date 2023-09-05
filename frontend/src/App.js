@@ -12,10 +12,12 @@ import CreateGroupForm from "./components/CreateGroupForm";
 import EditGroupForm from "./components/EditGroupForm";
 import { getAllGroups } from "./store/groups";
 import Events from "./components/Events";
-import SingleEventCard from "./components/SingleEventCard";
 import CreateEventForm from "./components/CreateEventForm";
 import { getAllEvents } from "./store/events";
 import EditEventForm from "./components/EditEventForm";
+import EventDetails from "./components/EventDetails";
+import SingleEventCard from "./components/SingleEventCard";
+import SingleEventDetail from "./components/SingleEventDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -73,8 +75,8 @@ function App() {
             <EditEventForm />
           </Route>
 
-          <Route path='/events/:eventId'>
-            <SingleEventCard />
+          <Route exact path='/events/:eventId'>
+            <SingleEventDetail />
           </Route>
 
           <Route exact path='/groups'>

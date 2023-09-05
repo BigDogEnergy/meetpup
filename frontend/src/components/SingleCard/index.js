@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { deleteGroup, getGroupDetails } from '../../store/groups'
 import './SingleCard.css'
-// import ConfirmationModal from '../ConfirmationModal/index'
 import { Modal } from '../../context/Modal';
+import { getAllEvents } from '../../store/events';
+import SingleEventCard from '../SingleEventCard';
 
 function SingleCard() {
     const { groupId } = useParams();
@@ -15,23 +16,36 @@ function SingleCard() {
     //state variables
     const [ showModal, setShowModal ] = useState(false)
     const [ cardError, setCardError ] = useState('')
+    const [loading, setLoading] = useState(true);
 
     const group = useSelector(state=> state.group.oneGroup)
-    // console.log("SingleCard index group", group)
     const User = useSelector(state=> state.session.user)
     const organizer = group?.Organizer
-    // console.log('singleCard organizer', organizer)
     const preview = group?.GroupImages?.[0]?.url || '';
-    // console.log('singleCard preview', preview)
-
-    //useSelector grabbing each time might need to be a useEffect or additional async login
+    const currentDate = new Date();
     
+    // console.log('!!!!!!!!!!group organizer', organizer)
+
+    
+    const upcomingEvents = useSelector(state => state.events.events);
+    const filteredEventsArr = Object.values(upcomingEvents)
+    // const filteredEvents = (filteredEventsArr || []).filter(event => event?.groupId === +groupId);
+    const upcomingFilteredEvents = filteredEventsArr.filter(event => {
+        const eventEndDate = new Date(event.endDate);
+        return eventEndDate > currentDate && event.groupId === +groupId;
+    });
+    const uniqueEvents = [...new Set(upcomingFilteredEvents.map(event => event.id))].map(
+        id => upcomingFilteredEvents.find(event => event.id === id)
+    );
 
     //use effect
     useEffect(() => {
         dispatch(getGroupDetails(groupId))
     }, [groupId, dispatch]);
 
+    useEffect(() => {
+        dispatch(getAllEvents()).then(() => setLoading(false))
+    }, [dispatch])
 
     //onClick related
     const handleEdit = async (e) => {
@@ -72,11 +86,15 @@ function SingleCard() {
                 <button className='single-card-crud-delete-group' onClick={handleDelete}>Delete</button>
             </div>
         )
+    } else if (User && User.id !== group.organizerId) {
+        buttons = (
+            <div className='single-card-create-membership'>
+                <button className='create-group-membership-button'>Join this group</button>
+            </div>
+        )
     } else {
         buttons = (null)
     }
-
-    
 
     return (
         <>
@@ -84,7 +102,7 @@ function SingleCard() {
                 <Modal onClose={() => setShowModal(false)}>
                     <div className="confirm-modal-content">
                         <div className="confirm-modal-title">
-                            <p>Are you sure you want to delete this group?</p>
+                            <div>Are you sure you want to delete this group?</div>
                         </div>
                         <div className="confirm-modal-options">
                             <button onClick={handleConfirmDelete}>Confirm (Delete Group)</button>
@@ -93,22 +111,22 @@ function SingleCard() {
                     </div>
                 </Modal>
             )}
-            <Link className='back-to-groups-button' to='/groups'> Groups </Link> 
+            <Link className='back-to-groups-button' to='/groups'> &lt; Groups </Link> 
             <div className='single-card-container'>
                 <div className='single-card-top'>
                     <img className='single-card-image' src={preview} alt="No Image"/>
                     <div className='single-card-top-info'>
-                        <h2 className='single-card-top-name'>
+                        <div className='single-card-top-name'>
                             {group.name}
-                        </h2>
+                        </div>
                         <div className='single-card-top-location'>
                             {group.city}, {group.state}
                         </div>
                         <div className='single-card-top-privacy-status'>
-                            Type: {group.private ? 'Private' : 'Public'}
+                           {uniqueEvents.length} events &middot;  {group.private ? 'Private' : 'Public'}
                         </div>
                         <div className='single-card-top-organizer-fullname'>
-                            Organized by: {group.Organizer?.firstName}
+                            Organized by: {group.Organizer?.firstName} {group.Organizer?.lastName}
                         </div>
                         <div className='single-card-top-buttons'>
                             {buttons}
@@ -119,13 +137,25 @@ function SingleCard() {
                 <div className='single-card-bottom'>
                     <div className='single-card-bottom-top-container'>
                         <h2>Organizer</h2>
-                        <div>{group.Organizer?.firstName} {group.Organizer?.lastName}</div>
+                        <div> {group.Organizer?.firstName} </div>
                     </div>
                     <div className='single-card-bottom-mid-container'>
                         <h2>What we're about</h2>
                         <div>{group.about}</div>
                     </div>
-                    <div className='single-card-events-container'>Events here</div>
+
+                    <div className='single-card-events-container'> 
+                        {loading ? (
+                            <div className='loading-notification'>Loading events...</div>
+                        ): uniqueEvents.length === 0 ? (
+                            <div className='no-upcoming-events-text'>No upcoming events</div>
+                        ) : (
+                            uniqueEvents.map(event => (
+                                <SingleEventCard key={event.id} event={event} />
+                            ))
+                        )}
+                    </div>
+
                 </div>
             </div>
         </>

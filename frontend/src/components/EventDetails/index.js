@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import './EventDetails.css'
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllEvents } from "../../store/events";
 
 function EventDetails({ event }) {
 
-    // console.log('this is the threaded event in EventDetails', event)
+    const dispatch = useDispatch();
+
+    console.log('eventDetails event', event)
 
     //date and time
     function splitDateTime(dateTimeString) {
@@ -34,6 +39,7 @@ function EventDetails({ event }) {
     // console.log("date and time", date, time)
 
     return (
+
         <Link className="group-card-container" to={`/events/${event.id}`}>
             <div className="group-card-img-container">
                 <img className='group-card-img' src={event.previewImage} alt='Event preview' />
