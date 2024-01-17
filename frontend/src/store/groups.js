@@ -185,7 +185,6 @@ export const groupReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case LOAD_GROUPS:
-            newState = {...state}
             groups = {};
             action.groups.Groups.forEach(group => groups[group.id] = group);
             newState.groups = groups;
