@@ -10,8 +10,6 @@ function SingleEventCard ({ event }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // console.log("this is event",event)
-
     //state-related
     const User = useSelector ( state => state.session.user)
     const group = useSelector ( state => state.group.oneGroup)
@@ -26,13 +24,13 @@ function SingleEventCard ({ event }) {
         const [date, fullTime] = dateTimeString.split('T');
         const time = fullTime ? fullTime.split('.')[0] : '';
         return { date, time } ;
-    }
+    };
     
     function splitEndTime(dateTimeString) {
         const [endDate, fullTime] = dateTimeString.split('T');
         const endTime = fullTime ? fullTime.split('.')[0] : '';
         return { endDate, endTime } ;
-    }
+    };
 
     function convertToAMPM(timeString) {
         if (!timeString) return '';
@@ -48,12 +46,12 @@ function SingleEventCard ({ event }) {
         }
         
         return `${adjustedHour}:${minute} ${amOrPm}`;
-    }
+    };
        
 
     //onClick
     const handleContainerClick = () => {
-        console.log('we clicked a link')
+        // console.log('we clicked a link')
         history.push(`/events/${event.id}`);
     };
 

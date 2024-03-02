@@ -26,9 +26,6 @@ function SingleCard() {
     const preview = group?.GroupImages?.[0]?.url || '';
     const currentDate = new Date();
     
-    // console.log('!!!!!!!!!!group organizer', organizer)
-
-    
     const upcomingEvents = useSelector(state => state.events.events);
     const filteredEventsArr = Object.values(upcomingEvents)
     // const filteredEvents = (filteredEventsArr || []).filter(event => event?.groupId === +groupId);

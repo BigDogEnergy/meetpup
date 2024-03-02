@@ -9,8 +9,6 @@ function EventDetails({ event }) {
 
     const dispatch = useDispatch();
 
-    // console.log('eventDetails event', event)
-
     //date and time
     function splitDateTime(dateTimeString) {
         const [date, fullTime] = dateTimeString.split('T');

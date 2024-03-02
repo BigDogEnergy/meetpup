@@ -26,7 +26,7 @@ function GroupDetails ({ group }) {
             <div className='group-card-container'>
                 
                 <div className="group-card-img-container">
-                    <img className='group-card-img' src={group.previewImage} />
+                    <img className='group-card-img' alt="Group Image"src={group.previewImage} />
                 </div>
                 
                 <div className='group-card-details'>
